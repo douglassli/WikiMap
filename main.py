@@ -9,7 +9,6 @@ import datetime
 from multiprocessing import Pool
 import pysize
 
-initial_url = ""
 wiki_map = {}
 num_repeats = 0
 num_pages = 0
@@ -37,8 +36,8 @@ def print_errors():
         print(et[1])
 
 
-def map_wiki(depth_cutoff):
-    global initial_url, wiki_map, num_repeats, num_pages, errors, frontier, keys
+def map_wiki(depth_cutoff, initial_url):
+    global wiki_map, num_repeats, num_pages, errors, frontier, keys
     session = Session()
 
     initial_title = initial_url.replace("https://en.wikipedia.org/wiki/", "").replace("_", " ")
@@ -129,3 +128,20 @@ def parse_page(tpl):
     page = (title, search_url, out_titles, out_links, total_time, get_time, parse_time, analysis_time, time_of_get)
 
     return page
+
+
+if __name__ == "__main__":
+    # sys.stdout = open("stdout.txt", mode='w')
+    store_data.initialize_csv("output.csv")
+    store_data.initialize_csv("frontier.csv")
+    url_med = "https://en.wikipedia.org/wiki/IPhone"               # 855 out-links Depth 1: ~45 sec Depth 2: ~1 hr
+    url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
+    start = time.time()
+    map_wiki(1, url_small)
+    end = time.time()
+    print_errors()
+    print("\n\nAnalytics\n")
+    print("\nTotal Time Elapsed:         {0:.1f} sec".format(end - start))
+
+    print("-" * 100)
+    store_data.print_analytics("output.csv")
