@@ -128,3 +128,8 @@ def print_analytics(file_name):
                      "{0[max_time]}\n{0[avg_time]}\n{0[avg_get]}\n{0[avg_parse]}\n{0[avg_analysis]}\n\n" \
                      "{0[percent_get]}\n{0[percent_parse]}\n{0[percent_analysis]}"
     print(out_put_format.format(analytic_strings))
+
+
+def append_to_frontier(page_list, file_name):
+    df = pandas.DataFrame(page_list)
+    df.to_csv(file_name, index=False, mode="a", header=False)
