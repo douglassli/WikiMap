@@ -11,3 +11,10 @@ def prepare_page_data(wiki_page, depth):
     return (wiki_page[0], wiki_page[1], wiki_page[2], wiki_page[3],
             wiki_page[4], wiki_page[5], wiki_page[6], wiki_page[7],
             depth, wiki_page[8])
+
+
+def read_partial(file_name, cols):
+    df = pandas.read_csv(file_name, usecols=cols, names=["Page Title", "Page URL", "Out-link Titles", "Out-link URLs",
+                                                         "Total Time", "Get Time", "Parse Time", "Analysis Time",
+                                                         "Page Depth", "Time of Expansion"])
+    return df
