@@ -24,3 +24,16 @@ def get_file_length(file_name):
     df = read_partial(file_name, ["Page Depth"])
     num_rows = len(df.index)
     return num_rows
+
+
+def get_num_per_depth(file_name):
+    df = read_partial(file_name, ["Page Depth"])
+    num_rows = get_file_length(file_name)
+    num_per_depth_dict = {}
+    for i in range(num_rows):
+        element = df["Page Depth"][i]
+        if element not in num_per_depth_dict.keys():
+            num_per_depth_dict[element] = 0
+        num_per_depth_dict[element] += 1
+
+    return num_per_depth_dict
