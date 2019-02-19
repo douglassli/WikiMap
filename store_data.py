@@ -88,3 +88,35 @@ def get_analytics(file_name):
     analytics = {**get_branching_analytics(file_name), **get_timing_analytics(file_name)}
     analytics["depth_nums"] = get_num_per_depth(file_name)
     return analytics
+
+
+def get_analytics_strings(file_name):
+    analytics = get_analytics(file_name)
+    analytic_format_strings = {"total_expanded": "Total Pages Expanded:       {:d}",
+                               "depth_nums": "Num Pages Depth {0:3d}:        {1:d}",
+                               "avg_branch": "Average Branching Factor:   {0:5.1f}",
+                               "max_branch": "Maximum Branching Factor:   {:d}",
+                               "total_time": "Total Time Expanding Pages: {:.1f} sec",
+                               "max_time": "Maximum Time on Page:       {:6.4f} sec",
+                               "avg_time": "Average Time Per Page:      {:6.4f} sec",
+                               "avg_get": "Average Get Time:           {:6.4f} sec",
+                               "avg_parse": "Average Parse Time:         {:6.4f} sec",
+                               "avg_analysis": "Average Analysis Time:      {:6.4f} sec",
+                               "percent_get": "Time Spent Getting:         {0:4.1%}",
+                               "percent_parse": "Time Spent Parsing:         {0:4.1%}",
+                               "percent_analysis": "Time Spent Analysing:       {0:4.1%}"}
+    for key in analytic_format_strings.keys():
+        if key == "total_expanded":
+            total = 0
+            for depth_key in analytics["depth_nums"].keys():
+                total += analytics["depth_nums"][depth_key]
+            analytic_format_strings[key] = analytic_format_strings[key].format(total)
+        elif key == "depth_nums":
+            depth_str = ""
+            for depth_key in analytics[key].keys():
+                depth_str += analytic_format_strings[key].format(depth_key, analytics[key][depth_key]) + "\n"
+            analytic_format_strings[key] = depth_str
+        else:
+                analytic_format_strings[key] = analytic_format_strings[key].format(analytics[key])
+
+    return analytic_format_strings
