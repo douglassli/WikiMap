@@ -82,3 +82,9 @@ def get_timing_analytics(file_name):
                       "percent_analysis": total_analysis_time / total_time}
 
     return time_analytics
+
+
+def get_analytics(file_name):
+    analytics = {**get_branching_analytics(file_name), **get_timing_analytics(file_name)}
+    analytics["depth_nums"] = get_num_per_depth(file_name)
+    return analytics
