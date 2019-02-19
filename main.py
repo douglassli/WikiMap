@@ -7,7 +7,6 @@ import re
 import store_data
 import datetime
 from multiprocessing import Pool
-import pysize
 
 wiki_map = {}
 num_repeats = 0
