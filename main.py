@@ -17,6 +17,13 @@ errors = []
 frontier = []
 keys = []
 
+
+def get_page_analytics_string(pt):
+    analytics_format_string = "Num Out-links: {0:4d} | Time: {6} | Total Time: {1:6.4f} | Get Time: {2:6.4f} | " \
+                              "Parse Time: {3:6.4f} | Analysis Time: {4:6.4f} | Page Title: {5}"
+    return analytics_format_string.format(len(pt[2]), pt[4], pt[5], pt[6], pt[7], pt[0], pt[8][11:21])
+
+
 def parse_page(tpl):
     raw_html, search_url, title, get_time, time_of_get = tpl
 
