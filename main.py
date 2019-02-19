@@ -18,6 +18,18 @@ frontier = []
 keys = []
 
 
+def add_page(new_page, depth):
+    global num_pages, wiki_map, keys
+    if depth not in wiki_map:
+        wiki_map[depth] = {}
+    if new_page[0] not in wiki_map[depth]:
+        keys.append(new_page[0])
+        wiki_map[depth][new_page[0]] = new_page
+        num_pages += 1
+        analytics_string = "Page Number: {0:7d} | {1}"
+        print(analytics_string.format(num_pages, get_page_analytics_string(new_page)))
+
+
 def get_page_analytics_string(pt):
     analytics_format_string = "Num Out-links: {0:4d} | Time: {6} | Total Time: {1:6.4f} | Get Time: {2:6.4f} | " \
                               "Parse Time: {3:6.4f} | Analysis Time: {4:6.4f} | Page Title: {5}"
