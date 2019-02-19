@@ -140,3 +140,9 @@ def read_some_frontier(file_name):
                                                      "Out-link URLs", "Total Time", "Get Time", "Parse Time",
                                                      "Analysis Time", "Time of Expansion"])
     return df
+
+
+def append_single_page(page, depth, file_name):
+    data = [prepare_page_data(page, depth)]
+    df = pandas.DataFrame(data)
+    df.to_csv(file_name, index=False, mode="a", header=False)
