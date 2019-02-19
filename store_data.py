@@ -1,6 +1,13 @@
 import pandas
 import ast
 
+
 def initialize_csv(file_name):
     df = pandas.DataFrame()
     df.to_csv(file_name, index=False, header=False)
+
+
+def prepare_page_data(wiki_page, depth):
+    return (wiki_page[0], wiki_page[1], wiki_page[2], wiki_page[3],
+            wiki_page[4], wiki_page[5], wiki_page[6], wiki_page[7],
+            depth, wiki_page[8])
