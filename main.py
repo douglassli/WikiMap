@@ -30,6 +30,13 @@ def add_page(new_page, depth):
         print(analytics_string.format(num_pages, get_page_analytics_string(new_page)))
 
 
+def print_errors():
+    global errors
+    for et in errors:
+        print("Error occurred at page number: " + str(et[0]))
+        print(et[1])
+
+
 def get_page_analytics_string(pt):
     analytics_format_string = "Num Out-links: {0:4d} | Time: {6} | Total Time: {1:6.4f} | Get Time: {2:6.4f} | " \
                               "Parse Time: {3:6.4f} | Analysis Time: {4:6.4f} | Page Title: {5}"
