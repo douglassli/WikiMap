@@ -37,6 +37,62 @@ def print_errors():
         print(et[1])
 
 
+def map_wiki(depth_cutoff):
+    global initial_url, wiki_map, num_repeats, num_pages, errors, frontier, keys
+    session = Session()
+
+    initial_title = initial_url.replace("https://en.wikipedia.org/wiki/", "").replace("_", " ")
+    time_of_get = str(datetime.datetime.now())
+    get_start = time.time()
+    raw_html = session.get(initial_url).content
+    get_time = time.time() - get_start
+    t = (raw_html, initial_url, initial_title, get_time, time_of_get)
+    initial_page = parse_page(t)
+
+    add_page(initial_page, 0)
+    initial_node = (initial_page, 0)
+    frontier = [initial_node]
+
+    while True:
+        if len(frontier) == 0:
+            break
+
+        if len(wiki_map) > 0:
+            store_start = time.time()
+            store_data.append_map_to_csv(wiki_map, "output.csv")
+            store_time = time.time() - store_start
+            print("Store Time: {:.4f}".format(store_time))
+            wiki_map = {}
+
+        cur_node = frontier.pop(0)
+
+        try:
+            if cur_node[1] < depth_cutoff:
+                page_tuple_list = []
+                for i, next_url in enumerate(cur_node[0][3]):
+                    next_title = cur_node[0][2][i]
+                    if next_title not in keys:
+                        time_of_get = str(datetime.datetime.now())
+                        get_start = time.time()
+                        raw_html = session.get(next_url).content
+                        get_time = time.time() - get_start
+                        t = (raw_html, next_url, next_title, get_time, time_of_get)
+                        page_tuple_list.append(t)
+                    else:
+                        num_repeats += 1
+
+                with Pool() as p:
+                    page_list = p.map(parse_page, page_tuple_list)
+
+                for page in page_list:
+                    add_page(page, cur_node[1] + 1)
+                    frontier.append((page, cur_node[1] + 1))
+        except:
+            e = sys.exc_info()[0]
+            errors.append((num_pages, e))
+            print(e)
+
+
 def get_page_analytics_string(pt):
     analytics_format_string = "Num Out-links: {0:4d} | Time: {6} | Total Time: {1:6.4f} | Get Time: {2:6.4f} | " \
                               "Parse Time: {3:6.4f} | Analysis Time: {4:6.4f} | Page Title: {5}"
