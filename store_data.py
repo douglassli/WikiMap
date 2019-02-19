@@ -52,3 +52,33 @@ def get_branching_analytics(file_name):
 
     branching_analytics = {"avg_branch": total_branches / float(num_rows), "max_branch": max_branch}
     return branching_analytics
+
+
+def get_timing_analytics(file_name):
+    df = read_partial(file_name, ["Total Time", "Get Time", "Parse Time", "Analysis Time"])
+    num_rows = get_file_length(file_name)
+    total_time = 0
+    total_get_time = 0
+    total_parse_time = 0
+    total_analysis_time = 0
+    max_time = 0
+    for i in range(num_rows):
+        page_total_time = df["Total Time"][i]
+        total_time += page_total_time
+        total_get_time += df["Get Time"][i]
+        total_parse_time += df["Parse Time"][i]
+        total_analysis_time += df["Analysis Time"][i]
+        if page_total_time > max_time:
+            max_time = page_total_time
+
+    time_analytics = {"total_time": total_time,
+                      "max_time": max_time,
+                      "avg_time": total_time / num_rows,
+                      "avg_get": total_get_time / num_rows,
+                      "avg_parse": total_parse_time / num_rows,
+                      "avg_analysis": total_analysis_time / num_rows,
+                      "percent_get": total_get_time / total_time,
+                      "percent_parse": total_parse_time / total_time,
+                      "percent_analysis": total_analysis_time / total_time}
+
+    return time_analytics
