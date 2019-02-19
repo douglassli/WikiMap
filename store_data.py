@@ -37,3 +37,18 @@ def get_num_per_depth(file_name):
         num_per_depth_dict[element] += 1
 
     return num_per_depth_dict
+
+
+def get_branching_analytics(file_name):
+    df = read_partial(file_name, ["Out-link Titles"])
+    num_rows = get_file_length(file_name)
+    total_branches = 0
+    max_branch = 0
+    for i in range(num_rows):
+        branching_factor = len(ast.literal_eval(df["Out-link Titles"][i]))
+        total_branches += branching_factor
+        if branching_factor > max_branch:
+            max_branch = branching_factor
+
+    branching_analytics = {"avg_branch": total_branches / float(num_rows), "max_branch": max_branch}
+    return branching_analytics
