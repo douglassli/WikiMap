@@ -146,3 +146,13 @@ def append_single_page(page, depth, file_name):
     data = [prepare_page_data(page, depth)]
     df = pandas.DataFrame(data)
     df.to_csv(file_name, index=False, mode="a", header=False)
+
+
+def append_map_to_csv(map_dict_tree, file_name):
+    data_list = []
+    for depth_key in map_dict_tree.keys():
+        for page_key in map_dict_tree[depth_key].keys():
+            data_list.append(prepare_page_data(map_dict_tree[depth_key][page_key], depth_key))
+
+    df = pandas.DataFrame(data_list)
+    df.to_csv(file_name, index=False, mode="a", header=False)
