@@ -137,7 +137,9 @@ def append_to_frontier(page_list, file_name):
 
 def read_some_frontier(file_name, rows_to_skip):
     df = pandas.read_csv(file_name, nrows=50, skiprows=rows_to_skip, names=["Page", "Depth"])
-    return list(df.itertuples(index=False, name=None))
+    tpls = list(df.itertuples(index=False, name=None))
+    pages = [(ast.literal_eval(i[0]), i[1]) for i in tpls]
+    return pages
 
 
 def append_single_page(page, depth, file_name):
