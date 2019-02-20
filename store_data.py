@@ -135,10 +135,11 @@ def append_to_frontier(page_list, file_name):
     df.to_csv(file_name, index=False, mode="a", header=False)
 
 
-def read_some_frontier(file_name):
-    df = pandas.read_csv(file_name, nrows=50, names=["Page Title", "Page URL", "Out-link Titles",
-                                                     "Out-link URLs", "Total Time", "Get Time", "Parse Time",
-                                                     "Analysis Time", "Time of Expansion"])
+def read_some_frontier(file_name, rows_to_skip):
+    df = pandas.read_csv(file_name, nrows=50, skiprows=rows_to_skip, names=["Page Title", "Page URL", "Out-link Titles",
+                                                                            "Out-link URLs", "Total Time", "Get Time",
+                                                                            "Parse Time", "Analysis Time",
+                                                                            "Time of Expansion"])
     return df
 
 
