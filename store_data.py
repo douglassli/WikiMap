@@ -136,11 +136,8 @@ def append_to_frontier(page_list, file_name):
 
 
 def read_some_frontier(file_name, rows_to_skip):
-    df = pandas.read_csv(file_name, nrows=50, skiprows=rows_to_skip, names=["Page Title", "Page URL", "Out-link Titles",
-                                                                            "Out-link URLs", "Total Time", "Get Time",
-                                                                            "Parse Time", "Analysis Time",
-                                                                            "Time of Expansion"])
-    return df
+    df = pandas.read_csv(file_name, nrows=50, skiprows=rows_to_skip, names=["Page", "Depth"])
+    return df["Page"]
 
 
 def append_single_page(page, depth, file_name):
