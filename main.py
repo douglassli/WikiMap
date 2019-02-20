@@ -55,11 +55,8 @@ def map_wiki(depth_cutoff, initial_url):
     while True:
 
         if len(frontier) == 0:
-            frontier_load_start = time.time()
             frontier = store_data.read_some_frontier("frontier.csv", num_read_from_frontier)
             num_read_from_frontier += len(frontier)
-            frontier_load_time = time.time() - frontier_load_start
-            print("FRONTIER LOAD TIME: ", frontier_load_time)
             if len(frontier) == 0:
                 break
 
@@ -95,10 +92,7 @@ def map_wiki(depth_cutoff, initial_url):
                     add_page(page, cur_node[1] + 1)
                     temp_frontier.append((page, cur_node[1] + 1))
 
-                frontier_store_start = time.time()
                 store_data.append_to_frontier(temp_frontier, "frontier.csv")
-                frontier_store_time = time.time() - frontier_store_start
-                print("FRONTIER STORE TIME: ", frontier_store_time)
         except:
             e = sys.exc_info()[0]
             errors.append((num_pages, e))
