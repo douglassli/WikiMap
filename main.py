@@ -13,6 +13,7 @@ num_repeats = 0
 num_pages = 0
 errors = []
 frontier = []
+num_read_from_frontier = 0
 keys = []
 
 
