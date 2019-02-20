@@ -18,6 +18,14 @@ keys = []
 time_spent_csv = 0.0
 
 
+def map_size():
+    global wiki_map
+    length = 0
+    for dkey in wiki_map.keys():
+        length += len(wiki_map[dkey])
+    return length
+
+
 def add_page(new_page, depth):
     global num_pages, wiki_map, keys
     if depth not in wiki_map:
@@ -61,9 +69,13 @@ def map_wiki(depth_cutoff, initial_url):
             num_read_from_frontier += len(frontier)
             time_spent_csv += (time.time() - frontier_read_start)
             if len(frontier) == 0:
+                store_map_start = time.time()
+                store_data.append_map_to_csv(wiki_map, "output.csv")
+                wiki_map = {}
+                time_spent_csv += (time.time() - store_map_start)
                 break
 
-        if len(wiki_map) > 0:
+        if map_size() > 1000:
             store_map_start = time.time()
             store_data.append_map_to_csv(wiki_map, "output.csv")
             wiki_map = {}
@@ -150,7 +162,7 @@ if __name__ == "__main__":
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    map_wiki(1, url_small)
+    map_wiki(2, url_small)
     end = time.time()
 
     print_errors()
