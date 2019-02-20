@@ -37,7 +37,7 @@ def print_errors():
 
 
 def map_wiki(depth_cutoff, initial_url):
-    global wiki_map, num_repeats, num_pages, errors, frontier, keys
+    global wiki_map, num_repeats, num_pages, errors, frontier, keys, num_read_from_frontier
     session = Session()
 
     initial_title = initial_url.replace("https://en.wikipedia.org/wiki/", "").replace("_", " ")
@@ -53,8 +53,12 @@ def map_wiki(depth_cutoff, initial_url):
     frontier = [initial_node]
 
     while True:
+
         if len(frontier) == 0:
-            break
+            frontier = store_data.read_some_frontier("frontier.csv", num_read_from_frontier)
+            num_read_from_frontier += len(frontier)
+            if len(frontier) == 0:
+                break
 
         if len(wiki_map) > 0:
             store_start = time.time()
@@ -85,7 +89,9 @@ def map_wiki(depth_cutoff, initial_url):
 
                 for page in page_list:
                     add_page(page, cur_node[1] + 1)
-                    frontier.append((page, cur_node[1] + 1))
+                    temp_frontier = []
+                    temp_frontier.append((page, cur_node[1] + 1))
+                    store_data.append_to_frontier(temp_frontier, "frontier.csv")
         except:
             e = sys.exc_info()[0]
             errors.append((num_pages, e))
