@@ -15,6 +15,7 @@ errors = []
 frontier = []
 num_read_from_frontier = 0
 keys = []
+time_spent_csv = 0.0
 
 
 def add_page(new_page, depth):
@@ -37,7 +38,7 @@ def print_errors():
 
 
 def map_wiki(depth_cutoff, initial_url):
-    global wiki_map, num_repeats, num_pages, errors, frontier, keys, num_read_from_frontier
+    global wiki_map, num_repeats, num_pages, errors, frontier, keys, num_read_from_frontier, time_spent_csv
     session = Session()
 
     initial_title = initial_url.replace("https://en.wikipedia.org/wiki/", "").replace("_", " ")
@@ -55,14 +56,18 @@ def map_wiki(depth_cutoff, initial_url):
     while True:
 
         if len(frontier) == 0:
+            frontier_read_start = time.time()
             frontier = store_data.read_some_frontier("frontier.csv", num_read_from_frontier)
             num_read_from_frontier += len(frontier)
+            time_spent_csv += (time.time() - frontier_read_start)
             if len(frontier) == 0:
                 break
 
         if len(wiki_map) > 0:
+            store_map_start = time.time()
             store_data.append_map_to_csv(wiki_map, "output.csv")
             wiki_map = {}
+            time_spent_csv += (time.time() - store_map_start)
 
         cur_node = frontier.pop(0)
 
@@ -89,7 +94,9 @@ def map_wiki(depth_cutoff, initial_url):
                     add_page(page, cur_node[1] + 1)
                     temp_frontier.append((page, cur_node[1] + 1))
 
+                frontier_store_start = time.time()
                 store_data.append_to_frontier(temp_frontier, "frontier.csv")
+                time_spent_csv += (time.time() - frontier_store_start)
         except:
             e = sys.exc_info()[0]
             errors.append((num_pages, e))
@@ -149,6 +156,7 @@ if __name__ == "__main__":
     print_errors()
     print("\n\nAnalytics\n")
     print("\nTotal Time Elapsed:         {0:.1f} sec".format(end - start))
+    print("Time Spent CSV:               {0:.2f} sec".format(time_spent_csv))
 
     print("-" * 100)
     store_data.print_analytics("output.csv")
