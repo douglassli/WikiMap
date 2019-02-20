@@ -150,13 +150,13 @@ if __name__ == "__main__":
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    map_wiki(2, url_small)
+    map_wiki(1, url_small)
     end = time.time()
 
     print_errors()
     print("\n\nAnalytics\n")
     print("\nTotal Time Elapsed:         {0:.1f} sec".format(end - start))
-    print("Time Spent CSV:               {0:.2f} sec".format(time_spent_csv))
+    print("Time Spent CSV:             {0:.2f} sec".format(time_spent_csv))
 
     print("-" * 100)
     store_data.print_analytics("output.csv")
