@@ -61,10 +61,7 @@ def map_wiki(depth_cutoff, initial_url):
                 break
 
         if len(wiki_map) > 0:
-            store_start = time.time()
             store_data.append_map_to_csv(wiki_map, "output.csv")
-            store_time = time.time() - store_start
-            print("Store Time: {:.4f}".format(store_time))
             wiki_map = {}
 
         cur_node = frontier.pop(0)
