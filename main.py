@@ -19,6 +19,7 @@ time_spent_csv = 0.0
 pool_parse_time = 0.0
 map_size_time = 0.0
 temp_frontier_time = 0.0
+inner_loop_time = 0.0
 
 
 def map_size():
@@ -84,7 +85,7 @@ def initialize_map_search(initial_url, session):
 
 def map_wiki(depth_cutoff, initial_url):
     global wiki_map, num_repeats, num_pages, errors, frontier, \
-        keys, num_read_from_frontier, time_spent_csv, pool_parse_time, temp_frontier_time
+        keys, num_read_from_frontier, time_spent_csv, pool_parse_time, temp_frontier_time, inner_loop_time
 
     session = Session()
     initialize_map_search(initial_url, session)
@@ -103,6 +104,7 @@ def map_wiki(depth_cutoff, initial_url):
 
         try:
             if cur_node[1] < depth_cutoff:
+                inner_loop_start = time.time()
                 page_tuple_list = []
                 for i, next_url in enumerate(cur_node[0][3]):
                     next_title = cur_node[0][2][i]
@@ -115,6 +117,7 @@ def map_wiki(depth_cutoff, initial_url):
                         page_tuple_list.append(t)
                     else:
                         num_repeats += 1
+                inner_loop_time += (time.time() - inner_loop_start)
 
                 pool_parse_start = time.time()
                 with Pool() as p:
