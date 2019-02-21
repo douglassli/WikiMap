@@ -45,6 +45,14 @@ def print_errors():
         print(et[1])
 
 
+def store_map():
+    global wiki_map, time_spent_csv
+    store_map_start = time.time()
+    store_data.append_map_to_csv(wiki_map, "output.csv")
+    wiki_map = {}
+    time_spent_csv += (time.time() - store_map_start)
+
+
 def map_wiki(depth_cutoff, initial_url):
     global wiki_map, num_repeats, num_pages, errors, frontier, keys, num_read_from_frontier, time_spent_csv
     session = Session()
@@ -69,17 +77,11 @@ def map_wiki(depth_cutoff, initial_url):
             num_read_from_frontier += len(frontier)
             time_spent_csv += (time.time() - frontier_read_start)
             if len(frontier) == 0:
-                store_map_start = time.time()
-                store_data.append_map_to_csv(wiki_map, "output.csv")
-                wiki_map = {}
-                time_spent_csv += (time.time() - store_map_start)
+                store_map()
                 break
 
         if map_size() > 1000:
-            store_map_start = time.time()
-            store_data.append_map_to_csv(wiki_map, "output.csv")
-            wiki_map = {}
-            time_spent_csv += (time.time() - store_map_start)
+            store_map()
 
         cur_node = frontier.pop(0)
 
@@ -154,7 +156,7 @@ def parse_page(tpl):
 
 
 if __name__ == "__main__":
-    # sys.stdout = open("stdout.txt", mode='w')
+    sys.stdout = open("stdout.txt", mode='w')
     store_data.initialize_csv("output.csv")
     store_data.initialize_csv("frontier.csv")
 
@@ -162,7 +164,7 @@ if __name__ == "__main__":
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    map_wiki(2, url_small)
+    map_wiki(3, url_small)
     end = time.time()
 
     print_errors()
