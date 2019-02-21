@@ -197,6 +197,7 @@ if __name__ == "__main__":
     print("Pool Parse Time:            {0:.3f} sec".format(pool_parse_time))
     print("Map Size Time:              {0:.3f} sec".format(map_size_time))
     print("Temp Frontier Time:         {0:.3f} sec".format(temp_frontier_time))
+    print("Inner Loop Time:            {0:.3f} sec".format(inner_loop_time))
     print("-" * 100)
     sys.stdout.flush()
     store_data.print_analytics("output.csv")
