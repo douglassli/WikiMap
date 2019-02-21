@@ -20,6 +20,7 @@ pool_parse_time = 0.0
 map_size_time = 0.0
 temp_frontier_time = 0.0
 inner_loop_time = 0.0
+initialize_time = 0.0
 
 
 def map_size():
@@ -68,7 +69,8 @@ def read_frontier():
 
 
 def initialize_map_search(initial_url, session):
-    global frontier
+    global frontier, initialize_time
+    initialize_start = time.time()
 
     initial_title = initial_url.replace("https://en.wikipedia.org/wiki/", "").replace("_", " ")
     time_of_get = str(datetime.datetime.now())
@@ -81,6 +83,7 @@ def initialize_map_search(initial_url, session):
     add_page(initial_page, 0)
     initial_node = (initial_page, 0)
     frontier = [initial_node]
+    initialize_time = (time.time() - initialize_start)
 
 
 def map_wiki(depth_cutoff, initial_url):
@@ -187,17 +190,21 @@ if __name__ == "__main__":
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    map_wiki(1, url_small)
+    map_wiki(2, url_small)
     end = time.time()
 
     print_errors()
     print("\n\nAnalytics\n")
-    print("\nTotal Time Elapsed:         {0:.1f} sec".format(end - start))
+    print("Total Time Elapsed:         {0:.3f} sec\n".format(end - start))
     print("Time Spent CSV:             {0:.3f} sec".format(time_spent_csv))
     print("Pool Parse Time:            {0:.3f} sec".format(pool_parse_time))
     print("Map Size Time:              {0:.3f} sec".format(map_size_time))
     print("Temp Frontier Time:         {0:.3f} sec".format(temp_frontier_time))
-    print("Inner Loop Time:            {0:.3f} sec".format(inner_loop_time))
+    print("Inner Loop Time:            {0:.3f} sec\n".format(inner_loop_time))
+    timing_total = time_spent_csv + pool_parse_time + map_size_time + \
+                   temp_frontier_time + inner_loop_time + initialize_time
+    print("Timing Total:               {0:.3f} sec".format(timing_total))
+
     print("-" * 100)
     sys.stdout.flush()
     store_data.print_analytics("output.csv")
