@@ -171,6 +171,6 @@ if __name__ == "__main__":
     print("\n\nAnalytics\n")
     print("\nTotal Time Elapsed:         {0:.1f} sec".format(end - start))
     print("Time Spent CSV:             {0:.2f} sec".format(time_spent_csv))
-
     print("-" * 100)
+    sys.stdout.flush()
     store_data.print_analytics("output.csv")
