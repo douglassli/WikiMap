@@ -53,6 +53,14 @@ def store_map():
     time_spent_csv += (time.time() - store_map_start)
 
 
+def read_frontier():
+    global frontier, time_spent_csv, num_read_from_frontier
+    frontier_read_start = time.time()
+    frontier = store_data.read_some_frontier("frontier.csv", num_read_from_frontier)
+    num_read_from_frontier += len(frontier)
+    time_spent_csv += (time.time() - frontier_read_start)
+
+
 def map_wiki(depth_cutoff, initial_url):
     global wiki_map, num_repeats, num_pages, errors, frontier, keys, num_read_from_frontier, time_spent_csv
     session = Session()
@@ -72,10 +80,7 @@ def map_wiki(depth_cutoff, initial_url):
     while True:
 
         if len(frontier) == 0:
-            frontier_read_start = time.time()
-            frontier = store_data.read_some_frontier("frontier.csv", num_read_from_frontier)
-            num_read_from_frontier += len(frontier)
-            time_spent_csv += (time.time() - frontier_read_start)
+            read_frontier()
             if len(frontier) == 0:
                 store_map()
                 break
