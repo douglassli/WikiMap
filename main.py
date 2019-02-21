@@ -61,9 +61,8 @@ def read_frontier():
     time_spent_csv += (time.time() - frontier_read_start)
 
 
-def map_wiki(depth_cutoff, initial_url):
-    global wiki_map, num_repeats, num_pages, errors, frontier, keys, num_read_from_frontier, time_spent_csv
-    session = Session()
+def initialize_map_search(initial_url, session):
+    global frontier
 
     initial_title = initial_url.replace("https://en.wikipedia.org/wiki/", "").replace("_", " ")
     time_of_get = str(datetime.datetime.now())
@@ -76,6 +75,12 @@ def map_wiki(depth_cutoff, initial_url):
     add_page(initial_page, 0)
     initial_node = (initial_page, 0)
     frontier = [initial_node]
+
+
+def map_wiki(depth_cutoff, initial_url):
+    global wiki_map, num_repeats, num_pages, errors, frontier, keys, num_read_from_frontier, time_spent_csv
+    session = Session()
+    initialize_map_search(initial_url, session)
 
     while True:
 
