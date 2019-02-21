@@ -81,7 +81,7 @@ def initialize_map_search(initial_url, session):
 def map_wiki(depth_cutoff, initial_url):
     global wiki_map, num_repeats, num_pages, errors, frontier, \
         keys, num_read_from_frontier, time_spent_csv, pool_parse_time
-    
+
     session = Session()
     initialize_map_search(initial_url, session)
 
@@ -185,6 +185,7 @@ if __name__ == "__main__":
     print("\n\nAnalytics\n")
     print("\nTotal Time Elapsed:         {0:.1f} sec".format(end - start))
     print("Time Spent CSV:             {0:.2f} sec".format(time_spent_csv))
+    print("Pool Parse Time:             {0:.2f} sec".format(pool_parse_time))
     print("-" * 100)
     sys.stdout.flush()
     store_data.print_analytics("output.csv")
