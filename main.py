@@ -17,13 +17,17 @@ num_read_from_frontier = 0
 keys = []
 time_spent_csv = 0.0
 pool_parse_time = 0.0
+map_size_time = 0.0
+temp_frontier_time = 0.0
 
 
 def map_size():
-    global wiki_map
+    global wiki_map, map_size_time
+    map_size_start = time.time()
     length = 0
     for dkey in wiki_map.keys():
         length += len(wiki_map[dkey])
+    map_size_time += (time.time() - map_size_start)
     return length
 
 
@@ -80,7 +84,7 @@ def initialize_map_search(initial_url, session):
 
 def map_wiki(depth_cutoff, initial_url):
     global wiki_map, num_repeats, num_pages, errors, frontier, \
-        keys, num_read_from_frontier, time_spent_csv, pool_parse_time
+        keys, num_read_from_frontier, time_spent_csv, pool_parse_time, temp_frontier_time
 
     session = Session()
     initialize_map_search(initial_url, session)
@@ -117,10 +121,12 @@ def map_wiki(depth_cutoff, initial_url):
                     page_list = p.map(parse_page, page_tuple_list)
                 pool_parse_time += (time.time() - pool_parse_start)
 
+                temp_frontier_start = time.time()
                 temp_frontier = []
                 for page in page_list:
                     add_page(page, cur_node[1] + 1)
                     temp_frontier.append((page, cur_node[1] + 1))
+                temp_frontier_time += (time.time() - temp_frontier_start)
 
                 frontier_store_start = time.time()
                 store_data.append_to_frontier(temp_frontier, "frontier.csv")
@@ -184,8 +190,10 @@ if __name__ == "__main__":
     print_errors()
     print("\n\nAnalytics\n")
     print("\nTotal Time Elapsed:         {0:.1f} sec".format(end - start))
-    print("Time Spent CSV:             {0:.2f} sec".format(time_spent_csv))
-    print("Pool Parse Time:             {0:.2f} sec".format(pool_parse_time))
+    print("Time Spent CSV:             {0:.3f} sec".format(time_spent_csv))
+    print("Pool Parse Time:            {0:.3f} sec".format(pool_parse_time))
+    print("Map Size Time:              {0:.3f} sec".format(map_size_time))
+    print("Temp Frontier Time:         {0:.3f} sec".format(temp_frontier_time))
     print("-" * 100)
     sys.stdout.flush()
     store_data.print_analytics("output.csv")
