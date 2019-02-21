@@ -16,6 +16,7 @@ frontier = []
 num_read_from_frontier = 0
 keys = []
 time_spent_csv = 0.0
+pool_parse_time = 0.0
 
 
 def map_size():
@@ -78,12 +79,13 @@ def initialize_map_search(initial_url, session):
 
 
 def map_wiki(depth_cutoff, initial_url):
-    global wiki_map, num_repeats, num_pages, errors, frontier, keys, num_read_from_frontier, time_spent_csv
+    global wiki_map, num_repeats, num_pages, errors, frontier, \
+        keys, num_read_from_frontier, time_spent_csv, pool_parse_time
+    
     session = Session()
     initialize_map_search(initial_url, session)
 
     while True:
-
         if len(frontier) == 0:
             read_frontier()
             if len(frontier) == 0:
@@ -110,8 +112,10 @@ def map_wiki(depth_cutoff, initial_url):
                     else:
                         num_repeats += 1
 
+                pool_parse_start = time.time()
                 with Pool() as p:
                     page_list = p.map(parse_page, page_tuple_list)
+                pool_parse_time += (time.time() - pool_parse_start)
 
                 temp_frontier = []
                 for page in page_list:
@@ -166,7 +170,7 @@ def parse_page(tpl):
 
 
 if __name__ == "__main__":
-    sys.stdout = open("stdout.txt", mode='w')
+    # sys.stdout = open("stdout.txt", mode='w')
     store_data.initialize_csv("output.csv")
     store_data.initialize_csv("frontier.csv")
 
@@ -174,7 +178,7 @@ if __name__ == "__main__":
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    map_wiki(3, url_small)
+    map_wiki(1, url_small)
     end = time.time()
 
     print_errors()
