@@ -20,14 +20,17 @@ def get_average_per_second(get_list, time_list):
 
     avg_dict = {}
     for key in gets_dict.keys():
-        a
+        avg_dict[key] = sum(gets_dict[key]) / len(gets_dict[key])
+
+    return avg_dict
 
 
 def plot_get_vs_time(file_name):
     df = store_data.read_partial(file_name, ["Get Time", "Time of Expansion"])
     get_list = list(df["Get Time"])
     time_list = [seconds_from_date(i) for i in list(df["Time of Expansion"])]
-    plt.plot(time_list, get_list)
+    avg_dict = get_average_per_second(get_list, time_list)
+    plt.plot(avg_dict.keys(), avg_dict.values())
     plt.ylabel("Get Time (sec)")
     plt.xlabel("Time of Get (sec)")
     plt.show()
