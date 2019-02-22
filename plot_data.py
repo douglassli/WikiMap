@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import store_data
-import math
 
 
 def seconds_from_date(date_string):
@@ -14,9 +13,9 @@ def seconds_from_date(date_string):
 def get_average_per_second(get_list, time_list):
     gets_dict = {}
     for i, time in enumerate(time_list):
-        if math.floor(time) not in gets_dict:
-            gets_dict[math.floor(time)] = []
-        gets_dict[math.floor(time)].append(get_list[i])
+        if round(time, -1) not in gets_dict:
+            gets_dict[round(time, -1)] = []
+        gets_dict[round(time, -1)].append(get_list[i])
 
     avg_dict = {}
     for key in gets_dict.keys():
