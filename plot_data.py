@@ -13,9 +13,9 @@ def seconds_from_date(date_string):
 def get_average_per_hund_sec(get_list, time_list):
     gets_dict = {}
     for i, time in enumerate(time_list):
-        if round(time, -2) not in gets_dict:
-            gets_dict[round(time, -2)] = []
-        gets_dict[round(time, -2)].append(get_list[i])
+        if round(time, -3) not in gets_dict:
+            gets_dict[round(time, -3)] = []
+        gets_dict[round(time, -3)].append(get_list[i])
 
     avg_dict = {}
     for key in gets_dict.keys():
@@ -29,11 +29,11 @@ def plot_get_vs_time(file_name):
     get_list = list(df["Get Time"])
     time_list = [seconds_from_date(i) for i in list(df["Time of Expansion"])]
     avg_dict = get_average_per_hund_sec(get_list, time_list)
-    plt.plot(avg_dict.keys(), avg_dict.values())
+    plt.plot(avg_dict.keys(), avg_dict.values(), "ro")
     plt.ylabel("Get Time (sec)")
     plt.xlabel("Time of Get (sec)")
     plt.show()
 
 
 if __name__ == '__main__':
-    plot_get_vs_time("output.csv")
+    plot_get_vs_time("small3_full_output.csv")
