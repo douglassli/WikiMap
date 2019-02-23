@@ -49,14 +49,14 @@ def plot_out_vs_parse_time(file_name):
 
 def plot_out_vs_analysis_time(file_name):
     df = store_data.read_partial(file_name, ["Out-link Titles", "Analysis Time"])
-    parse_list = list(df["Parse Time"])
+    parse_list = list(df["Analysis Time"])
     num_out_list = [len(ast.literal_eval(i)) for i in list(df["Out-link Titles"])]
     df = None
     plt.plot(num_out_list, parse_list, color="red", marker="o", markersize=0.3, linewidth=0)
-    plt.ylabel("Parse Time (sec)")
+    plt.ylabel("Analysis Time (sec)")
     plt.xlabel("Number of Out Links")
     plt.show()
 
 
 if __name__ == '__main__':
-    plot_out_vs_parse_time("output.csv")
+    plot_out_vs_analysis_time("output.csv")
