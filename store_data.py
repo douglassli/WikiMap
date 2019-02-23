@@ -20,6 +20,14 @@ def read_partial(file_name, cols):
     return df
 
 
+def read_partial_section(file_name, cols, num_rows, rows_to_skip):
+    df = pandas.read_csv(file_name, usecols=cols, nrows=num_rows, skiprows=rows_to_skip,
+                         names=["Page Title", "Page URL", "Out-link Titles", "Out-link URLs",
+                                "Total Time", "Get Time", "Parse Time", "Analysis Time",
+                                "Page Depth", "Time of Expansion"])
+    return df
+
+
 def get_file_length(file_name):
     df = read_partial(file_name, ["Page Depth"])
     num_rows = len(df.index)
