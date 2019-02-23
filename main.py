@@ -91,7 +91,7 @@ def initialize_map_search(initial_url, session):
 def in_keys(title):
     global keys, in_keys_time
     in_keys_start = time.time()
-    output = title in keys
+    output = title not in keys
     in_keys_time += (time.time() - in_keys_start)
     return output
 
