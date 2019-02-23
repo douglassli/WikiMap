@@ -214,11 +214,12 @@ if __name__ == "__main__":
     print("Pool Parse Time:            {0:.3f} sec".format(pool_parse_time))
     print("Map Size Time:              {0:.3f} sec".format(map_size_time))
     print("Temp Frontier Time:         {0:.3f} sec".format(temp_frontier_time))
-    print("Inner Loop Time:            {0:.3f} sec\n".format(inner_loop_time))
+    print("Inner Loop Time:            {0:.3f} sec".format(inner_loop_time))
+    print("  - Getting Time:             {0:.3f} sec".format(getting_time))
+    print("  - In Keys Time:             {0:.3f} sec\n".format(in_keys_time))
     timing_total = time_spent_csv + pool_parse_time + map_size_time + \
         temp_frontier_time + inner_loop_time + initialize_time
     print("Timing Total:               {0:.3f} sec\n".format(timing_total))
-    print("Getting Time:               {0:.3f} sec".format(getting_time))
 
     print("-" * 100)
     sys.stdout.flush()
