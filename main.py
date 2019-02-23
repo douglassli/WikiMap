@@ -23,6 +23,8 @@ inner_loop_time = 0.0
 initialize_time = 0.0
 getting_time = 0.0
 in_keys_time = 0.0
+next_title_time = 0.0
+datetime_time = 0.0
 
 
 def map_size():
@@ -99,7 +101,7 @@ def not_in_keys(title):
 def map_wiki(depth_cutoff, initial_url):
     global wiki_map, num_repeats, num_pages, errors, frontier, \
         keys, num_read_from_frontier, time_spent_csv, pool_parse_time, \
-        temp_frontier_time, inner_loop_time, getting_time, in_keys_time
+        temp_frontier_time, inner_loop_time, getting_time, in_keys_time, next_title_time, datetime_time
 
     session = Session()
     initialize_map_search(initial_url, session)
@@ -121,9 +123,14 @@ def map_wiki(depth_cutoff, initial_url):
                 inner_loop_start = time.time()
                 page_tuple_list = []
                 for i, next_url in enumerate(cur_node[0][3]):
+                    next_title_start = time.time()
                     next_title = cur_node[0][2][i]
+                    next_title_time += (time.time() - next_title_start)
+
                     if not_in_keys(next_title):
+                        datetime_start = time.time()
                         time_of_get = str(datetime.datetime.now())
+                        datetime_time += (time.time() - datetime_start)
 
                         get_start = time.time()
                         raw_html = session.get(next_url).content
@@ -204,7 +211,7 @@ if __name__ == "__main__":
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    map_wiki(1, url_small)
+    map_wiki(2, url_small)
     end = time.time()
 
     print_errors()
