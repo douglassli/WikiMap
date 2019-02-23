@@ -14,7 +14,7 @@ num_pages = 0
 errors = []
 frontier = []
 num_read_from_frontier = 0
-keys = []
+keys = set()
 time_spent_csv = 0.0
 pool_parse_time = 0.0
 map_size_time = 0.0
@@ -40,7 +40,7 @@ def add_page(new_page, depth):
     if depth not in wiki_map:
         wiki_map[depth] = {}
     if new_page[0] not in wiki_map[depth]:
-        keys.append(new_page[0])
+        keys.add(new_page[0])
         wiki_map[depth][new_page[0]] = new_page
         num_pages += 1
         analytics_string = "Page Number: {0:7d} | {1}"
