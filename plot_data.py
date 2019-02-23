@@ -35,5 +35,15 @@ def plot_get_vs_time(file_name):
     plt.show()
 
 
+def plot_out_vs_parse_time(file_name):
+    df = store_data.read_partial(file_name, ["Out-link Titles", "Parse Time"])
+    parse_list = list(df["Parse Time"])
+    num_out_list = [len(i) for i in list(df["Out-link Titles"])]
+    plt.plot(num_out_list, parse_list, "ro")
+    plt.ylabel("Parse Time (sec)")
+    plt.xlabel("Number of Out Links")
+    plt.show()
+
+
 if __name__ == '__main__':
-    plot_get_vs_time("small3_full_output.csv")
+    plot_get_vs_time("output.csv")
