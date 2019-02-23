@@ -22,6 +22,7 @@ temp_frontier_time = 0.0
 inner_loop_time = 0.0
 initialize_time = 0.0
 getting_time = 0.0
+in_keys_time = 0.0
 
 
 def map_size():
@@ -87,9 +88,18 @@ def initialize_map_search(initial_url, session):
     initialize_time = (time.time() - initialize_start)
 
 
+def in_keys(title):
+    global keys, in_keys_time
+    in_keys_start = time.time()
+    output = title in keys
+    in_keys_time += (time.time() - in_keys_start)
+    return output
+
+
 def map_wiki(depth_cutoff, initial_url):
     global wiki_map, num_repeats, num_pages, errors, frontier, \
-        keys, num_read_from_frontier, time_spent_csv, pool_parse_time, temp_frontier_time, inner_loop_time, getting_time
+        keys, num_read_from_frontier, time_spent_csv, pool_parse_time, \
+        temp_frontier_time, inner_loop_time, getting_time, in_keys_time
 
     session = Session()
     initialize_map_search(initial_url, session)
@@ -112,12 +122,14 @@ def map_wiki(depth_cutoff, initial_url):
                 page_tuple_list = []
                 for i, next_url in enumerate(cur_node[0][3]):
                     next_title = cur_node[0][2][i]
-                    if next_title not in keys:
+                    if in_keys(next_title):
                         time_of_get = str(datetime.datetime.now())
+
                         get_start = time.time()
                         raw_html = session.get(next_url).content
                         get_time = time.time() - get_start
                         getting_time += get_time
+
                         t = (raw_html, next_url, next_title, get_time, time_of_get)
                         page_tuple_list.append(t)
                     else:
@@ -184,7 +196,7 @@ def parse_page(tpl):
 
 
 if __name__ == "__main__":
-    # sys.stdout = open("stdout.txt", mode='w')
+    sys.stdout = open("stdout.txt", mode='w')
     store_data.initialize_csv("output.csv")
     store_data.initialize_csv("frontier.csv")
 
