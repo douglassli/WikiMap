@@ -196,7 +196,7 @@ def parse_page(tpl):
 
 
 if __name__ == "__main__":
-    sys.stdout = open("stdout.txt", mode='w')
+    # sys.stdout = open("stdout.txt", mode='w')
     store_data.initialize_csv("output.csv")
     store_data.initialize_csv("frontier.csv")
 
