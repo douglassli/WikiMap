@@ -220,6 +220,8 @@ if __name__ == "__main__":
     timing_total = time_spent_csv + pool_parse_time + map_size_time + \
         temp_frontier_time + inner_loop_time + initialize_time
     print("Timing Total:               {0:.3f} sec\n".format(timing_total))
+    print("Number of Errors:           {0:d}".format(len(errors)))
+    print("Number of Repeats:          {0:d}".format(num_repeats))
 
     print("-" * 100)
     sys.stdout.flush()
