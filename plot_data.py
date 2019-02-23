@@ -53,7 +53,7 @@ def plot_get_vs_time(file_name):
 def plot_out_vs_parse_time(file_name):
     df = store_data.read_partial(file_name, ["Out-link Titles", "Parse Time"])
     parse_list = list(df["Parse Time"])
-    num_out_list = [len(ast.literal_eval(i)) for i in list(df["Out-link Titles"])]
+    num_out_list = get_num_out_list(file_name)
     df = None
     plt.plot(num_out_list, parse_list, color="red", marker="o", markersize=0.3, linewidth=0)
     plt.ylabel("Parse Time (sec)")
@@ -64,7 +64,7 @@ def plot_out_vs_parse_time(file_name):
 def plot_out_vs_analysis_time(file_name):
     df = store_data.read_partial(file_name, ["Out-link Titles", "Analysis Time"])
     parse_list = list(df["Analysis Time"])
-    num_out_list = [len(ast.literal_eval(i)) for i in list(df["Out-link Titles"])]
+    num_out_list = get_num_out_list(file_name)
     df = None
     plt.plot(num_out_list, parse_list, color="red", marker="o", markersize=0.3, linewidth=0)
     plt.ylabel("Analysis Time (sec)")
