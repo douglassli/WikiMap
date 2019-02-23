@@ -29,13 +29,14 @@ def get_num_out_list(file_name):
     num_read = 0
     num_out_list = []
     while True:
-        df = store_data.read_partial_section(file_name, ["Out-link Titles"], 1000, num_read)
-        temp_list = [len(ast.literal_eval(i)) for i in list(df["Out-link Titles"])]
+        df = store_data.read_partial_section(file_name, ["Out-link Titles"], 100000, num_read)
+        temp_list = [i.count(",") + 1 for i in list(df["Out-link Titles"])]
         if len(temp_list) == 0:
             break
         else:
             num_read += len(temp_list)
             num_out_list += temp_list
+            print(num_read)
     return num_out_list
 
 
@@ -51,10 +52,10 @@ def plot_get_vs_time(file_name):
 
 
 def plot_out_vs_parse_time(file_name):
-    df = store_data.read_partial(file_name, ["Out-link Titles", "Parse Time"])
+    df = store_data.read_partial(file_name, ["Parse Time"])
     parse_list = list(df["Parse Time"])
-    num_out_list = get_num_out_list(file_name)
     df = None
+    num_out_list = get_num_out_list(file_name)
     plt.plot(num_out_list, parse_list, color="red", marker="o", markersize=0.3, linewidth=0)
     plt.ylabel("Parse Time (sec)")
     plt.xlabel("Number of Out Links")
@@ -62,10 +63,10 @@ def plot_out_vs_parse_time(file_name):
 
 
 def plot_out_vs_analysis_time(file_name):
-    df = store_data.read_partial(file_name, ["Out-link Titles", "Analysis Time"])
+    df = store_data.read_partial(file_name, ["Analysis Time"])
     parse_list = list(df["Analysis Time"])
-    num_out_list = get_num_out_list(file_name)
     df = None
+    num_out_list = get_num_out_list(file_name)
     plt.plot(num_out_list, parse_list, color="red", marker="o", markersize=0.3, linewidth=0)
     plt.ylabel("Analysis Time (sec)")
     plt.xlabel("Number of Out Links")
