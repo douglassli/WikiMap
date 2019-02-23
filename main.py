@@ -88,7 +88,7 @@ def initialize_map_search(initial_url, session):
     initialize_time = (time.time() - initialize_start)
 
 
-def in_keys(title):
+def not_in_keys(title):
     global keys, in_keys_time
     in_keys_start = time.time()
     output = title not in keys
@@ -122,7 +122,7 @@ def map_wiki(depth_cutoff, initial_url):
                 page_tuple_list = []
                 for i, next_url in enumerate(cur_node[0][3]):
                     next_title = cur_node[0][2][i]
-                    if in_keys(next_title):
+                    if not_in_keys(next_title):
                         time_of_get = str(datetime.datetime.now())
 
                         get_start = time.time()
