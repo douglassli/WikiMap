@@ -54,7 +54,6 @@ def plot_get_vs_time(file_name):
 def plot_out_vs(file_name, timing_name):
     df = store_data.read_partial(file_name, [timing_name])
     parse_list = list(df[timing_name])
-    df = None
     num_out_list = get_num_out_list(file_name)
     plt.plot(num_out_list, parse_list, color="red", marker="o", markersize=0.3, linewidth=0)
     plt.ylabel(timing_name + " (sec)")
