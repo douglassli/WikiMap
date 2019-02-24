@@ -158,7 +158,6 @@ def map_wiki(depth_cutoff, initial_url):
             e = sys.exc_info()[0]
             errors.append((num_pages, e))
             print(e)
-            raise e
 
 
 def get_page_analytics_string(pt):
@@ -202,7 +201,6 @@ def parse_page(tpl):
 if __name__ == "__main__":
     sys.stdout = open("stdout.txt", mode='w')
     store_data.initialize_csv("output.csv")
-    store_data.initialize_csv("frontier.csv")
 
     url_med = "https://en.wikipedia.org/wiki/IPhone"               # 855 out-links Depth 1: ~45 sec Depth 2: ~1 hr
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
