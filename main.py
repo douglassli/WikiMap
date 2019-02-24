@@ -223,7 +223,9 @@ if __name__ == "__main__":
     print("Temp Frontier Time:         {0:.3f} sec".format(temp_frontier_time))
     print("Inner Loop Time:            {0:.3f} sec".format(inner_loop_time))
     print("  - Getting Time:             {0:.3f} sec".format(getting_time))
-    print("  - In Keys Time:             {0:.3f} sec\n".format(in_keys_time))
+    print("  - In Keys Time:             {0:.3f} sec".format(in_keys_time))
+    print("  - Next Title Time:          {0:.3f} sec".format(next_title_time))
+    print("  - Datetime Time:            {0:.3f} sec\n".format(datetime_time))
     timing_total = time_spent_csv + pool_parse_time + map_size_time + \
         temp_frontier_time + inner_loop_time + initialize_time
     print("Timing Total:               {0:.3f} sec\n".format(timing_total))
