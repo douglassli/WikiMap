@@ -149,10 +149,10 @@ def map_wiki(depth_cutoff, initial_url):
                 pool_parse_time += (time.time() - pool_parse_start)
 
                 add_page_start = time.time()
-                # temp_frontier = []
                 for page in page_list:
                     add_page(page, cur_node[8] + 1)
                 add_page_time += (time.time() - add_page_start)
+
                 store_map()
         except:
             e = sys.exc_info()[0]
