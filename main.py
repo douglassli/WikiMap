@@ -72,6 +72,14 @@ def read_frontier():
     time_spent_csv += (time.time() - frontier_read_start)
 
 
+def read_frontier2():
+    global frontier, time_spent_csv, num_read_from_frontier
+    frontier_read_start = time.time()
+    frontier = store_data.read_partial_section("output.csv", None, 1000, num_read_from_frontier)
+    num_read_from_frontier += len(frontier)
+    time_spent_csv += (time.time() - frontier_read_start)
+
+
 def initialize_map_search(initial_url, session):
     global frontier, initialize_time
     initialize_start = time.time()
