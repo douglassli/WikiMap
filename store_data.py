@@ -136,7 +136,7 @@ def print_analytics(file_name):
                      "{0[max_time]}\n{0[avg_time]}\n{0[avg_get]}\n{0[avg_parse]}\n{0[avg_analysis]}\n\n" \
                      "{0[percent_get]}\n{0[percent_parse]}\n{0[percent_analysis]}"
     print(out_put_format.format(analytic_strings))
-    
+
 
 def append_single_page(page, depth, file_name):
     data = [prepare_page_data(page, depth)]
