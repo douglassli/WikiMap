@@ -217,7 +217,7 @@ if __name__ == "__main__":
     print("Time Spent CSV:             {0:.3f} sec".format(time_spent_csv))
     print("Pool Parse Time:            {0:.3f} sec".format(pool_parse_time))
     print("Map Size Time:              {0:.3f} sec".format(map_size_time))
-    print("Temp Frontier Time:         {0:.3f} sec".format(add_page_time))
+    print("Add Page Time:              {0:.3f} sec".format(add_page_time))
     print("Inner Loop Time:            {0:.3f} sec".format(inner_loop_time))
     print("  - Getting Time:             {0:.3f} sec".format(getting_time))
     print("  - In Keys Time:             {0:.3f} sec".format(in_keys_time))
