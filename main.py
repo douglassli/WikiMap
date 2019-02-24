@@ -7,6 +7,7 @@ import re
 import store_data
 import datetime
 from multiprocessing import Pool
+import ast
 
 wiki_map = {}
 num_repeats = 0
@@ -18,7 +19,7 @@ keys = set()
 time_spent_csv = 0.0
 pool_parse_time = 0.0
 map_size_time = 0.0
-temp_frontier_time = 0.0
+add_page_time = 0.0
 inner_loop_time = 0.0
 initialize_time = 0.0
 getting_time = 0.0
@@ -67,15 +68,10 @@ def store_map():
 def read_frontier():
     global frontier, time_spent_csv, num_read_from_frontier
     frontier_read_start = time.time()
-    frontier = store_data.read_some_frontier("frontier.csv", num_read_from_frontier)
-    num_read_from_frontier += len(frontier)
-    time_spent_csv += (time.time() - frontier_read_start)
-
-
-def read_frontier2():
-    global frontier, time_spent_csv, num_read_from_frontier
-    frontier_read_start = time.time()
-    frontier = store_data.read_partial_section("output.csv", None, 1000, num_read_from_frontier)
+    tpls = list(store_data.read_partial_section("output.csv", None,
+                                                1000, num_read_from_frontier).itertuples(index=False, name=None))
+    frontier = [(tp[0], tp[1], ast.literal_eval(tp[2]), ast.literal_eval(tp[3]),
+                 tp[4], tp[5], tp[6], tp[7], tp[8], tp[9]) for tp in tpls]
     num_read_from_frontier += len(frontier)
     time_spent_csv += (time.time() - frontier_read_start)
 
@@ -93,9 +89,8 @@ def initialize_map_search(initial_url, session):
     initial_page = parse_page(t)
 
     add_page(initial_page, 0)
-    initial_node = (initial_page, 0)
-    frontier = [initial_node]
     initialize_time = (time.time() - initialize_start)
+    store_map()
 
 
 def not_in_keys(title):
@@ -109,7 +104,7 @@ def not_in_keys(title):
 def map_wiki(depth_cutoff, initial_url):
     global wiki_map, num_repeats, num_pages, errors, frontier, \
         keys, num_read_from_frontier, time_spent_csv, pool_parse_time, \
-        temp_frontier_time, inner_loop_time, getting_time, in_keys_time, next_title_time, datetime_time
+        add_page_time, inner_loop_time, getting_time, in_keys_time, next_title_time, datetime_time
 
     session = Session()
     initialize_map_search(initial_url, session)
@@ -121,18 +116,15 @@ def map_wiki(depth_cutoff, initial_url):
                 store_map()
                 break
 
-        if map_size() > 1000:
-            store_map()
-
         cur_node = frontier.pop(0)
 
         try:
-            if cur_node[1] < depth_cutoff:
+            if cur_node[8] < depth_cutoff:
                 inner_loop_start = time.time()
                 page_tuple_list = []
-                for i, next_url in enumerate(cur_node[0][3]):
+                for i, next_url in enumerate(cur_node[3]):
                     next_title_start = time.time()
-                    next_title = cur_node[0][2][i]
+                    next_title = cur_node[2][i]
                     next_title_time += (time.time() - next_title_start)
 
                     if not_in_keys(next_title):
@@ -156,20 +148,17 @@ def map_wiki(depth_cutoff, initial_url):
                     page_list = p.map(parse_page, page_tuple_list)
                 pool_parse_time += (time.time() - pool_parse_start)
 
-                temp_frontier_start = time.time()
-                temp_frontier = []
+                add_page_start = time.time()
+                # temp_frontier = []
                 for page in page_list:
-                    add_page(page, cur_node[1] + 1)
-                    temp_frontier.append((page, cur_node[1] + 1))
-                temp_frontier_time += (time.time() - temp_frontier_start)
-
-                frontier_store_start = time.time()
-                store_data.append_to_frontier(temp_frontier, "frontier.csv")
-                time_spent_csv += (time.time() - frontier_store_start)
+                    add_page(page, cur_node[8] + 1)
+                add_page_time += (time.time() - add_page_start)
+                store_map()
         except:
             e = sys.exc_info()[0]
             errors.append((num_pages, e))
             print(e)
+            raise e
 
 
 def get_page_analytics_string(pt):
@@ -219,7 +208,7 @@ if __name__ == "__main__":
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    map_wiki(2, url_small)
+    map_wiki(1, url_small)
     end = time.time()
 
     print_errors()
@@ -228,14 +217,13 @@ if __name__ == "__main__":
     print("Time Spent CSV:             {0:.3f} sec".format(time_spent_csv))
     print("Pool Parse Time:            {0:.3f} sec".format(pool_parse_time))
     print("Map Size Time:              {0:.3f} sec".format(map_size_time))
-    print("Temp Frontier Time:         {0:.3f} sec".format(temp_frontier_time))
+    print("Temp Frontier Time:         {0:.3f} sec".format(add_page_time))
     print("Inner Loop Time:            {0:.3f} sec".format(inner_loop_time))
     print("  - Getting Time:             {0:.3f} sec".format(getting_time))
     print("  - In Keys Time:             {0:.3f} sec".format(in_keys_time))
     print("  - Next Title Time:          {0:.3f} sec".format(next_title_time))
     print("  - Datetime Time:            {0:.3f} sec\n".format(datetime_time))
-    timing_total = time_spent_csv + pool_parse_time + map_size_time + \
-        temp_frontier_time + inner_loop_time + initialize_time
+    timing_total = time_spent_csv + pool_parse_time + map_size_time + add_page_time + inner_loop_time + initialize_time
     print("Timing Total:               {0:.3f} sec\n".format(timing_total))
     print("Number of Errors:           {0:d}".format(len(errors)))
     print("Number of Repeats:          {0:d}".format(num_repeats))
