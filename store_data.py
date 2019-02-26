@@ -93,7 +93,11 @@ def get_timing_analytics(file_name):
 
 
 def get_analytics(file_name):
-    analytics = {**get_branching_analytics(file_name), **get_timing_analytics(file_name)}
+    analytics = get_branching_analytics(file_name)
+    timing = get_timing_analytics(file_name)
+    for key in timing.keys():
+        analytics[key] = timing[key]
+    
     analytics["depth_nums"] = get_num_per_depth(file_name)
     return analytics
 
