@@ -35,14 +35,21 @@ def get_file_length(file_name):
 
 
 def get_num_per_depth(file_name):
-    df = read_partial(file_name, ["Page Depth"])
-    num_rows = get_file_length(file_name)
+    num_read = 0
     num_per_depth_dict = {}
-    for i in range(num_rows):
-        element = df["Page Depth"][i]
-        if element not in num_per_depth_dict.keys():
-            num_per_depth_dict[element] = 0
-        num_per_depth_dict[element] += 1
+
+    while True:
+        df = read_partial_section(file_name, ["Page Depth"], 1000, num_read)
+        depths = list(df["Page Depth"])
+
+        if len(depths) == 0:
+            break
+
+        num_read += len(depths)
+        for d in depths:
+            if d not in num_per_depth_dict.keys():
+                num_per_depth_dict[d] = 0
+            num_per_depth_dict[d] += 1
 
     return num_per_depth_dict
 
