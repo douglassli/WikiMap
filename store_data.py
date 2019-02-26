@@ -62,6 +62,29 @@ def get_branching_analytics(file_name):
     return branching_analytics
 
 
+def get_branching_analytics2(file_name):
+    num_read = 0
+    total_branches = 0
+    max_branch = 0
+
+    while True:
+        df = read_partial_section(file_name, ["Out-link Titles"], 1000, num_read)
+        out_links = [ast.literal_eval(i) for i in list(df["Out-link Titles"])]
+
+        if len(out_links) == 0:
+            break
+
+        num_read += len(out_links)
+        for links in out_links:
+            branching_factor = len(links)
+            total_branches += branching_factor
+            if branching_factor > max_branch:
+                max_branch = branching_factor
+
+    branching_analytics = {"avg_branch": total_branches / float(num_read), "max_branch": max_branch}
+    return branching_analytics
+
+
 def get_timing_analytics(file_name):
     df = read_partial(file_name, ["Total Time", "Get Time", "Parse Time", "Analysis Time"])
     num_rows = get_file_length(file_name)
@@ -97,7 +120,7 @@ def get_analytics(file_name):
     timing = get_timing_analytics(file_name)
     for key in timing.keys():
         analytics[key] = timing[key]
-    
+
     analytics["depth_nums"] = get_num_per_depth(file_name)
     return analytics
 
