@@ -28,12 +28,6 @@ def read_partial_section(file_name, cols, num_rows, rows_to_skip):
     return df
 
 
-def get_file_length(file_name):
-    df = read_partial(file_name, ["Page Depth"])
-    num_rows = len(df.index)
-    return num_rows
-
-
 def get_num_per_depth(file_name):
     num_read = 0
     num_per_depth_dict = {}
