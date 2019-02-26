@@ -71,28 +71,36 @@ def get_branching_analytics(file_name):
 
 
 def get_timing_analytics(file_name):
-    df = read_partial(file_name, ["Total Time", "Get Time", "Parse Time", "Analysis Time"])
-    num_rows = get_file_length(file_name)
     total_time = 0
     total_get_time = 0
     total_parse_time = 0
     total_analysis_time = 0
     max_time = 0
-    for i in range(num_rows):
-        page_total_time = df["Total Time"][i]
-        total_time += page_total_time
-        total_get_time += df["Get Time"][i]
-        total_parse_time += df["Parse Time"][i]
-        total_analysis_time += df["Analysis Time"][i]
-        if page_total_time > max_time:
-            max_time = page_total_time
+    num_read = 0
+
+    while True:
+        df = read_partial_section(file_name, ["Total Time", "Get Time", "Parse Time", "Analysis Time"], 1000, num_read)
+        tpls = list(df.itertuples(index=False, name=None))
+
+        if len(tpls) == 0:
+            break
+
+        num_read += len(tpls)
+        for tpl in tpls:
+            page_total_time = tpl[0]
+            total_time += page_total_time
+            total_get_time += tpl[1]
+            total_parse_time += tpl[2]
+            total_analysis_time += tpl[3]
+            if page_total_time > max_time:
+                max_time = page_total_time
 
     time_analytics = {"total_time": total_time,
                       "max_time": max_time,
-                      "avg_time": total_time / num_rows,
-                      "avg_get": total_get_time / num_rows,
-                      "avg_parse": total_parse_time / num_rows,
-                      "avg_analysis": total_analysis_time / num_rows,
+                      "avg_time": total_time / num_read,
+                      "avg_get": total_get_time / num_read,
+                      "avg_parse": total_parse_time / num_read,
+                      "avg_analysis": total_analysis_time / num_read,
                       "percent_get": total_get_time / total_time,
                       "percent_parse": total_parse_time / total_time,
                       "percent_analysis": total_analysis_time / total_time}
