@@ -8,7 +8,7 @@ def get_nodes_attributes(file_name, output_file):
     store_data.initialize_csv(output_file)
 
     while True:
-        df = store_data.read_partial_section(file_name, ["Out-link Titles", "Out-link Titles"], 1000, num_read)
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
 
         if len(tpls) == 0:
@@ -46,4 +46,5 @@ def prepare_edges(file_name, output_file):
 
 
 if __name__ == '__main__':
+    get_nodes_attributes("output.csv", "nodes.csv")
     prepare_edges("output.csv", "edges.csv")
