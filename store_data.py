@@ -151,12 +151,12 @@ def get_analytics_strings(file_name):
     return analytic_format_strings
 
 
-def print_analytics(file_name):
+def get_analytics_string(file_name):
     analytic_strings = get_analytics_strings(file_name)
     out_put_format = "{0[total_expanded]}\n{0[depth_nums]}\n{0[avg_branch]}\n{0[max_branch]}\n\n{0[total_time]}\n" \
                      "{0[max_time]}\n{0[avg_time]}\n{0[avg_get]}\n{0[avg_parse]}\n{0[avg_analysis]}\n\n" \
                      "{0[percent_get]}\n{0[percent_parse]}\n{0[percent_analysis]}"
-    print(out_put_format.format(analytic_strings))
+    return out_put_format.format(analytic_strings)
 
 
 def append_single_page(page, depth, file_name):
