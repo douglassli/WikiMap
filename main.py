@@ -198,6 +198,12 @@ def parse_page(tpl):
     return page
 
 
+def get_global_analytics_string():
+    global wiki_map, num_repeats, num_pages, errors, frontier, \
+        keys, num_read_from_frontier, time_spent_csv, pool_parse_time, \
+        add_page_time, inner_loop_time, getting_time, in_keys_time, next_title_time, datetime_time
+
+
 if __name__ == "__main__":
     # sys.stdout = open("stdout.txt", mode='w')
     store_data.initialize_csv("output.csv")
