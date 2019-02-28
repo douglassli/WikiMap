@@ -221,6 +221,6 @@ if __name__ == "__main__":
     map_wiki(1, url_small)
     end = time.time()
 
-    analytics_string = store_data.get_analytics_string("output.csv")
+    analysis_string = store_data.get_analytics_string("output.csv")
     global_string = get_global_analytics_string(end - start)
-    print(global_string + analytics_string, file=open("analytics.txt", "w"))
+    print(global_string + analysis_string, file=open("analytics.txt", "w"))
