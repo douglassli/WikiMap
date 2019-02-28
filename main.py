@@ -211,10 +211,10 @@ def get_global_analytics_string(true_time):
                                 datetime_time, timing_total, len(errors), num_repeats)
 
 
-def send_termination_email(email, password):
+def send_termination_email(email, password, analytics):
     sender_email = email
     reciever_email = email
-    message = "PROGRAM HAS TERMINATED"
+    message = "PROGRAM HAS TERMINATED\n" + analytics
 
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.ehlo()
@@ -243,7 +243,7 @@ if __name__ == "__main__":
     global_string = get_global_analytics_string(end - start)
     print(global_string + analysis_string, file=open("analytics.txt", "w"))
 
-    send_termination_email(user_email, user_password)
+    send_termination_email(user_email, user_password, global_string + analysis_string)
 
     print("-" * 100)
     print("\nPROCESS COMPLETE\n")
