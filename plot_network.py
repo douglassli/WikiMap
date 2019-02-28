@@ -3,26 +3,22 @@ import ast
 import pandas
 
 
-def get_nodes(file_name):
-    df = store_data.read_partial(file_name, ["Page Title"])
-    titles = list(df["Page Title"])
-
+def get_nodes_attributes(file_name, output_file):
     num_read = 0
+    store_data.initialize_csv(output_file)
 
     while True:
-        df = store_data.read_partial_section(file_name, ["Out-link Titles"], 1000, num_read)
-        out_link_lists = list(df["Out-link Titles"])
+        df = store_data.read_partial_section(file_name, ["Out-link Titles", "Out-link Titles"], 1000, num_read)
+        tpls = list(df.itertuples(index=False, name=None))
 
-        if len(out_link_lists) == 0:
+        if len(tpls) == 0:
             break
 
-        num_read += len(out_link_lists)
+        num_read += len(tpls)
 
-        for link_list in out_link_lists:
-            temp = [i for i in link_list if i not in titles]
-            titles += temp
-
-    return titles
+        titles = [(tp[0], len(ast.literal_eval(tp[1]))) for tp in tpls]
+        df = pandas.DataFrame(titles)
+        df.to_csv(output_file, index=False, mode="a", header=["Node", "Num Out-links"])
 
 
 def prepare_edges(file_name, output_file):
@@ -47,8 +43,6 @@ def prepare_edges(file_name, output_file):
 
         df = pandas.DataFrame(edges)
         df.to_csv(output_file, index=False, mode="a", header=["Source", "Target"])
-
-    return list(edges)
 
 
 if __name__ == '__main__':
