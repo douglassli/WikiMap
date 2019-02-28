@@ -27,7 +27,7 @@ def get_nodes(file_name):
 
 def prepare_edges(file_name, output_file):
     num_read = 0
-    store_data.initialize_csv(file_name)
+    store_data.initialize_csv(output_file)
 
     while True:
         df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
