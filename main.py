@@ -187,10 +187,27 @@ def parse_page(tpl):
     return page
 
 
-def get_global_analytics_string():
-    global wiki_map, num_repeats, num_pages, errors, frontier, \
-        keys, num_read_from_frontier, time_spent_csv, pool_parse_time, \
+def get_global_analytics_string(true_time):
+    global num_repeats, errors, time_spent_csv, pool_parse_time, \
         add_page_time, inner_loop_time, getting_time, in_keys_time, next_title_time, datetime_time
+    format_string = "Analytics\n\n" \
+                    "Total Time Elapsed:         {0:.3f} sec\n\n" \
+                    "Time Spent CSV:             {1:.3f} sec\n" \
+                    "Pool Parse Time:            {2:.3f} sec\n" \
+                    "Add Page Time:              {3:.3f} sec\n" \
+                    "Inner Loop Time:            {4:.3f} sec\n" \
+                    "  - Getting Time:             {5:.3f} sec\n" \
+                    "  - In Keys Time:             {6:.3f} sec\n" \
+                    "  - Next Title Time:          {7:.3f} sec\n" \
+                    "  - Datetime Time:            {8:.3f} sec\n\n" \
+                    "Timing Total:               {9:.3f} sec\n\n" \
+                    "Number of Errors:           {10:d}\n" \
+                    "Number of Repeats:          {11:d}\n" \
+                    + "-" * 100 + "\n"
+    timing_total = time_spent_csv + pool_parse_time + add_page_time + inner_loop_time + initialize_time
+    return format_string.format(true_time, time_spent_csv, pool_parse_time, add_page_time,
+                                inner_loop_time, getting_time, in_keys_time, next_title_time,
+                                datetime_time, timing_total, len(errors), num_repeats)
 
 
 if __name__ == "__main__":
@@ -204,23 +221,6 @@ if __name__ == "__main__":
     map_wiki(1, url_small)
     end = time.time()
 
-    print_errors()
-    print("\n\nAnalytics\n")
-    print("Total Time Elapsed:         {0:.3f} sec\n".format(end - start))
-    print("Time Spent CSV:             {0:.3f} sec".format(time_spent_csv))
-    print("Pool Parse Time:            {0:.3f} sec".format(pool_parse_time))
-    print("Add Page Time:              {0:.3f} sec".format(add_page_time))
-    print("Inner Loop Time:            {0:.3f} sec".format(inner_loop_time))
-    print("  - Getting Time:             {0:.3f} sec".format(getting_time))
-    print("  - In Keys Time:             {0:.3f} sec".format(in_keys_time))
-    print("  - Next Title Time:          {0:.3f} sec".format(next_title_time))
-    print("  - Datetime Time:            {0:.3f} sec\n".format(datetime_time))
-    timing_total = time_spent_csv + pool_parse_time + add_page_time + inner_loop_time + initialize_time
-    print("Timing Total:               {0:.3f} sec\n".format(timing_total))
-    print("Number of Errors:           {0:d}".format(len(errors)))
-    print("Number of Repeats:          {0:d}".format(num_repeats))
-
-    print("-" * 100)
-    sys.stdout.flush()
     analytics_string = store_data.get_analytics_string("output.csv")
-    print(analytics_string, file=open("analytics.txt", "w"))
+    global_string = get_global_analytics_string(end - start)
+    print(global_string + analytics_string, file=open("analytics.txt", "w"))
