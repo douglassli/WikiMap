@@ -91,9 +91,8 @@ def not_in_keys(title):
 
 
 def map_wiki(depth_cutoff, initial_url):
-    global wiki_map, num_repeats, num_pages, errors, frontier, \
-        keys, num_read_from_frontier, time_spent_csv, pool_parse_time, \
-        add_page_time, inner_loop_time, getting_time, in_keys_time, next_title_time, datetime_time
+    global num_repeats, num_pages, errors, frontier, pool_parse_time, add_page_time, \
+        inner_loop_time, getting_time, next_title_time, datetime_time
 
     session = Session()
     initialize_map_search(initial_url, session)
