@@ -226,8 +226,12 @@ def send_termination_email(email, password, analytics):
 
 
 if __name__ == "__main__":
-    user_email = input("Please enter email: ")
-    user_password = getpass.unix_getpass("Please enter password: ")
+    if len(sys.argv) == 3:
+        user_email = sys.argv[1]
+        user_password = sys.argv[2]
+    else:
+        user_email = input("Please enter email: ")
+        user_password = getpass.unix_getpass("Please enter password: ")
 
     # sys.stdout = open("stdout.txt", mode='w')
     store_data.initialize_csv("output.csv")
