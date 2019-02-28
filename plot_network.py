@@ -72,5 +72,5 @@ def prepare_major_edges(file_name, output_file):
 
 
 if __name__ == '__main__':
-    get_major_nodes_attributes("output.csv", "nodes.csv")
-    prepare_all_edges("output.csv", "edges.csv")
+    get_major_nodes_attributes("output.csv", "major_nodes.csv")
+    prepare_major_edges("output.csv", "major_edges.csv")
