@@ -8,6 +8,8 @@ import store_data
 import datetime
 from multiprocessing import Pool
 import ast
+import smtplib
+import ssl
 
 wiki_map = {}
 num_repeats = 0
@@ -207,6 +209,12 @@ def get_global_analytics_string(true_time):
     return format_string.format(true_time, time_spent_csv, pool_parse_time, add_page_time,
                                 inner_loop_time, getting_time, in_keys_time, next_title_time,
                                 datetime_time, timing_total, len(errors), num_repeats)
+
+
+def send_termination_email(password):
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smpt.gmail.com", 465, context=context) as server:
+        server.login("liamadouglass@gmail.com", password=password)
 
 
 if __name__ == "__main__":
