@@ -18,7 +18,6 @@ num_read_from_frontier = 0
 keys = set()
 time_spent_csv = 0.0
 pool_parse_time = 0.0
-map_size_time = 0.0
 add_page_time = 0.0
 inner_loop_time = 0.0
 initialize_time = 0.0
@@ -26,16 +25,6 @@ getting_time = 0.0
 in_keys_time = 0.0
 next_title_time = 0.0
 datetime_time = 0.0
-
-
-def map_size():
-    global wiki_map, map_size_time
-    map_size_start = time.time()
-    length = 0
-    for dkey in wiki_map.keys():
-        length += len(wiki_map[dkey])
-    map_size_time += (time.time() - map_size_start)
-    return length
 
 
 def add_page(new_page, depth):
@@ -220,14 +209,13 @@ if __name__ == "__main__":
     print("Total Time Elapsed:         {0:.3f} sec\n".format(end - start))
     print("Time Spent CSV:             {0:.3f} sec".format(time_spent_csv))
     print("Pool Parse Time:            {0:.3f} sec".format(pool_parse_time))
-    print("Map Size Time:              {0:.3f} sec".format(map_size_time))
     print("Add Page Time:              {0:.3f} sec".format(add_page_time))
     print("Inner Loop Time:            {0:.3f} sec".format(inner_loop_time))
     print("  - Getting Time:             {0:.3f} sec".format(getting_time))
     print("  - In Keys Time:             {0:.3f} sec".format(in_keys_time))
     print("  - Next Title Time:          {0:.3f} sec".format(next_title_time))
     print("  - Datetime Time:            {0:.3f} sec\n".format(datetime_time))
-    timing_total = time_spent_csv + pool_parse_time + map_size_time + add_page_time + inner_loop_time + initialize_time
+    timing_total = time_spent_csv + pool_parse_time + add_page_time + inner_loop_time + initialize_time
     print("Timing Total:               {0:.3f} sec\n".format(timing_total))
     print("Number of Errors:           {0:d}".format(len(errors)))
     print("Number of Repeats:          {0:d}".format(num_repeats))
