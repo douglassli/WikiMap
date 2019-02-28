@@ -223,3 +223,7 @@ if __name__ == "__main__":
     analysis_string = store_data.get_analytics_string("output.csv")
     global_string = get_global_analytics_string(end - start)
     print(global_string + analysis_string, file=open("analytics.txt", "w"))
+
+    print("-" * 100)
+    print("\nPROCESS COMPLETE\n")
+    print("-" * 100)
