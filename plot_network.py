@@ -1,4 +1,4 @@
-import igraph as ig
+#import igraph as ig
 import store_data
 
 
@@ -38,6 +38,7 @@ def get_edges(file_name):
         num_read += len(tpls)
 
         for page in tpls:
+            print(page[0])
             temp_edges = [(page[0], i) for i in page[1]]
             edges += temp_edges
 
@@ -46,5 +47,5 @@ def get_edges(file_name):
 
 if __name__ == '__main__':
     edges = get_edges("output.csv")
-    for e in edges:
-        print(e)
+    for i, e in enumerate(edges):
+        print(i, ": ", e)
