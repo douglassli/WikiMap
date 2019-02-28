@@ -211,10 +211,15 @@ def get_global_analytics_string(true_time):
                                 datetime_time, timing_total, len(errors), num_repeats)
 
 
-def send_termination_email(password):
+def send_termination_email(email, password):
+    sender_email = email
+    reciever_email = email
+    message = "PROGRAM HAS TERMINATED"
+
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smpt.gmail.com", 465, context=context) as server:
-        server.login("liamadouglass@gmail.com", password=password)
+        server.login(email, password=password)
+        server.sendmail(sender_email, reciever_email, message)
 
 
 if __name__ == "__main__":
@@ -232,8 +237,8 @@ if __name__ == "__main__":
     global_string = get_global_analytics_string(end - start)
     print(global_string + analysis_string, file=open("analytics.txt", "w"))
 
-    if len(sys.argv) > 1:
-        send_termination_email(sys.argv[1])
+    if len(sys.argv) == 3:
+        send_termination_email(sys.argv[1], sys.argv[2])
 
     print("-" * 100)
     print("\nPROCESS COMPLETE\n")
