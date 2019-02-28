@@ -228,4 +228,5 @@ if __name__ == "__main__":
 
     print("-" * 100)
     sys.stdout.flush()
-    store_data.print_analytics("output.csv")
+    analytics_string = store_data.get_analytics_string("output.csv")
+    print(analytics_string, file=open("analytics.txt", "w"))
