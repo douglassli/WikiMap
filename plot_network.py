@@ -37,10 +37,8 @@ def get_edges(file_name):
             break
 
         num_read += len(tpls)
-        print(num_read)
 
         for page in tpls:
-            print(page[0])
             temp_edges = [(page[0], i) for i in ast.literal_eval(page[1])]
             edges += temp_edges
 
