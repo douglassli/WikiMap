@@ -1,6 +1,6 @@
-import jgraph as jg
 import store_data
 import ast
+import pandas
 
 
 def get_nodes(file_name):
@@ -44,10 +44,15 @@ def get_edges(file_name):
                 if (temp_title, target) not in edges and (target, temp_title) not in edges:
                     edges.add((temp_title, target))
 
-    return edges
+    return list(edges)
+
+
+def store_edge_data_csv(input_file, output_file):
+    edges = get_edges(input_file)
+    store_data.initialize_csv(output_file)
+    df = pandas.DataFrame(edges)
+    df.to_csv(output_file, index=False, mode="a", header=False)
 
 
 if __name__ == '__main__':
-    edge_set = get_edges("output.csv")
-    for n, e in enumerate(edge_set):
-        print(n, ": ", e)
+    store_edge_data_csv("output.csv", "edges.csv")
