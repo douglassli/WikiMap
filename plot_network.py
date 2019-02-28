@@ -27,7 +27,7 @@ def get_nodes(file_name):
 
 def get_edges(file_name):
     num_read = 0
-    edges = []
+    edges = set()
 
     while True:
         df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
@@ -39,13 +39,15 @@ def get_edges(file_name):
         num_read += len(tpls)
 
         for page in tpls:
-            temp_edges = [(page[0], i) for i in ast.literal_eval(page[1])]
-            edges += temp_edges
+            temp_title = page[0]
+            for target in ast.literal_eval(page[1]):
+                if (temp_title, target) not in edges and (target, temp_title) not in edges:
+                    edges.add((temp_title, target))
 
     return edges
 
 
 if __name__ == '__main__':
-    edges = get_edges("output.csv")
-    for n, e in enumerate(edges):
+    edge_set = get_edges("output.csv")
+    for n, e in enumerate(edge_set):
         print(n, ": ", e)
