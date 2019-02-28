@@ -42,3 +42,9 @@ def get_edges(file_name):
             edges += temp_edges
 
     return edges
+
+
+if __name__ == '__main__':
+    edges = get_edges("output.csv")
+    for e in edges:
+        print(e)
