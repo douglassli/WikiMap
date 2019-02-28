@@ -9,7 +9,7 @@ import datetime
 from multiprocessing import Pool
 import ast
 import smtplib
-import ssl
+import getpass
 
 wiki_map = {}
 num_repeats = 0
@@ -226,6 +226,8 @@ def send_termination_email(email, password):
 
 
 if __name__ == "__main__":
+    user_email = input("Please enter email: ")
+    user_password = getpass.unix_getpass("Please enter password: ")
     # sys.stdout = open("stdout.txt", mode='w')
     store_data.initialize_csv("output.csv")
 
@@ -241,7 +243,7 @@ if __name__ == "__main__":
     print(global_string + analysis_string, file=open("analytics.txt", "w"))
 
     if len(sys.argv) == 3:
-        send_termination_email(sys.argv[1], sys.argv[2])
+        send_termination_email(user_email, user_password)
 
     print("-" * 100)
     print("\nPROCESS COMPLETE\n")
