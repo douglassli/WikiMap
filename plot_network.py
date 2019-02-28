@@ -64,7 +64,7 @@ def prepare_major_edges(file_name, output_file):
         for page in tpls:
             temp_title = page[0]
             for target in ast.literal_eval(page[1]):
-                if temp_title in major_nodes and target in major_nodes:
+                if temp_title in major_nodes and target in major_nodes and temp_title != target:
                     edges.append((temp_title, target))
 
         df = pandas.DataFrame(edges)
