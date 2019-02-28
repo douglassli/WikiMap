@@ -22,3 +22,23 @@ def get_nodes(file_name):
             titles += temp
 
     return titles
+
+
+def get_edges(file_name):
+    num_read = 0
+    edges = []
+
+    while True:
+        df = store_data.read_partial(file_name, ["Page Title", "Out-link Titles"])
+        tpls = list(df.itertuples(index=False, name=None))
+
+        if len(tpls) == 0:
+            break
+
+        num_read += len(tpls)
+
+        for page in tpls:
+            temp_edges = [(page[0], i) for i in page[1]]
+            edges += temp_edges
+
+    return edges
