@@ -7,6 +7,8 @@ def get_major_nodes_attributes(file_name, output_file):
     num_read = 0
     store_data.initialize_csv(output_file)
 
+    nodes = []
+
     while True:
         df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
@@ -16,9 +18,11 @@ def get_major_nodes_attributes(file_name, output_file):
 
         num_read += len(tpls)
 
-        titles = [(tp[0], len(ast.literal_eval(tp[1]))) for tp in tpls]
+        titles = [(tp[0], len(ast.literal_eval(tp[1]))) for tp in tpls if len(ast.literal_eval(tp[1])) > 300]
+        nodes += [tp[0] for tp in titles]
         df = pandas.DataFrame(titles)
         df.to_csv(output_file, index=False, mode="a", header=["Node", "Num Out-links"])
+    return nodes
 
 
 def prepare_all_edges(file_name, output_file):
@@ -48,7 +52,7 @@ def prepare_all_edges(file_name, output_file):
 def prepare_major_edges(file_name, output_file):
     num_read = 0
     store_data.initialize_csv(output_file)
-    major_nodes = set(store_data.read_partial(file_name, ["Page Title"])["Page Title"])
+    major_nodes = set(get_major_nodes_attributes(file_name, "major_nodes.csv"))
 
     while True:
         df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
@@ -72,5 +76,4 @@ def prepare_major_edges(file_name, output_file):
 
 
 if __name__ == '__main__':
-    get_major_nodes_attributes("output.csv", "major_nodes.csv")
     prepare_major_edges("output.csv", "major_edges.csv")
