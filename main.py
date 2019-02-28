@@ -66,7 +66,7 @@ def read_frontier():
 
 
 def initialize_map_search(initial_url, session):
-    global frontier, initialize_time
+    global initialize_time
     initialize_start = time.time()
 
     initial_title = initial_url.replace("https://en.wikipedia.org/wiki/", "").replace("_", " ")
