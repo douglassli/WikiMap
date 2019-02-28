@@ -51,7 +51,7 @@ def store_edge_data_csv(input_file, output_file):
     edges = get_edges(input_file)
     store_data.initialize_csv(output_file)
     df = pandas.DataFrame(edges)
-    df.to_csv(output_file, index=False, mode="a", header=False)
+    df.to_csv(output_file, index=False, mode="a", header=["Source", "Target"])
 
 
 if __name__ == '__main__':
