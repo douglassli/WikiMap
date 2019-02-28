@@ -1,5 +1,6 @@
 #import igraph as ig
 import store_data
+import ast
 
 
 def get_nodes(file_name):
@@ -29,17 +30,18 @@ def get_edges(file_name):
     edges = []
 
     while True:
-        df = store_data.read_partial(file_name, ["Page Title", "Out-link Titles"])
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
 
         if len(tpls) == 0:
             break
 
         num_read += len(tpls)
+        print(num_read)
 
         for page in tpls:
             print(page[0])
-            temp_edges = [(page[0], i) for i in page[1]]
+            temp_edges = [(page[0], i) for i in ast.literal_eval(page[1])]
             edges += temp_edges
 
     return edges
@@ -47,5 +49,5 @@ def get_edges(file_name):
 
 if __name__ == '__main__':
     edges = get_edges("output.csv")
-    for i, e in enumerate(edges):
-        print(i, ": ", e)
+    for n, e in enumerate(edges):
+        print(n, ": ", e)
