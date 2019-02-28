@@ -216,10 +216,13 @@ def send_termination_email(email, password):
     reciever_email = email
     message = "PROGRAM HAS TERMINATED"
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smpt.gmail.com", 465, context=context) as server:
-        server.login(email, password=password)
-        server.sendmail(sender_email, reciever_email, message)
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login(email, password)
+    server.sendmail(sender_email, reciever_email, message)
+    server.quit()
 
 
 if __name__ == "__main__":
