@@ -1,4 +1,4 @@
-#import igraph as ig
+import jgraph as jg
 import store_data
 import ast
 
