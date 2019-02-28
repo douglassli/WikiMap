@@ -232,6 +232,9 @@ if __name__ == "__main__":
     global_string = get_global_analytics_string(end - start)
     print(global_string + analysis_string, file=open("analytics.txt", "w"))
 
+    if len(sys.argv) > 1:
+        send_termination_email(sys.argv[1])
+
     print("-" * 100)
     print("\nPROCESS COMPLETE\n")
     print("-" * 100)
