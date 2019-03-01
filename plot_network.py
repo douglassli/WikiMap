@@ -49,6 +49,25 @@ def pajek_prepare_edges(file_name, node_dict):
     return edges
 
 
+def pajek_prepare_file(input_file, output_file):
+    nodes = pajek_prepare_node_dict(input_file)
+    edges = pajek_prepare_edges(input_file, nodes)
+
+    net_file = open(output_file, "w")
+
+    print("*Vertices ", len(nodes.keys()), file=net_file)
+
+    for node_key in nodes.keys():
+        print(nodes[node_key], " ", node_key, file=net_file)
+
+    print("*Edges", file=net_file)
+
+    for edge in edges:
+        print(edge[0], " ", edge[1], file=net_file)
+
+    net_file.close()
+
+
 def get_major_nodes_attributes(file_name, output_file):
     num_read = 0
     store_data.initialize_csv(output_file)
