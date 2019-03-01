@@ -29,8 +29,9 @@ next_title_time = 0.0
 datetime_time = 0.0
 
 
-def add_page(new_page, depth):
+def add_page(new_page):
     global num_pages, wiki_map, keys
+    depth = new_page[8]
     if depth not in wiki_map:
         wiki_map[depth] = {}
     if new_page[0] not in wiki_map[depth]:
@@ -76,10 +77,10 @@ def initialize_map_search(initial_url, session):
     get_start = time.time()
     raw_html = session.get(initial_url).content
     get_time = time.time() - get_start
-    t = (raw_html, initial_url, initial_title, get_time, time_of_get)
+    t = (raw_html, initial_url, initial_title, get_time, time_of_get, 0)
     initial_page = parse_page(t)
 
-    add_page(initial_page, 0)
+    add_page(initial_page)
     initialize_time = (time.time() - initialize_start)
     store_map()
 
@@ -128,7 +129,7 @@ def map_wiki(depth_cutoff, initial_url):
                         get_time = time.time() - get_start
                         getting_time += get_time
 
-                        t = (raw_html, next_url, next_title, get_time, time_of_get)
+                        t = (raw_html, next_url, next_title, get_time, time_of_get, cur_node[8] + 1)
                         page_tuple_list.append(t)
                     else:
                         num_repeats += 1
@@ -141,7 +142,7 @@ def map_wiki(depth_cutoff, initial_url):
 
                 add_page_start = time.time()
                 for page in page_list:
-                    add_page(page, cur_node[8] + 1)
+                    add_page(page)
                 add_page_time += (time.time() - add_page_start)
         except:
             e = sys.exc_info()[0]
@@ -152,11 +153,11 @@ def map_wiki(depth_cutoff, initial_url):
 def get_page_analytics_string(pt):
     analytics_format_string = "Num Out-links: {0:4d} | Time: {6} | Total Time: {1:6.4f} | Get Time: {2:6.4f} | " \
                               "Parse Time: {3:6.4f} | Analysis Time: {4:6.4f} | Page Title: {5}"
-    return analytics_format_string.format(len(pt[2]), pt[4], pt[5], pt[6], pt[7], pt[0], pt[8][11:21])
+    return analytics_format_string.format(len(pt[2]), pt[4], pt[5], pt[6], pt[7], pt[0], pt[9][11:21])
 
 
 def parse_page(tpl):
-    raw_html, search_url, title, get_time, time_of_get = tpl
+    raw_html, search_url, title, get_time, time_of_get, depth = tpl
 
     parse_start = time.time()
     root = html.fromstring(raw_html)
@@ -182,7 +183,8 @@ def parse_page(tpl):
     analysis_time = time.time() - analysis_start
     total_time = get_time + parse_time + analysis_time
 
-    page = (title, search_url, out_titles, out_links, total_time, get_time, parse_time, analysis_time, time_of_get)
+    page = (title, search_url, out_titles, out_links, total_time,
+            get_time, parse_time, analysis_time, depth, time_of_get)
 
     return page
 
