@@ -18,7 +18,6 @@ def pajek_prepare_node_dict(file_name):
         num_read += len(tpls)
 
         for tp in tpls:
-            print(index)
             if tp[0] not in nodes:
                 nodes[tp[0]] = index
                 index += 1
