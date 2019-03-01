@@ -28,6 +28,23 @@ def pajek_prepare_node_dict(file_name):
     return nodes
 
 
+def pajek_prepare_edges(file_name, node_dict):
+    num_read = 0
+    edges = []
+
+    while True:
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
+        tpls = list(df.itertuples(index=False, name=None))
+
+        if len(tpls) == 0:
+            break
+
+        for tp in tpls:
+            edges += [(node_dict[tp[0]], node_dict[link]) for i in ast.literal_eval(tp[1])]
+
+    return edges
+
+
 def get_major_nodes_attributes(file_name, output_file):
     num_read = 0
     store_data.initialize_csv(output_file)
