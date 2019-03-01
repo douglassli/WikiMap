@@ -40,7 +40,7 @@ def pajek_prepare_edges(file_name, node_dict):
             break
 
         for tp in tpls:
-            edges += [(node_dict[tp[0]], node_dict[link]) for i in ast.literal_eval(tp[1])]
+            edges += [(node_dict[tp[0]], node_dict[link]) for link in ast.literal_eval(tp[1])]
 
     return edges
 
