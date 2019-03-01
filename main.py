@@ -140,6 +140,9 @@ def map_wiki(depth_cutoff, initial_url):
                 for page in page_list:
                     add_page(page)
                 add_page_time += (time.time() - add_page_start)
+
+                if len(wiki_map) > 10000:
+                    store_map()
         except:
             e = sys.exc_info()[0]
             errors.append((num_pages, e))
