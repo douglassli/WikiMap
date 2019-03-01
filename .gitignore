@@ -3,3 +3,6 @@
 
 # Ignore redirected stdout txt files
 *.txt
+
+# Ignore pajek .net files
+*.net
