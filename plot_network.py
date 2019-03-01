@@ -3,6 +3,25 @@ import ast
 import pandas
 
 
+def pajek_prepare_node_dict(file_name):
+    num_read = 0
+    nodes = {}
+    index = 1
+
+    while True:
+        df = store_data.read_partial_section(file_name, ["Page Title"], 1000, num_read)
+        titles = list(df["Page Title"])
+
+        if len(titles) == 0:
+            break
+
+        for title in titles:
+            nodes[title] = index
+            index += 1
+
+    return nodes
+
+
 def get_major_nodes_attributes(file_name, output_file):
     num_read = 0
     store_data.initialize_csv(output_file)
