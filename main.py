@@ -141,7 +141,7 @@ def map_wiki(depth_cutoff, initial_url):
                     add_page(page)
                 add_page_time += (time.time() - add_page_start)
 
-                if len(wiki_map) > 10000:
+                if len(wiki_map) > 50000:
                     store_map()
         except:
             e = sys.exc_info()[0]
@@ -240,7 +240,7 @@ if __name__ == "__main__":
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    map_wiki(1, url_small)
+    map_wiki(1, url_med)
     end = time.time()
 
     analysis_string = store_data.get_analytics_string("output.csv")
