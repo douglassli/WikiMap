@@ -11,7 +11,7 @@ import ast
 import smtplib
 import getpass
 
-wiki_map = {}
+wiki_map = []
 num_repeats = 0
 num_pages = 0
 errors = []
@@ -31,15 +31,20 @@ datetime_time = 0.0
 
 def add_page(new_page):
     global num_pages, wiki_map, keys
-    depth = new_page[8]
-    if depth not in wiki_map:
-        wiki_map[depth] = {}
-    if new_page[0] not in wiki_map[depth]:
-        keys.add(new_page[0])
-        wiki_map[depth][new_page[0]] = new_page
-        num_pages += 1
-        analytics_string = "Page Number: {0:7d} | {1}"
-        print(analytics_string.format(num_pages, get_page_analytics_string(new_page)))
+    # depth = new_page[8]
+    # if depth not in wiki_map:
+    #     wiki_map[depth] = {}
+    # if new_page[0] not in wiki_map[depth]:
+    #     keys.add(new_page[0])
+    #     wiki_map[depth][new_page[0]] = new_page
+    #     num_pages += 1
+    #     analytics_string = "Page Number: {0:7d} | {1}"
+    #     print(analytics_string.format(num_pages, get_page_analytics_string(new_page)))
+    keys.add(new_page[0])
+    wiki_map.append(new_page)
+    num_pages += 1
+    analytics_string = "Page Number: {0:7d} | {1}"
+    print(analytics_string.format(num_pages, get_page_analytics_string(new_page)))
 
 
 def print_errors():
@@ -53,7 +58,7 @@ def store_map():
     global wiki_map, time_spent_csv
     store_map_start = time.time()
     store_data.append_map_to_csv(wiki_map, "output.csv")
-    wiki_map = {}
+    wiki_map = []
     time_spent_csv += (time.time() - store_map_start)
 
 
