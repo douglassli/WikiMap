@@ -31,15 +31,6 @@ datetime_time = 0.0
 
 def add_page(new_page):
     global num_pages, wiki_map, keys
-    # depth = new_page[8]
-    # if depth not in wiki_map:
-    #     wiki_map[depth] = {}
-    # if new_page[0] not in wiki_map[depth]:
-    #     keys.add(new_page[0])
-    #     wiki_map[depth][new_page[0]] = new_page
-    #     num_pages += 1
-    #     analytics_string = "Page Number: {0:7d} | {1}"
-    #     print(analytics_string.format(num_pages, get_page_analytics_string(new_page)))
     keys.add(new_page[0])
     wiki_map.append(new_page)
     num_pages += 1
