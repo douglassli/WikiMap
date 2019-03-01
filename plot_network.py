@@ -141,10 +141,4 @@ def prepare_major_edges(file_name, output_file):
 
 
 if __name__ == '__main__':
-    node_dict = pajek_prepare_node_dict("output.csv")
-    edges = pajek_prepare_edges("output.csv", node_dict)
-    for item in node_dict.items():
-        print(item)
-
-    for e in edges:
-        print(e)
+    pajek_prepare_file("output.csv", "pajek_output.net")
