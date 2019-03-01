@@ -9,15 +9,21 @@ def pajek_prepare_node_dict(file_name):
     index = 1
 
     while True:
-        df = store_data.read_partial_section(file_name, ["Page Title"], 1000, num_read)
-        titles = list(df["Page Title"])
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
+        tpls = list(df.itertuples(index=False, name=None))
 
-        if len(titles) == 0:
+        if len(tpls) == 0:
             break
 
-        for title in titles:
-            nodes[title] = index
-            index += 1
+        for tp in tpls:
+            if tp[0] not in nodes:
+                nodes[tp[0]] = index
+                index += 1
+
+            for link_title in ast.literal_eval(tp[1]):
+                if link_title not in nodes:
+                    nodes[link_title] = index
+                    index += 1
 
     return nodes
 
