@@ -101,6 +101,7 @@ def map_wiki(depth_cutoff, initial_url):
 
     while True:
         if len(frontier) == 0:
+            store_map()
             read_frontier()
             if len(frontier) == 0:
                 store_map()
@@ -142,8 +143,6 @@ def map_wiki(depth_cutoff, initial_url):
                 for page in page_list:
                     add_page(page, cur_node[8] + 1)
                 add_page_time += (time.time() - add_page_start)
-
-                store_map()
         except:
             e = sys.exc_info()[0]
             errors.append((num_pages, e))
