@@ -15,7 +15,10 @@ def pajek_prepare_node_dict(file_name):
         if len(tpls) == 0:
             break
 
+        num_read += len(tpls)
+
         for tp in tpls:
+            print(index)
             if tp[0] not in nodes:
                 nodes[tp[0]] = index
                 index += 1
@@ -38,6 +41,8 @@ def pajek_prepare_edges(file_name, node_dict):
 
         if len(tpls) == 0:
             break
+
+        num_read += len(tpls)
 
         for tp in tpls:
             edges += [(node_dict[tp[0]], node_dict[link]) for link in ast.literal_eval(tp[1])]
@@ -118,4 +123,10 @@ def prepare_major_edges(file_name, output_file):
 
 
 if __name__ == '__main__':
-    prepare_major_edges("output.csv", "major_edges.csv")
+    node_dict = pajek_prepare_node_dict("output.csv")
+    edges = pajek_prepare_edges("output.csv", node_dict)
+    for item in node_dict.items():
+        print(item)
+
+    for e in edges:
+        print(e)
