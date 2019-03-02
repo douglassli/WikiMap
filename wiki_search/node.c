@@ -38,7 +38,7 @@ void free_node(node* xs) {
 
 void print_node(node* xs) {
 	printf("Node value: %ld\nEdges: ", xs->node);
-	for (int i = 0; i < xs->size; ++i) {
+	for (long i = 0; i < xs->size; ++i) {
 		printf("%ld ", xs->data[i]);
 	}
 	printf("\n");
