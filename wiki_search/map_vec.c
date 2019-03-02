@@ -21,7 +21,7 @@ map_vec* make_map() {
 }
 
 void free_map(map_vec* map) {
-	for (int i = 0; i < map->size; ++i) {
+	for (long i = 0; i < map->size; ++i) {
 		free_node(map->nodes[i]);
 	}
 	free(map->nodes);
@@ -36,4 +36,10 @@ void push_map(map_vec* map, node* node) {
 
 	map->nodes[map->size] = node;
 	map->size += 1;
+}
+
+void print_map(map_vec* map) {
+	for (long i = 0; i < map->size; ++i) {
+		print_node(map->nodes[i]);
+	}
 }
