@@ -6,3 +6,6 @@
 
 # Ignore pajek .net files
 *.net
+
+# Ignore .png files
+*.png
