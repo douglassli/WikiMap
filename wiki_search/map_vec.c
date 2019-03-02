@@ -25,5 +25,15 @@ void free_map(map_vec* map) {
 		free_node(map->nodes[i]);
 	}
 	free(map->nodes);
-	free(map)
+	free(map);
+}
+
+void push_map(map_vec* map, node* node) {
+	if (map->size >= map->cap) {
+		map->cap *= 2;
+		map->nodes = realloc(map->nodes, map->cap * sizeof(node));
+	}
+
+	map->nodes[map->size] = node;
+	map->size += 1;
 }
