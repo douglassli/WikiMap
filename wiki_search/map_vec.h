@@ -12,5 +12,6 @@ typedef struct map_vec {
 map_vec* make_map();
 void free_map(map_vec* map);
 void push_map(map_vec* map, node* node);
+void print_map(map_vec* map);
 
 #endif
