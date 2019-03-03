@@ -27,3 +27,30 @@ def prep_node_dict(file_name):
                     index += 1
 
     return nodes
+
+
+def prep_search_file(file_name):
+    node_dict = prep_node_dict(file_name)
+    num_read = 0
+    search_file = open("search_file.txt", "w")
+
+    while True:
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
+        tpls = list(df.itertuples(index=False, name=None))
+
+        if len(tpls) == 0:
+            break
+
+        num_read += len(tpls)
+
+        for tp in tpls:
+            search_file.write(str(node_dict[tp[0]]) + " ")
+
+            for link_title in ast.literal_eval(tp[1]):
+                search_file.write(str(node_dict[link_title]) + " ")
+
+            search_file.write("\n")
+
+        search_file.write("*END")
+
+    search_file.close()
