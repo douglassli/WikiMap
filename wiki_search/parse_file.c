@@ -5,3 +5,8 @@
 #include "node.h"
 
 
+map_vec* parse_map_file(char* file) {
+	
+}
+
+
