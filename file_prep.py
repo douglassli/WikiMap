@@ -54,3 +54,7 @@ def prep_search_file(file_name):
         search_file.write("*END")
 
     search_file.close()
+
+
+if __name__ == '__main__':
+    prep_search_file("/Data\ Sets/small1_output.csv")
