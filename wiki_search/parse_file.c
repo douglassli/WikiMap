@@ -6,7 +6,7 @@
 
 
 map_vec* parse_map_file(char* file) {
-    int fp = open(file, O_RDONLY);
+    FILE* fp = fopen(file, "r");
     char *line = NULL;
     size_t linecap = 0;
     ssize_t linelen;
@@ -17,7 +17,7 @@ map_vec* parse_map_file(char* file) {
         }
         fwrite(line, linelen, 1, stdout);
     }
-    return make_map();
+    return 0;
 }
 
 
