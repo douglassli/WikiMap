@@ -2,10 +2,10 @@
 #define NODE_H
 
 typedef struct node {
-	long node;
-	long size;
-	long cap;
-	long* data;
+    long node;
+    long size;
+    long cap;
+    long* data;
 } node;
 
 node* make_node(long node_val);
