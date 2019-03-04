@@ -243,13 +243,11 @@ if __name__ == "__main__":
     map_wiki(1, url_small)
     end = time.time()
 
-    # analysis_string = store_data.get_analytics_string("output.csv")
+    analysis_string = store_data.get_analytics_string("output.csv")
     global_string = get_global_analytics_string(end - start)
-    # print(global_string + analysis_string, file=open("analytics.txt", "w"))
-    print(global_string, file=open("analytics.txt", "w"))
+    print(global_string + analysis_string, file=open("analytics.txt", "w"))
 
-    # send_termination_email(user_email, user_password, global_string + analysis_string)
-    send_termination_email(user_email, user_password, global_string)
+    send_termination_email(user_email, user_password, global_string + analysis_string)
 
     print("-" * 100)
     print("\nPROCESS COMPLETE\n")
