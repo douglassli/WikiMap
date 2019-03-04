@@ -6,11 +6,12 @@
 
 
 map_vec* parse_map_file(char* file) {
+    int fp = open(file, O_RDONLY);
     char *line = NULL;
     size_t linecap = 0;
     ssize_t linelen;
     while (1) {
-        linelen = getline(&line, &linecap, file);
+        linelen = getline(&line, &linecap, fp);
         if (line[0] == '*') {
             break;
         }
