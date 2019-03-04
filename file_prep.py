@@ -51,7 +51,7 @@ def prep_search_file(file_name):
 
             search_file.write("\n")
 
-        search_file.write("*END")
+    search_file.write("*END")
 
     search_file.close()
 
