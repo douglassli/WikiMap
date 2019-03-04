@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "map_vec.h"
 #include "node.h"
@@ -12,9 +13,16 @@ map_vec* parse_map_file(char* file) {
     ssize_t linelen;
     while (1) {
         linelen = getline(&line, &linecap, fp);
-        fwrite(line, linelen, 1, stdout);
         if (line[0] == '*') {
             break;
+        }
+
+        char* nums;
+        nums = strtok(line, " ");
+        
+        while(nums != NULL) {
+            printf("%s\n", nums);
+            nums = strtok(NULL, " ");
         }
     }
     return 0;
