@@ -12,10 +12,10 @@ map_vec* parse_map_file(char* file) {
     ssize_t linelen;
     while (1) {
         linelen = getline(&line, &linecap, fp);
+        fwrite(line, linelen, 1, stdout);
         if (line[0] == '*') {
             break;
         }
-        fwrite(line, linelen, 1, stdout);
     }
     return 0;
 }
