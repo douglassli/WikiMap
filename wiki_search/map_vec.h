@@ -4,9 +4,9 @@
 #define MAP_VEC_H
 
 typedef struct map_vec {
-	node* nodes;
-	long size;
-	long cap;
+    node* nodes;
+    long size;
+    long cap;
 } map_vec;
 
 map_vec* make_map();
