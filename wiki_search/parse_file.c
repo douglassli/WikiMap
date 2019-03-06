@@ -13,7 +13,10 @@ node* parse_line(char* line) {
     node* node = make_node(atol(nums));
     nums = strtok(NULL, " ");
 
-    while(nums != NULL || nums[0] == '\n') {
+    while(nums != NULL) {
+        if (nums[0] == '\n') {
+            break;
+        }
         long val = atol(nums);
         push_node(node, val);
         nums = strtok(NULL, " ");
