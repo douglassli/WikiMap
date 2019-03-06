@@ -9,7 +9,7 @@ typedef struct node {
 } node;
 
 node* make_node(long node_val);
-void node_push(node* xs, long succ);
+void push_node(node* xs, long succ);
 void free_node(node* xs);
 void print_node(node* xs);
 
