@@ -15,8 +15,8 @@
 map_vec* make_map() {
     map_vec* map = malloc(sizeof(map_vec));
     map->nodes = malloc(2 * sizeof(node));
-    xs->size = 0;
-    xs->cap = 2;
+    map->size = 0;
+    map->cap = 2;
     return map;
 }
 
