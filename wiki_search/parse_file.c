@@ -7,14 +7,14 @@
 
 
 node* parse_line(char* line) {
-    nums = strtok(line, " ");
+    char* nums = strtok(line, " ");
 
     node* node = make_node(atol(nums));
     nums = strtok(NULL, " ");
 
     while(nums != NULL) {
         long val = atol(nums);
-        push_node(node, val);
+        node_push(node, val);
         nums = strtok(NULL, " ");
     }
 
