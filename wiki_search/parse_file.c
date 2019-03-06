@@ -6,6 +6,22 @@
 #include "node.h"
 
 
+node* parse_line(char* line) {
+    nums = strtok(line, " ");
+
+    node* node = make_node(atol(nums));
+    nums = strtok(NULL, " ");
+
+    while(nums != NULL) {
+        long val = atol(nums);
+        push_node(node, val);
+        nums = strtok(NULL, " ");
+    }
+
+    return node;
+}
+
+
 map_vec* parse_map_file(char* file) {
     FILE* fp = fopen(file, "r");
     char *line = NULL;
