@@ -11,6 +11,9 @@ map_vec* parse_map_file(char* file) {
     char *line = NULL;
     size_t linecap = 0;
     ssize_t linelen;
+
+    map_vec* map = make_map();
+
     while (1) {
         linelen = getline(&line, &linecap, fp);
         if (line[0] == '*') {
@@ -31,9 +34,11 @@ map_vec* parse_map_file(char* file) {
             else {
                 push_node(node, val);
             }
-            printf("%s\n", nums);
+            counter++;
             nums = strtok(NULL, " ");
         }
+
+        push_map(map, node);
     }
     return 0;
 }
