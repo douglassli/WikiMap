@@ -36,23 +36,7 @@ map_vec* parse_map_file(char* file) {
             break;
         }
 
-        char* nums;
-        nums = strtok(line, " ");
-        
-        long counter = 0;
-        node* node;
-
-        while(nums != NULL) {
-            long val = atol(nums);
-            if (counter == 0) {
-                node = make_node(val);
-            }
-            else {
-                push_node(node, val);
-            }
-            counter++;
-            nums = strtok(NULL, " ");
-        }
+        node* node = parse_line(line);
 
         push_map(map, node);
     }
@@ -63,6 +47,7 @@ map_vec* parse_map_file(char* file) {
 int main() {
     char* file = "map.txt";
     map_vec* map = parse_map_file(file);
+    print_map(map);
     return 0;
 }
 
