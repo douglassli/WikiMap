@@ -40,7 +40,6 @@ void push_map(map_vec* map, node* nd) {
 
 void print_map(map_vec* map) {
     for (long i = 0; i < map->size; ++i) {
-        printf("MAP INDEX: %ld\n", i);
         print_node(&map->nodes[i]);
     }
 }
