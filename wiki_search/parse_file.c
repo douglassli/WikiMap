@@ -14,7 +14,7 @@ node* parse_line(char* line) {
 
     while(nums != NULL) {
         long val = atol(nums);
-        node_push(node, val);
+        push_node(node, val);
         nums = strtok(NULL, " ");
     }
 
