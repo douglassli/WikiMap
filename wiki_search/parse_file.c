@@ -9,8 +9,10 @@
 node* parse_line(char* line) {
     char* nums;
     nums = strtok(line, " ");
-
-    node* node = make_node(atol(nums));
+    
+    long node_val = atol(nums);
+    printf("Node: %ld\n", node_val);
+    node* node = make_node(node_val);
     nums = strtok(NULL, " ");
 
     while(nums != NULL) {
