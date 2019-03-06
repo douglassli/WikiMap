@@ -40,13 +40,13 @@ map_vec* parse_map_file(char* file) {
 
         push_map(map, node);
     }
-    return 0;
+    return map;
 }
 
 
 int main() {
     char* file = "map.txt";
-    parse_map_file(file);
+    map_vec* map = parse_map_file(file);
     return 0;
 }
 
