@@ -33,7 +33,7 @@ map_vec* parse_map_file(char* file) {
 
     while (1) {
         linelen = getline(&line, &linecap, fp);
-        if (line[0] == '*') {
+        if (line[0] == '*' || linelen <= 0) {
             break;
         }
 
