@@ -28,18 +28,19 @@ void free_map(map_vec* map) {
     free(map);
 }
 
-void push_map(map_vec* map, node* node) {
+void push_map(map_vec* map, node* nd) {
     if (map->size >= map->cap) {
         map->cap *= 2;
         map->nodes = realloc(map->nodes, map->cap * sizeof(node));
     }
 
-    map->nodes[map->size] = *node;
+    map->nodes[map->size] = *nd;
     map->size += 1;
 }
 
 void print_map(map_vec* map) {
     for (long i = 0; i < map->size; ++i) {
+        printf("MAP INDEX: %ld\n", i);
         print_node(&map->nodes[i]);
     }
 }
