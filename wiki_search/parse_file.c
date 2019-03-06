@@ -7,7 +7,8 @@
 
 
 node* parse_line(char* line) {
-    char* nums = strtok(line, " ");
+    char* nums;
+    nums = strtok(line, " ");
 
     node* node = make_node(atol(nums));
     nums = strtok(NULL, " ");
