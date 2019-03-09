@@ -57,4 +57,4 @@ def prep_search_file(file_name):
 
 
 if __name__ == '__main__':
-    prep_search_file("Data Sets/medium2_output.csv")
+    prep_search_file("Data Sets/medium1_output.csv")
