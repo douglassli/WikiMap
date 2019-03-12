@@ -17,7 +17,7 @@ def get_keys(file_name):
         num_read += len(titles)
 
         for title in titles:
-            keys_set += title
+            keys_set.add(title)
 
     return keys_set
 
