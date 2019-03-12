@@ -3,6 +3,25 @@ import store_data
 import ast
 
 
+def get_keys(file_name):
+    num_read = 0
+    keys_set = set()
+
+    while True:
+        df = store_data.read_partial_section(file_name, ["Page Title"], 1000, num_read)
+        titles = list(df["Page Title"])
+
+        if len(titles) == 0:
+            break
+
+        num_read += len(titles)
+
+        for title in titles:
+            keys_set += title
+
+    return keys_set
+
+
 def find_max_depth(file_name):
     num_read = 0
     max_depth = 0
