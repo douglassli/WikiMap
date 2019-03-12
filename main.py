@@ -10,6 +10,7 @@ from multiprocessing import Pool
 import ast
 import smtplib
 import getpass
+import resume_scrape
 
 wiki_map = []
 num_repeats = 0
@@ -89,14 +90,23 @@ def not_in_keys(title):
     return output
 
 
-def map_wiki(depth_cutoff, initial_url):
+def start_map(depth_cutoff, initial_url):
+    session = Session()
+    initialize_map_search(initial_url, session)
+    map_wiki(depth_cutoff)
+
+
+def resume_map(depth_cutoff):
+    map_wiki(depth_cutoff)
+
+
+def map_wiki(depth_cutoff):
     global num_repeats, num_pages, errors, frontier, pool_parse_time, add_page_time, \
         inner_loop_time, getting_time, next_title_time, datetime_time
 
-    session = Session()
-    initialize_map_search(initial_url, session)
-
     while True:
+        session = Session()
+
         if len(frontier) == 0:
             store_map()
             read_frontier()
