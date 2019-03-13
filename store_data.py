@@ -27,7 +27,7 @@ def get_num_per_depth(file_name):
     num_per_depth_dict = {}
 
     while True:
-        df = read_partial_section(file_name, ["Page Depth"], 1000, num_read)
+        df = read_partial_section(file_name, ["Page Depth"], 1000000, num_read)
         depths = list(df["Page Depth"])
 
         if len(depths) == 0:
@@ -48,7 +48,7 @@ def get_branching_analytics(file_name):
     max_branch = 0
 
     while True:
-        df = read_partial_section(file_name, ["Out-link Titles"], 1000, num_read)
+        df = read_partial_section(file_name, ["Out-link Titles"], 10000, num_read)
         out_links = [ast.literal_eval(i) for i in list(df["Out-link Titles"])]
 
         if len(out_links) == 0:
@@ -74,7 +74,7 @@ def get_timing_analytics(file_name):
     num_read = 0
 
     while True:
-        df = read_partial_section(file_name, ["Total Time", "Get Time", "Parse Time", "Analysis Time"], 1000, num_read)
+        df = read_partial_section(file_name, ["Total Time", "Get Time", "Parse Time", "Analysis Time"], 1000000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
 
         if len(tpls) == 0:
