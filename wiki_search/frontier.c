@@ -20,7 +20,7 @@ frontier* make_frontier() {
 }
 
 void push_frontier(frontier* fr, long val) {
-    if(fr->size >= fr->cap) {
+    if (fr->size >= fr->cap) {
         fr->cap *= 2;
         fr->vals = realloc(fr->vals, fr->cap * sizeof(long));
     } 
@@ -32,4 +32,20 @@ void push_frontier(frontier* fr, long val) {
 void free_frontier(frontier* fr) {
     free(fr->vals);
     free(fr);
-}   
+}
+
+long pop_last_frontier(frontier* fr) {
+    if (fr->size <= 0) {
+        return -1;
+    }
+
+    long return_val = fr->vals[fr->size];
+    fr->size -= 1;
+
+    if (fr->size < fr->cap / 2) {
+        fr->cap /= 2;
+        fr->vals = realloc(fr->vals, fr->cap * sizeof(long));
+    }
+    
+    return return_val;
+}
