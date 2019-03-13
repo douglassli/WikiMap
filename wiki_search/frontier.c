@@ -20,5 +20,11 @@ frontier* make_frontier() {
 }
 
 void push_frontier(frontier* fr, long val) {
-    
+    if(fr->size >= fr->cap) {
+        fr->cap *= 2;
+        fr->vals = realloc(fr->vals, fr->cap * sizeof(long));
+    } 
+
+    fr->vals[fr->size] = val;
+    fr->size += 1;
 }
