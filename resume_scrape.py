@@ -2,7 +2,6 @@ import pandas
 import store_data
 import ast
 import time
-from multiprocessing import Pool
 
 
 def get_keys(file_name):
@@ -18,21 +17,10 @@ def get_keys(file_name):
 
         num_read += len(titles)
 
-        with Pool() as p:
-            key_sets = p.map(make_set, titles)
-
-        for s in key_sets:
-            keys_set += s
+        for title in titles:
+            keys_set.add(title)
 
     return keys_set
-
-
-def make_set(titles):
-    out = set()
-    for t in titles:
-        out.add(t)
-
-    return out
 
 
 def find_max_depth(file_name):
