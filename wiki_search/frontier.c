@@ -51,5 +51,12 @@ long pop_last_frontier(frontier* fr) {
 }
 
 long pop_first_frontier(frontier* fr) {
-    
+    if (fr->size <= 0) {
+        return -1;
+    }
+
+    long return_val = fr->vals[0];
+    fr->size -= 1;
+
+
 }
