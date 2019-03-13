@@ -49,3 +49,7 @@ long pop_last_frontier(frontier* fr) {
     
     return return_val;
 }
+
+long pop_first_frontier(frontier* fr) {
+    
+}
