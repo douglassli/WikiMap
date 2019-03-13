@@ -28,3 +28,8 @@ void push_frontier(frontier* fr, long val) {
     fr->vals[fr->size] = val;
     fr->size += 1;
 }
+
+void free_frontier(frontier* fr) {
+    free(fr->vals);
+    free(fr);
+}   
