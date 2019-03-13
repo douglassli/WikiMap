@@ -57,6 +57,8 @@ long pop_first_frontier(frontier* fr) {
 
     long return_val = fr->vals[0];
     fr->size -= 1;
+    fr->cap -= 1;
+    fr->vals = realloc(fr->vals + sizeof(long), fr->cap * sizeof(long));
 
-
+    return return_val;
 }
