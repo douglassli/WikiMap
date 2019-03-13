@@ -18,3 +18,7 @@ frontier* make_frontier() {
     fr->cap = 2;
     return fr;
 }
+
+void push_frontier(frontier* fr, long val) {
+    
+}
