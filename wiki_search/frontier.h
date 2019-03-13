@@ -8,7 +8,7 @@ typedef struct frontier {
 } frontier;
 
 frontier* make_frontier();
-long pop_last(frontier* fr);
+long pop_last_frontier(frontier* fr);
 void push_frontier(frontier* fr, long val);
 void free_frontier(frontier* fr);
 
