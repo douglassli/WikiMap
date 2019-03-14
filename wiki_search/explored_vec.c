@@ -25,3 +25,12 @@ void free_explored(explored* ex) {
     free(ex->data);
     free(ex);
 }
+
+int contains_explored(explored* ex, long val) {
+    for (long i = 0; i < ex->size; ++i) {
+        if (ex->data[i] == val) {
+            return 1;
+        }
+    }
+    return 0;
+}
