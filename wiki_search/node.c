@@ -21,6 +21,16 @@ node* make_node(long node_val) {
     return xs;
 }
 
+node* copy_node(node* xs) {
+    node* new_node = malloc(sizeof(node));
+    new_node->node = xs->node;
+    new_node->size = xs->size;
+    new_node->cap = xs->cap;
+    new_node->data = malloc(xs->cap * sizeof(long));
+    memcpy(new_node->data, xs->data, xs->cap * sizeof(long));
+    return new_node;
+}
+
 void push_node(node* xs, long succ) {
     if (xs->size >= xs->cap) {
         xs->cap *= 2;
