@@ -36,6 +36,7 @@ int contains_explored(explored* ex, long val) {
 }
 
 void print_explored(explored* ex) {
+    printf("Explored Set: \n");
     for (long i = 0; i < ex->size; ++i) {
         printf("Value %ld = %ld\n", i, ex->data[i]);
     }
