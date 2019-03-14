@@ -62,6 +62,7 @@ def read_frontier():
     frontier = [(tp[0], tp[1], ast.literal_eval(tp[2]), ast.literal_eval(tp[3]),
                  tp[4], tp[5], tp[6], tp[7], tp[8], tp[9]) for tp in tpls]
     num_read_from_frontier += len(frontier)
+    print("NUM READ: ", num_read_from_frontier)
     time_spent_csv += (time.time() - frontier_read_start)
 
 
@@ -96,11 +97,11 @@ def start_map(depth_cutoff, initial_url):
     map_wiki(depth_cutoff)
 
 
-def resume_map(depth_cutoff):
+def resume_map(depth_cutoff, start_file, new_url):
     global keys
 
-    keys = resume_scrape.get_keys("output.csv")
-    map_wiki(depth_cutoff)
+    keys = resume_scrape.get_keys(start_file)
+    start_map(depth_cutoff, new_url)
 
 
 def map_wiki(depth_cutoff):
@@ -247,20 +248,20 @@ if __name__ == "__main__":
         user_password = getpass.unix_getpass("Please enter password: ")
 
     # sys.stdout = open("stdout.txt", mode='w')
-    store_data.initialize_csv("output.csv")
+    #store_data.initialize_csv("output.csv")
 
     url_med = "https://en.wikipedia.org/wiki/IPhone"               # 855 out-links Depth 1: ~45 sec Depth 2: ~1 hr
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    start_map(1, url_small)
+    resume_map(100, "original_output.csv", "https://en.wikipedia.org/wiki/The_Virtual_Stage")
     end = time.time()
 
-    analysis_string = store_data.get_analytics_string("output.csv")
+    #analysis_string = store_data.get_analytics_string("output.csv")
     global_string = get_global_analytics_string(end - start)
-    print(global_string + analysis_string, file=open("analytics.txt", "w"))
+    print(global_string, file=open("analytics.txt", "w"))
 
-    send_termination_email(user_email, user_password, global_string + analysis_string)
+    #send_termination_email(user_email, user_password, global_string + analysis_string)
 
     print("-" * 100)
     print("\nPROCESS COMPLETE\n")
