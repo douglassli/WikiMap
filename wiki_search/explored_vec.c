@@ -10,3 +10,13 @@ explored* make_explored() {
     ex->data = malloc(ex->cap * sizeof(long));
     return ex;
 }
+
+void push_explored(explored* ex, long val) {
+    if (ex->size >= ex->cap) {
+        ex->cap *= 2;
+        ex->data = realloc(ex->data, ex->cap * sizeof(long));
+    }
+
+    ex->data[ex->size] = val;
+    ex->size += 1;
+}
