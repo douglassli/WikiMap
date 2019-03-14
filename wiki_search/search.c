@@ -23,7 +23,16 @@ int bfs(map_vec* map, long start, long goal) {
             return -1;
         }
 
-        node* curr_node = get_node(map, pop_first_frontier(fr));
+        node* curr_node = (node*)pop_first_frontier(fr);
+        explored_push(ex, curr_node->node);
+
+        if (curr_node->node == goal) {
+            printf("PATH FOUND: \n");
+            print_node(curr_node);
+            break;
+        }
+
+
     }
 
     return 0;
