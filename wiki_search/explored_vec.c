@@ -34,3 +34,9 @@ int contains_explored(explored* ex, long val) {
     }
     return 0;
 }
+
+void print_explored(explored* ex) {
+    for (long i = 0; i < ex->size; ++i) {
+        printf("Value %ld = %ld\n", i, ex->data[i]);
+    }
+}
