@@ -20,3 +20,8 @@ void push_explored(explored* ex, long val) {
     ex->data[ex->size] = val;
     ex->size += 1;
 }
+
+void free_explored(explored* ex) {
+    free(ex->data);
+    free(ex);
+}
