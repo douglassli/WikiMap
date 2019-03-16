@@ -2,6 +2,7 @@ import pandas
 import store_data
 import ast
 import time
+import hashlib
 
 
 def get_keys(file_name):
@@ -18,7 +19,7 @@ def get_keys(file_name):
         num_read += len(titles)
 
         for title in titles:
-            keys_set.add(title)
+            keys_set.add(hashlib.md5(title.encode()).digest())
 
     return keys_set
 
