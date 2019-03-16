@@ -1,6 +1,4 @@
-import pandas
 import store_data
-import ast
 import time
 import hashlib
 
