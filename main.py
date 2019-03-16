@@ -250,13 +250,13 @@ if __name__ == "__main__":
         user_password = getpass.unix_getpass("Please enter password: ")
 
     # sys.stdout = open("stdout.txt", mode='w')
-    #store_data.initialize_csv("output.csv")
+    store_data.initialize_csv("output.csv")
 
     url_med = "https://en.wikipedia.org/wiki/IPhone"               # 855 out-links Depth 1: ~45 sec Depth 2: ~1 hr
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    resume_map(100, "original_output.csv", "https://en.wikipedia.org/wiki/The_Virtual_Stage")
+    start_map(2, url_small)
     end = time.time()
 
     #analysis_string = store_data.get_analytics_string("output.csv")
