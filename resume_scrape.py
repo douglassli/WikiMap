@@ -1,6 +1,7 @@
 import store_data
 import time
 import hashlib
+import sys
 
 
 def get_keys(file_name):
@@ -67,6 +68,7 @@ def get_num_read_frontier(file_name):
 
 if __name__ == '__main__':
     start = time.time()
-    print(get_num_read_frontier("Data Sets/Small3 Test 1/small3_full_output.csv"))
+    s = get_keys("Data Sets/Master Scrape/master_output.csv")
+    print("Size: ", sys.getsizeof(s))
     total = time.time() - start
     print("Time: {0:.1f}".format(total))
