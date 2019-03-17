@@ -33,7 +33,7 @@ datetime_time = 0.0
 
 def add_page(new_page):
     global num_pages, wiki_map, keys
-    keys.add(hashlib.md5(new_page[0].encode()).digest())
+    keys.add(hashlib.md5(str(new_page[0]).encode()).digest())
     wiki_map.append(new_page)
     num_pages += 1
     analytics_string = "Page Number: {0:7d} | {1}"
@@ -87,7 +87,7 @@ def initialize_map_search(initial_url, session):
 def not_in_keys(title):
     global keys, in_keys_time
     in_keys_start = time.time()
-    hashed_title = hashlib.md5(title.encode())
+    hashed_title = hashlib.md5(str(title).encode())
     output = hashed_title.digest() not in keys
     in_keys_time += (time.time() - in_keys_start)
     return output
