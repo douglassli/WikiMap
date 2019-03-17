@@ -18,7 +18,10 @@ def get_keys(file_name):
         num_read += len(titles)
 
         for title in titles:
-            keys_set.add(hashlib.md5(title.encode()).digest())
+            try:
+                keys_set.add(hashlib.md5(str(title).encode()).digest())
+            except AttributeError:
+                print(str(title))
 
     return keys_set
 
