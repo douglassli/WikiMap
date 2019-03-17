@@ -94,7 +94,6 @@ def not_in_keys(title):
 
 
 def start_map(depth_cutoff, initial_url):
-    store_data.initialize_csv("output.csv")
     session = Session()
     initialize_map_search(initial_url, session)
     map_wiki(depth_cutoff)
@@ -253,8 +252,10 @@ if __name__ == "__main__":
     url_med = "https://en.wikipedia.org/wiki/IPhone"                   # 855 out-links Depth 1: ~45 sec Depth 2: ~1 hr
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
+    # store_data.initialize_csv("output.csv")
+
     start = time.time()
-    start_map(2, url_small)
+    resume_map(2, "Data Sets/Master Scrape/master_output.csv", "https://en.wikipedia.org/wiki/Penmanshiel_Tunnel")
     end = time.time()
 
     #analysis_string = store_data.get_analytics_string("output.csv")
