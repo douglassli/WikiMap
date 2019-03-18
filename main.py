@@ -72,6 +72,10 @@ def initialize_map_search(initial_url, session):
     initialize_start = time.time()
 
     initial_title = initial_url.replace("https://en.wikipedia.org/wiki/", "").replace("_", " ")
+
+    if not not_in_keys(initial_title):
+        return
+
     time_of_get = str(datetime.datetime.now())
     get_start = time.time()
     raw_html = session.get(initial_url).content
