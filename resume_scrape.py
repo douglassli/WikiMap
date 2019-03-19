@@ -45,7 +45,7 @@ def find_num_read_frontier2(file_name):
             num_read_frontier += 1
             print(num_read_frontier)
 
-        raise ValueError("MAPPING IS COMPLETE, ALL OUT LINKS ACCOUNTED FOR")
+    raise ValueError("MAPPING IS COMPLETE, ALL OUT LINKS ACCOUNTED FOR")
 
 
 def find_max_depth(file_name):
