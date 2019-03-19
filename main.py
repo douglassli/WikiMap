@@ -258,7 +258,8 @@ if __name__ == "__main__":
     url_small = "https://en.wikipedia.org/wiki/Contract_manufacturer"  # 50 out-links Depth 1: ~3 sec Depth 2: ~8.5 min
 
     start = time.time()
-    resume_map(1000000, "Data Sets/Master Scrape/master_output.csv", "https://en.wikipedia.org/wiki/Penmanshiel_Tunnel")
+    resume_map(1000000, "Data Sets/Master Scrape/master_output.csv",
+               "https://en.wikipedia.org/wiki/Sollie")
     end = time.time()
 
     #analysis_string = store_data.get_analytics_string("output.csv")
