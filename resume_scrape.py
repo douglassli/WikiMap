@@ -92,7 +92,7 @@ def get_num_read_frontier(file_name):
 
 if __name__ == '__main__':
     start = time.time()
-    s = get_keys("Data Sets/Master Scrape/master_output.csv")
-    print("Size: ", sys.getsizeof(s))
+    num_from_frontier = find_num_read_frontier2("Data Sets/Master Scrape/master_output.csv")
+    print("Num read from frontier: ", num_from_frontier)
     total = time.time() - start
     print("Time: {0:.1f}".format(total))
