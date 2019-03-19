@@ -41,7 +41,8 @@ def find_num_read_frontier2(file_name):
         for tpl in links:
             for link in tpl[1]:
                 if hashlib.md5(str(link).encode()).digest() not in keys:
-                    print(tpl[0])
+                    print("Page not in keys: ", link)
+                    print("Page containing unexpanded node: ", tpl[0])
                     print(tpl[1])
                     return num_read_frontier
             num_read_frontier += 1
