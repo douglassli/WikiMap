@@ -40,12 +40,13 @@ def find_num_read_frontier2(file_name):
 
         for link_list in links:
             for link in link_list:
-                if hashlib.md5(str(link).encode()).digest() in keys:
+                if hashlib.md5(str(link).encode()).digest() not in keys:
                     return num_read_frontier
             num_read_frontier += 1
             print(num_read_frontier)
 
         raise ValueError("MAPPING IS COMPLETE, ALL OUT LINKS ACCOUNTED FOR")
+
 
 def find_max_depth(file_name):
     num_read = 0
