@@ -41,6 +41,7 @@ def find_num_read_frontier2(file_name):
         for link_list in links:
             for link in link_list:
                 if hashlib.md5(str(link).encode()).digest() not in keys:
+                    print(link)
                     return num_read_frontier
             num_read_frontier += 1
             print(num_read_frontier)
