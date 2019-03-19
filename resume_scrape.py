@@ -31,7 +31,7 @@ def find_num_read_frontier2(file_name):
 
     while True:
         df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 100000, num_read)
-        links = [(ast.literal_eval(ll[0]), ast.literal_eval(ll[1])) for ll in list(df.itertuples(index=False, name=None))]
+        links = [(ll[0], ast.literal_eval(ll[1])) for ll in list(df.itertuples(index=False, name=None))]
 
         if len(links) == 0:
             break
