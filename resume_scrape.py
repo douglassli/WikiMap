@@ -98,6 +98,7 @@ def get_num_read_frontier(file_name):
 def append_to_master(master_file, output_file):
     keys = get_keys(master_file)
     num_read = 0
+    num_appended = 0
 
     while True:
         df = pandas.read_csv(output_file, nrows=50000, skiprows=num_read,
@@ -110,14 +111,18 @@ def append_to_master(master_file, output_file):
         if len(tpls) == 0:
             break
         num_read += len(tpls)
+        print("Num read: ", num_read)
 
         for tpl in tpls:
             hash_title = hashlib.md5(tpl[0].encode()).digest()
             if hash_title not in keys:
+                num_appended += 1
                 keys.add(hash_title)
                 new_tpls.append(tpl)
 
         store_data.append_map_to_csv(new_tpls, master_file)
+
+    print("Num appended: ", num_appended)
 
 
 if __name__ == '__main__':
