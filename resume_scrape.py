@@ -102,7 +102,7 @@ def append_to_master(master_file, output_file):
     num_appended = 0
 
     while True:
-        df = pandas.read_csv(output_file, nrows=50000, skiprows=num_read,
+        df = pandas.read_csv(output_file, nrows=100000, skiprows=num_read,
                              names=["Page Title", "Page URL", "Out-link Titles", "Out-link URLs",
                                     "Total Time", "Get Time", "Parse Time", "Analysis Time",
                                     "Page Depth", "Time of Expansion"])
