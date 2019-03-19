@@ -259,7 +259,7 @@ if __name__ == "__main__":
 
     start = time.time()
     resume_map(1000000, "Data Sets/Master Scrape/master_output.csv",
-               "https://en.wikipedia.org/wiki/Sollie")
+               "https://en.wikipedia.org/wiki/NaN")
     end = time.time()
 
     #analysis_string = store_data.get_analytics_string("output.csv")
