@@ -3,6 +3,7 @@ import time
 import hashlib
 import sys
 import ast
+import pandas
 
 
 def get_keys(file_name):
@@ -92,6 +93,31 @@ def get_num_read_frontier(file_name):
             else:
                 return num_read_frontier
     return num_read_frontier
+
+
+def append_to_master(master_file, output_file):
+    keys = get_keys(master_file)
+    num_read = 0
+
+    while True:
+        df = pandas.read_csv(output_file, nrows=50000, skiprows=num_read,
+                             names=["Page Title", "Page URL", "Out-link Titles", "Out-link URLs",
+                                    "Total Time", "Get Time", "Parse Time", "Analysis Time",
+                                    "Page Depth", "Time of Expansion"])
+        tpls = list(df.itertuples(index=False, name=None))
+        new_tpls = []
+
+        if len(tpls) == 0:
+            break
+        num_read += len(tpls)
+
+        for tpl in tpls:
+            hash_title = hashlib.md5(tpl[0].encode()).digest()
+            if hash_title not in keys:
+                keys.add(hash_title)
+                new_tpls.append(tpl)
+
+        store_data.append_map_to_csv(new_tpls, master_file)
 
 
 if __name__ == '__main__':
