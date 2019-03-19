@@ -2,6 +2,7 @@ import store_data
 import time
 import hashlib
 import sys
+import ast
 
 
 def get_keys(file_name):
@@ -22,6 +23,29 @@ def get_keys(file_name):
 
     return keys_set
 
+
+def find_num_read_frontier2(file_name):
+    keys = get_keys(file_name)
+    num_read = 0
+    num_read_frontier = 0
+
+    while True:
+        df = store_data.read_partial_section(file_name, ["Out-link Titles"], 100000, num_read)
+        links = [ast.literal_eval(ll) for ll in list(df["Out-link Titles"])]
+
+        if len(links) == 0:
+            break
+
+        num_read += len(links)
+
+        for link_list in links:
+            for link in link_list:
+                if hashlib.md5(str(link).encode()).digest() in keys:
+                    return num_read_frontier
+            num_read_frontier += 1
+            print(num_read_frontier)
+
+        raise ValueError("MAPPING IS COMPLETE, ALL OUT LINKS ACCOUNTED FOR")
 
 def find_max_depth(file_name):
     num_read = 0
