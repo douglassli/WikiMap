@@ -30,18 +30,19 @@ def find_num_read_frontier2(file_name):
     num_read_frontier = 0
 
     while True:
-        df = store_data.read_partial_section(file_name, ["Out-link Titles"], 100000, num_read)
-        links = [ast.literal_eval(ll) for ll in list(df["Out-link Titles"])]
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 100000, num_read)
+        links = [(ast.literal_eval(ll[0]), ast.literal_eval(ll[1])) for ll in list(df.itertuples(index=False, name=None))]
 
         if len(links) == 0:
             break
 
         num_read += len(links)
 
-        for link_list in links:
-            for link in link_list:
+        for tpl in links:
+            for link in tpl[1]:
                 if hashlib.md5(str(link).encode()).digest() not in keys:
-                    print(link)
+                    print(tpl[0])
+                    print(tpl[1])
                     return num_read_frontier
             num_read_frontier += 1
             print(num_read_frontier)
