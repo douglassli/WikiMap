@@ -97,11 +97,12 @@ def get_num_read_frontier(file_name):
 
 def append_to_master(master_file, output_file):
     keys = get_keys(master_file)
+    print("Keys: ", keys)
     num_read = 0
     num_appended = 0
 
     while True:
-        df = pandas.read_csv(output_file, nrows=50000, skiprows=num_read,
+        df = pandas.read_csv(output_file, nrows=50000, skiprows=num_read, dtype={"Page Title": str},
                              names=["Page Title", "Page URL", "Out-link Titles", "Out-link URLs",
                                     "Total Time", "Get Time", "Parse Time", "Analysis Time",
                                     "Page Depth", "Time of Expansion"])
