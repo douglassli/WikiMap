@@ -127,7 +127,7 @@ def append_to_master(master_file, output_file):
 
 if __name__ == '__main__':
     start = time.time()
-    num_from_frontier = find_num_read_frontier2("Data Sets/Master Scrape/master_output.csv")
-    print("Num read from frontier: ", num_from_frontier)
+    store_data.initialize_csv("master_output_no_repeats.csv")
+    append_to_master("master_output_no_repeats.csv", "Data Sets/Master Scrape/master_output.csv")
     total = time.time() - start
     print("Time: {0:.1f}".format(total))
