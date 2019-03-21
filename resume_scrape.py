@@ -11,7 +11,11 @@ def get_keys(file_name):
     keys_set = set()
 
     while True:
-        df = store_data.read_partial_section(file_name, ["Page Title"], 1000000, num_read)
+        df = pandas.read_csv(file_name, usecols=["Page Title"], nrows=1000000, skiprows=num_read,
+                             converters={i: str for i in range(0, 100)},
+                             names=["Page Title", "Page URL", "Out-link Titles", "Out-link URLs",
+                                    "Total Time", "Get Time", "Parse Time", "Analysis Time",
+                                    "Page Depth", "Time of Expansion"])
         titles = list(df["Page Title"])
 
         if len(titles) == 0:
@@ -31,7 +35,12 @@ def find_num_read_frontier2(file_name):
     num_read_frontier = 0
 
     while True:
-        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 100000, num_read)
+        df = pandas.read_csv(file_name, usecols=["Page Title", "Out-link Titles"], nrows=100000, skiprows=num_read,
+                             converters={i: str for i in range(0, 100)},
+                             names=["Page Title", "Page URL", "Out-link Titles", "Out-link URLs",
+                                    "Total Time", "Get Time", "Parse Time", "Analysis Time",
+                                    "Page Depth", "Time of Expansion"])
+        #df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 100000, num_read)
         links = [(ll[0], ast.literal_eval(ll[1])) for ll in list(df.itertuples(index=False, name=None))]
 
         if len(links) == 0:
@@ -128,7 +137,6 @@ def append_to_master(master_file, output_file):
 
 if __name__ == '__main__':
     start = time.time()
-    store_data.initialize_csv("master_output_no_repeats.csv")
-    append_to_master("master_output_no_repeats.csv", "Data Sets/Master Scrape/master_output.csv")
+    find_num_read_frontier2("Data Sets/Master Scrape/master_output.csv")
     total = time.time() - start
     print("Time: {0:.1f}".format(total))
