@@ -58,6 +58,7 @@ int bfs(map_vec* map, long start, long goal) {
                 temp_node->node = succ;
                 push_node(temp_node, succ);
                 push_frontier(fr, (long)temp_node);
+                printf("FRONTIER SIZE: %ld, CAP: %ld, OFFSET: %ld\n", fr->size, fr->cap, fr->offset);
             }
         }
     }
