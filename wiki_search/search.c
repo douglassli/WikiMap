@@ -6,9 +6,10 @@
 #include "node.h"
 #include "frontier.h"
 #include "explored_vec.h"
+#include "parse_file.h"
 
 node* get_node(map_vec* map, long node_val) {
-    return map->nodes[node_val];
+    return &map->nodes[node_val];
 }
 
 
@@ -16,25 +17,25 @@ int bfs(map_vec* map, long start, long goal) {
     node* initial_node = make_node(start);
     push_node(initial_node, start);
     frontier* fr = make_frontier();
-    push_frontier(fr, (long*)initial_node);
+    push_frontier(fr, (long)initial_node);
     explored* ex = make_explored();
 
     while (1) {
         if (fr->size <= 0) {
+            printf("FRONTIER EMPTY, SEARCH FAILED\n");
             return -1;
         }
-
         node* curr_node = (node*)pop_first_frontier(fr);
 
         if (contains_explored(ex, curr_node->node)) {
             continue;
         }
 
-        explored_push(ex, curr_node->node);
+        push_explored(ex, curr_node->node);
 
         if (curr_node->node == goal) {
-            printf("PATH FOUND: \n");
-            print_node(curr_node);
+            printf("PATH FOUND: ");
+            print_edges(curr_node);
             break;
         }
 
@@ -46,7 +47,7 @@ int bfs(map_vec* map, long start, long goal) {
                 node* temp_node = copy_node(curr_node);
                 temp_node->node = succ;
                 push_node(temp_node, succ);
-                push_frontier(fr, (long*)temp_node);
+                push_frontier(fr, (long)temp_node);
             }
         }
     }
@@ -54,3 +55,10 @@ int bfs(map_vec* map, long start, long goal) {
     return 0;
 }
 
+int main() {
+    printf("PARSING...\n");
+    map_vec* map = parse_map_file("map.txt");
+    printf("SEARCHING...\n");
+    int rv = bfs(map, 0, 719);
+    printf("BFS RV: %d\n", rv);
+}
