@@ -14,7 +14,7 @@ node* get_node(map_vec* map, long node_val) {
 
 
 int bfs(map_vec* map, long start, long goal) {
-    long nodes_expanded = 0
+    long nodes_expanded = 0;
     node* initial_node = make_node(start);
     push_node(initial_node, start);
     frontier* fr = make_frontier();
