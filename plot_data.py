@@ -61,5 +61,9 @@ def plot_out_vs(file_name, timing_name):
     plt.show()
 
 
+def outlink_hist(file_name):
+    df = store_data.read_partial(file_name, )
+
+
 if __name__ == '__main__':
     plot_out_vs("small3_full_output.csv", "Analysis Time")
