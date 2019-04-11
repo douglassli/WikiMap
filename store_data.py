@@ -46,6 +46,7 @@ def get_branching_analytics(file_name):
     num_read = 0
     total_branches = 0
     max_branch = 0
+    branch_list = []
 
     while True:
         df = read_partial_section(file_name, ["Out-link Titles"], 10000, num_read)
@@ -58,10 +59,12 @@ def get_branching_analytics(file_name):
         for links in out_links:
             branching_factor = len(links)
             total_branches += branching_factor
+            branch_list.append(branching_factor)
             if branching_factor > max_branch:
                 max_branch = branching_factor
 
-    branching_analytics = {"avg_branch": total_branches / float(num_read), "max_branch": max_branch}
+    branching_analytics = {"avg_branch": total_branches / float(num_read), 
+                           "max_branch": max_branch, "branch_list": branch_list}
     return branching_analytics
 
 
