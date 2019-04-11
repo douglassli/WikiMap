@@ -59,6 +59,6 @@ int main() {
     printf("PARSING...\n");
     map_vec* map = parse_map_file("map.txt");
     printf("SEARCHING...\n");
-    int rv = bfs(map, 0, 719);
+    int rv = bfs(map, 1, 719);
     printf("BFS RV: %d\n", rv);
 }
