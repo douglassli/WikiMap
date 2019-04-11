@@ -24,12 +24,12 @@ frontier* make_frontier() {
 void push_frontier(frontier* fr, long val) {
     if (fr->size + fr->offset >= fr->cap) {
         if (fr->offset > 0) {
-            void* new_data = malloc(fr->cap * 2);
-            memcpy(new_data, fr->vals + (fr->offset * sizeof(long)), fr->cap * sizeof(long));
+            fr->cap = (fr->offset + fr->cap) * 2;
+            void* new_data = malloc(fr->cap);
+            memcpy(new_data, fr->vals + (fr->offset * sizeof(long)), fr->size * sizeof(long));
             free(fr->vals);
             fr->vals = (long*)new_data;
             fr->offset = 0;
-            fr->cap *= 2;
         } else {
             fr->cap *= 2;
             fr->vals = realloc(fr->vals, fr->cap * sizeof(long));
