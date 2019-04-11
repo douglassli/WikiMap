@@ -63,7 +63,7 @@ def get_branching_analytics(file_name):
             if branching_factor > max_branch:
                 max_branch = branching_factor
 
-    branching_analytics = {"avg_branch": total_branches / float(num_read), 
+    branching_analytics = {"avg_branch": total_branches / float(num_read),
                            "max_branch": max_branch, "branch_list": branch_list}
     return branching_analytics
 
