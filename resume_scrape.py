@@ -31,8 +31,8 @@ def get_keys(file_name):
 
 def find_num_read_frontier2(file_name):
     keys = get_keys(file_name)
-    num_read = 0
-    num_read_frontier = 0
+    num_read = 1111000
+    num_read_frontier = 1111000
 
     while True:
         df = pandas.read_csv(file_name, usecols=["Page Title", "Out-link Titles"], nrows=100000, skiprows=num_read,
