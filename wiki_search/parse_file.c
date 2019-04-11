@@ -48,12 +48,12 @@ map_vec* parse_map_file(char* file) {
     return map;
 }
 
-
+/*
 int main() {
     char* file = "map.txt";
     map_vec* map = parse_map_file(file);
-//    print_map(map);
-    free_map(map);
+    print_map(map);
+    //free_map(map);
     return 0;
 }
-
+*/
