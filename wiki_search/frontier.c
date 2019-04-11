@@ -22,7 +22,7 @@ frontier* make_frontier() {
 }
 
 void push_frontier(frontier* fr, long val) {
-    if (fr->size >= fr->cap) {
+    if (fr->size + 1 >= fr->cap) {
         if (fr->offset > 0) {
             fr->cap = (fr->offset + fr->cap) * 2;
             void* new_data = malloc(fr->cap);
@@ -64,6 +64,10 @@ long pop_last_frontier(frontier* fr) {
 }
 
 long pop_first_frontier(frontier* fr) {
+    printf("\npop_first START\n");
+    printf("size = %ld\n", fr->size);
+    printf("cap = %ld\n", fr->cap);
+    printf("offset = %ld\n", fr->offset);
     if (fr->size <= 0) {
         return -1;
     }
@@ -78,5 +82,6 @@ long pop_first_frontier(frontier* fr) {
     //memcpy(new_data, (void*)fr->vals + sizeof(long), fr->cap * sizeof(long));
     //free(fr->vals);
     //fr->vals = (long*)new_data;
+    printf("pop_first FINISH\n");
     return return_val;
 }
