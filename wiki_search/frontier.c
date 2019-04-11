@@ -24,10 +24,12 @@ frontier* make_frontier() {
 void push_frontier(frontier* fr, long val) {
     if (fr->size + fr->offset >= fr->cap) {
         if (fr->offset > 0) {
-            void* new_data = malloc(fr->cap);
+            void* new_data = malloc(fr->cap * 2);
             memcpy(new_data, fr->vals + (fr->offset * sizeof(long)), fr->cap * sizeof(long));
             free(fr->vals);
             fr->vals = (long*)new_data;
+            fr->offset = 0;
+            fr->cap *= 2;
         } else {
             fr->cap *= 2;
             fr->vals = realloc(fr->vals, fr->cap * sizeof(long));
@@ -48,7 +50,9 @@ long pop_last_frontier(frontier* fr) {
         return -1;
     }
 
-    long return_val = fr->vals[fr->size];
+    long* array_ptr = fr->vals + (fr->offset * sizeof(long));
+
+    long return_val = array_ptr[fr->size];
     fr->size -= 1;
 
     if (fr->size < fr->cap / 2) {
@@ -63,14 +67,16 @@ long pop_first_frontier(frontier* fr) {
     if (fr->size <= 0) {
         return -1;
     }
+    long* array_ptr = fr->vals + (fr->offset * sizeof(long));
 
-    long return_val = fr->vals[0];
+    long return_val = array_ptr[0];
     fr->size -= 1;
     fr->cap -= 1;
+    fr->offset++;
     //fr->vals = realloc(fr->vals + sizeof(long), fr->cap * sizeof(long));
-    void* new_data = malloc(fr->cap * sizeof(long));
-    memcpy(new_data, (void*)fr->vals + sizeof(long), fr->cap * sizeof(long));
-    free(fr->vals);
-    fr->vals = (long*)new_data;
+    //void* new_data = malloc(fr->cap * sizeof(long));
+    //memcpy(new_data, (void*)fr->vals + sizeof(long), fr->cap * sizeof(long));
+    //free(fr->vals);
+    //fr->vals = (long*)new_data;
     return return_val;
 }
