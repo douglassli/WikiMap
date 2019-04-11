@@ -29,7 +29,7 @@ int bfs(map_vec* map, long start, long goal) {
         nodes_expanded++;
         node* curr_node = (node*)pop_first_frontier(fr);
         printf("CUR_NODE: %ld\n", curr_node->node);
-        printf("FRONTIER SIZE: %ld\n", ex->size);
+        printf("FRONTIER SIZE: %ld, CAP: %ld, OFFSET: %ld\n", fr->size, fr->cap, fr->offset);
 
         if (contains_explored(ex, curr_node->node)) {
             continue;
