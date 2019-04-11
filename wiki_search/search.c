@@ -14,6 +14,7 @@ node* get_node(map_vec* map, long node_val) {
 
 
 int bfs(map_vec* map, long start, long goal) {
+    long nodes_expanded = 0
     node* initial_node = make_node(start);
     push_node(initial_node, start);
     frontier* fr = make_frontier();
@@ -25,6 +26,7 @@ int bfs(map_vec* map, long start, long goal) {
             printf("FRONTIER EMPTY, SEARCH FAILED\n");
             return -1;
         }
+        nodes_expanded++;
         node* curr_node = (node*)pop_first_frontier(fr);
         printf("CUR_NODE: %ld\n", curr_node->node);
         printf("FRONTIER SIZE: %ld\n", ex->size);
@@ -38,6 +40,8 @@ int bfs(map_vec* map, long start, long goal) {
         if (curr_node->node == goal) {
             printf("PATH FOUND: ");
             print_edges(curr_node);
+            printf("PATH LENGTH: %ld\n", curr_node->size);
+            printf("NUM NODES EXPANDED: %ld\n", nodes_expanded);
             break;
         }
 
@@ -65,6 +69,6 @@ int main() {
     printf("PARSING...\n");
     map_vec* map = parse_map_file("map.txt");
     printf("SEARCHING...\n");
-    int rv = bfs(map, 1, 52);
+    int rv = bfs(map, 856, 505);
     printf("BFS RV: %d\n", rv);
 }
