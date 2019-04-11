@@ -22,7 +22,7 @@ frontier* make_frontier() {
 }
 
 void push_frontier(frontier* fr, long val) {
-    if (fr->size + fr->offset >= fr->cap) {
+    if (fr->size >= fr->cap) {
         if (fr->offset > 0) {
             fr->cap = (fr->offset + fr->cap) * 2;
             void* new_data = malloc(fr->cap);
