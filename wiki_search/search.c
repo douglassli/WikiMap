@@ -40,7 +40,7 @@ int bfs(map_vec* map, long start, long goal) {
         if (curr_node->node == goal) {
             printf("PATH FOUND: ");
             print_edges(curr_node);
-            printf("PATH LENGTH: %ld\n", curr_node->size);
+            printf("PATH LENGTH: %ld\n", curr_node->size - 1);
             printf("NUM NODES EXPANDED: %ld\n", nodes_expanded);
             break;
         }
