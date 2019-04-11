@@ -69,4 +69,4 @@ def outlink_hist(file_name):
 
 
 if __name__ == '__main__':
-    outlink_hist("Data Sets/Small3 Test 3/small3_test3_output.csv")
+    outlink_hist("Data Sets/medium2_output.csv")
