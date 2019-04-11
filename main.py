@@ -73,8 +73,8 @@ def initialize_map_search(initial_url, session):
 
     initial_title = initial_url.replace("https://en.wikipedia.org/wiki/", "").replace("_", " ")
 
-    if not not_in_keys(initial_title):
-        return
+    #if not not_in_keys(initial_title):
+    #    return
 
     time_of_get = str(datetime.datetime.now())
     get_start = time.time()
@@ -259,7 +259,7 @@ if __name__ == "__main__":
 
     start = time.time()
     resume_map(1000000, "Data Sets/Master Scrape/master_output.csv",
-               "https://en.wikipedia.org/wiki/NaN")
+               "https://en.wikipedia.org/wiki/History_of_the_Székely_people")
     end = time.time()
 
     #analysis_string = store_data.get_analytics_string("output.csv")
