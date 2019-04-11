@@ -62,8 +62,9 @@ def plot_out_vs(file_name, timing_name):
 
 
 def outlink_hist(file_name):
-    df = store_data.read_partial(file_name, )
+    branching_list = store_data.get_branching_analytics(file_name)["branching_list"]
+    plt.hist(branching_list)
 
 
 if __name__ == '__main__':
-    plot_out_vs("small3_full_output.csv", "Analysis Time")
+    outlink_hist("Data Sets/small1_output.csv")
