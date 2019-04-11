@@ -27,8 +27,9 @@ int bfs(map_vec* map, long start, long goal) {
         }
         node* curr_node = (node*)pop_first_frontier(fr);
         printf("CUR_NODE: %ld\n", curr_node->node);
+        printf("FRONTIER SIZE: %ld\n", ex->size);
 
-        if (curr_node->node >= ex->size || contains_explored(ex, curr_node->node)) {
+        if (contains_explored(ex, curr_node->node)) {
             continue;
         }
 
@@ -38,6 +39,10 @@ int bfs(map_vec* map, long start, long goal) {
             printf("PATH FOUND: ");
             print_edges(curr_node);
             break;
+        }
+
+        if (curr_node->node >= map->size) {
+            continue;
         }
 
         node* succ_nodes = get_node(map, curr_node->node);
@@ -60,6 +65,6 @@ int main() {
     printf("PARSING...\n");
     map_vec* map = parse_map_file("map.txt");
     printf("SEARCHING...\n");
-    int rv = bfs(map, 1, 719);
+    int rv = bfs(map, 1, 52);
     printf("BFS RV: %d\n", rv);
 }
