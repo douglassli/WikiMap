@@ -62,8 +62,10 @@ def plot_out_vs(file_name, timing_name):
 
 
 def outlink_hist(file_name):
-    branching_list = store_data.get_branching_analytics(file_name)["branching_list"]
-    plt.hist(branching_list)
+    branching_list = store_data.get_branching_analytics(file_name)["branch_list"]
+    n, bins, patches = plt.hist(branching_list)
+    plt.xlabel("Number of Outlinks")
+    plt.show()
 
 
 if __name__ == '__main__':
