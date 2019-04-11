@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "node.h"
 /*
@@ -50,6 +51,16 @@ void print_node(node* xs) {
     printf("Node value: %ld\nEdges: ", xs->node);
     for (long i = 0; i < xs->size; ++i) {
         printf("%ld ", xs->data[i]);
+    }
+    printf("\n");
+}
+
+void print_edges(node* xs) {
+    for (long i = 0; i < xs->size; ++i) {
+        printf("%ld ", xs->data[i]);
+        if (i != xs->size - 1) {
+            printf("-> ");
+        }
     }
     printf("\n");
 }
