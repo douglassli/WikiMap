@@ -17,13 +17,21 @@ frontier* make_frontier() {
     fr->vals = malloc(2 * sizeof(long));
     fr->size = 0;
     fr->cap = 2;
+    fr->offset = 0;
     return fr;
 }
 
 void push_frontier(frontier* fr, long val) {
-    if (fr->size >= fr->cap) {
-        fr->cap *= 2;
-        fr->vals = realloc(fr->vals, fr->cap * sizeof(long));
+    if (fr->size + fr->offset >= fr->cap) {
+        if (fr->offset > 0) {
+            void* new_data = malloc(fr->cap);
+            memcpy(new_data, fr->vals + (fr->offset * sizeof(long)), fr->cap * sizeof(long));
+            free(fr->vals);
+            fr->vals = (long*)new_data;
+        } else {
+            fr->cap *= 2;
+            fr->vals = realloc(fr->vals, fr->cap * sizeof(long));
+        }
     } 
 
     fr->vals[fr->size] = val;
