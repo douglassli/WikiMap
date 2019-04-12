@@ -6,7 +6,7 @@
 #include "parse_file.h"
 
 int main(int argc, char* argv[]) {
-    if (strcmp(argv[1], "bfs") && argc == 5) {
+    if (strcmp(argv[1], "bfs") == 0 && argc == 5) {
         printf("PARSING...\n");
         map_vec* map = parse_map_file(argv[2]);
         printf("SEARCHING...");
