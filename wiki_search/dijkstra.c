@@ -6,3 +6,7 @@
 #include "node.h"
 #include "frontier.h"
 #include "explored_vec.h"
+
+int dijkstra(map_vec* map, long source) {
+    
+}
