@@ -46,11 +46,6 @@ int bfs(map_vec* map, long start, long goal) {
             break;
         }
 
-        if (curr_node->node >= map->size) {
-            free_node(curr_node);
-            continue;
-        }
-
         node* succ_nodes = get_node(map, curr_node->node);
 
         for (long ii  = 0; ii < succ_nodes->size; ++ii) {
