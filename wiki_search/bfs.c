@@ -69,10 +69,3 @@ int bfs(map_vec* map, long start, long goal) {
     return 0;
 }
 
-int main() {
-    printf("PARSING...\n");
-    map_vec* map = parse_map_file("map.txt");
-    printf("SEARCHING...\n");
-    int rv = bfs(map, 856, 505);
-    printf("BFS RV: %d\n", rv);
-}
