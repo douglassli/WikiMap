@@ -8,6 +8,6 @@ search: search.c
 	gcc -o search search.c bfs.c map_vec.c node.c frontier.c explored_vec.c parse_file.c
 
 clean:
-	rm -f *.o parse bfs
+	rm -f *.o parse bfs search
 
 .PHONY: clean
