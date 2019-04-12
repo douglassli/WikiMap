@@ -33,6 +33,7 @@ def prep_search_file(file_name):
     node_dict = prep_node_dict(file_name)
     num_read = 0
     search_file = open("search_file.txt", "w")
+    added_nodes = set()
 
     while True:
         df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
@@ -44,6 +45,7 @@ def prep_search_file(file_name):
         num_read += len(tpls)
 
         for tp in tpls:
+            added_nodes.add(node_dict[tp[0]])
             search_file.write(str(node_dict[tp[0]]) + " ")
 
             for link_title in ast.literal_eval(tp[1]):
@@ -51,6 +53,9 @@ def prep_search_file(file_name):
 
             search_file.write("\n")
 
+    for node_val in node_dict.items():
+        if node_val not in added_nodes:
+            search_file.write(str(node_val) + " \n")
     search_file.write("*END")
 
     search_file.close()
