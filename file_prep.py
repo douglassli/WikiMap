@@ -53,7 +53,7 @@ def prep_search_file(file_name):
 
             search_file.write("\n")
 
-    for node_val in node_dict.items():
+    for node_val in node_dict.values():
         if node_val not in added_nodes:
             search_file.write(str(node_val) + " \n")
     search_file.write("*END")
