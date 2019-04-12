@@ -4,6 +4,7 @@
 typedef struct frontier {
     long size;
     long cap;
+    long offset;
     long* vals;
 } frontier;
 
