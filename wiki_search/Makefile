@@ -5,7 +5,7 @@ bfs: bfs.c
 	gcc -o bfs bfs.c map_vec.c node.c frontier.c explored_vec.c parse_file.c
 
 search: search.c
-	gcc -o search search.c bfs.c map_vec.c node.c frontier.c explored_vec.c parse_file.c
+	gcc -o search search.c bfs.c map_vec.c node.c frontier.c explored_vec.c parse_file.c dijkstra.c
 
 clean:
 	rm -f *.o parse bfs search
