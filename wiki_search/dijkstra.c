@@ -6,18 +6,7 @@
 #include "node.h"
 #include "frontier.h"
 #include "explored_vec.h"
-
-typedef struct fr_pair {
-    long node_val;
-    long dist;
-} fr_pair;
-
-fr_pair* new_pair(long nv, long d) {
-    fr_pair* frp = malloc(sizeof(fr_pair));
-    frp->node_val = nv;
-    frp->dist = d;
-    return frp;
-}
+#include "fr_pair.h"
 
 int dijkstra(map_vec* map, long source) {
     explored* layers = make_explored();
