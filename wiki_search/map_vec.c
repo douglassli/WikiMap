@@ -43,3 +43,7 @@ void print_map(map_vec* map) {
         print_node(&map->nodes[i]);
     }
 }
+
+node* map_get_node(map_vec* map, long node_val) {
+    return &map->nodes[node_val];
+}
