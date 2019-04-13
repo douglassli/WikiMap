@@ -13,12 +13,14 @@ map_vec* global_map;
 frontier* global_fr;
 explored* global_dists;
 pthread_barrier_t barrier;
+int num_threads_finished = 0;
 
 typedef struct job {
     int thread_num;
     frontier* frnt;
     long fr_start;
     long fr_end;
+    int num_threads;
 } job;
 
 void succs_to_fr(frontier* fr, fr_pair* start_node) {
@@ -32,7 +34,7 @@ void succs_to_fr(frontier* fr, fr_pair* start_node) {
    }   
 }
 
-void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
+void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt, int num_threads) {
     frontier* out_fr = make_frontier();
 
     for (long i = fr_start; i < fr_end; i++) {
@@ -52,7 +54,13 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
     int cur_layer = 1;
     while(1) {
         if (out_fr-> size <= 0) {
-            break;
+            num_threads_finished++;
+            while(1) {
+                pthread_barrier_wait(&barrier);
+                if (num_threads_finished == num_threads) {
+                    return 0;
+                }
+            }
         }
 
         fr_pair* cur_pair = (fr_pair*)frontier_pop_first(out_fr);
