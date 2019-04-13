@@ -16,6 +16,7 @@ pthread_barrier_t barrier;
 
 typedef struct job {
     int thread_num;
+    frontier* frnt;
     long fr_start;
     long fr_end;
 } job;
@@ -29,6 +30,10 @@ void succs_to_fr(frontier* fr, fr_pair* start_node) {
             push_frontier(fr, (long)new_frp);
         }
    }   
+}
+
+frontier* bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
+    
 }
 
 void* bfs_worker_start(void* arg) {
