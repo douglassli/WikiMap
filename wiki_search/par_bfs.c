@@ -49,13 +49,18 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
         free(cur_pair);
     }
 
+    int cur_layer = 1;
     while(1) {
-        pthread_barrier_wait(&barrier);
         if (out_fr-> size <= 0) {
             break;
         }
 
         fr_pair* cur_pair = (fr_pair*)frontier_pop_first(out_fr);
+
+        if (cur_pair->dist > cur_layer) {
+            pthread_barrier_wait(&barrier);
+        }
+
         if (global_dists->data[cur_pair->node_val] != -1) {
             free(cur_pair);
             continue;
