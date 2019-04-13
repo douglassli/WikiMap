@@ -23,8 +23,8 @@ typedef struct job {
 
 void succs_to_fr(frontier* fr, fr_pair* start_node) {
     node* succ_nodes = map_get_node(map, start_node->node_val);
-    for (long i = 0; i < succ_nodes->size; i++) {
-        long succ = succ_nodes->data[i];
+    for (long n = 0; n < succ_nodes->size; n++) {
+        long succ = succ_nodes->data[n];
         if (global_dists->data[succ] == -1) {
             fr_pair* new_frp = new_pair(succ, start_node->dist + 1);
             push_frontier(fr, (long)new_frp);
@@ -33,7 +33,30 @@ void succs_to_fr(frontier* fr, fr_pair* start_node) {
 }
 
 frontier* bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
-    
+    frontier* out_fr = make_frontier();
+
+    for (long i = fr_start; i < fr_end; i++) {
+        fr_pair* cur_pair = (fr_pair*)frnt->vals[i];
+
+        if (global_dists->data[cur_pair->node_val] != -1) {
+            free(cur_pair);
+            continue;
+        }
+        
+        global_dists->data[cur_pair->node_val] = cur_pair->dist;
+
+        /*
+        node* cur_node = map_get_node(global_map, cur_pair->node_val);
+        for (int n = 0; n < cur_node->size; n++) {
+            long succ = cur_node->data[n];
+            if (global_dists->data[succ] == -1) {
+                fr_pair* succ_pair = new_pair(succ, cur_pair->dist + 1);
+                push_frontier(out_fr, (long)succ_pair);
+            }
+        }*/
+        succs_to_fr(out_fr, cur_pair);
+        free(cur_pair);
+    }    
 }
 
 void* bfs_worker_start(void* arg) {
