@@ -13,6 +13,10 @@ map_vec* global_map;
 frontier* global_fr;
 explored* global_dists;
 
+void succs_to_fr(frontier* fr, fr_pair* start_node) {
+    
+}
+
 int par_bfs(map_vec* map, long source) {
     global_map = map;
     global_fr = make_frontier();
