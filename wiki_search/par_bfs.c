@@ -31,7 +31,11 @@ void succs_to_fr(frontier* fr, fr_pair* start_node) {
    }   
 }
 
-
+void* bfs_worker_start(void* arg) {
+    job j = *((job*) arg);
+    free(arg);
+    
+}
 
 
 int par_bfs(map_vec* map, long source, int num_threads) {
