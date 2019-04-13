@@ -14,7 +14,14 @@ frontier* global_fr;
 explored* global_dists;
 
 void succs_to_fr(frontier* fr, fr_pair* start_node) {
-    
+    node* succ_nodes = map_get_node(map, start_node->node_val);
+    for (long i = 0; i < succ_nodes->size; i++) {
+        long succ = succ_nodes->data[i];
+        if (global_dists->data[succ] == -1) {
+            fr_pair* new_frp = new_pair(succ, start_node->dist + 1);
+            push_frontier(fr, (long)new_frp);
+        }
+   }   
 }
 
 int par_bfs(map_vec* map, long source) {
