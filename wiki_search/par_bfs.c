@@ -79,7 +79,7 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt, int num_t
         free(cur_pair);
     }
     //unreachable
-    return 0;
+    return;
 }
 
 void* bfs_worker_start(void* arg) {
