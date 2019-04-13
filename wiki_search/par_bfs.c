@@ -11,7 +11,6 @@
 #include "fr_pair.h"
 
 map_vec* global_map;
-frontier* global_fr;
 explored* global_dists;
 pthread_barrier_t barrier;
 int num_threads_finished = 0;
@@ -25,7 +24,7 @@ typedef struct job {
 } job;
 
 void succs_to_fr(frontier* fr, fr_pair* start_node) {
-    node* succ_nodes = map_get_node(map, start_node->node_val);
+    node* succ_nodes = map_get_node(global_map, start_node->node_val);
     for (long n = 0; n < succ_nodes->size; n++) {
         long succ = succ_nodes->data[n];
         if (global_dists->data[succ] == -1) {
@@ -124,16 +123,16 @@ void run_bfs_workers(int num_threads, frontier* start_frnt) {
 int par_bfs(map_vec* map, long source, int num_threads) {
     pthread_barrier_init(&barrier, NULL, num_threads);
     global_map = map;
-    global_fr = make_frontier();
+    froniter* init_fr = make_frontier();
     global_dists = make_explored();
     for (long i = 0; i < global_map->size; i++) {
         push_explored(global_dists, -1);
     }
     fr_pair* init_pair = new_pair(source, 0);
-    //push_frontier(global_fr, (long)init_pair);
-    succs_to_fr(global_fr, init_pair);
+    //push_frontier(init_fr, (long)init_pair);
+    succs_to_fr(init_fr, init_pair);
     
-    run_bfs_workers(num_threads, global_fr);
+    run_bfs_workers(num_threads, init_fr);
 
     for (long i = 0; i < global_dists->size; i++) {
         printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists->data[i]);
