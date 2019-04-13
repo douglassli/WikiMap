@@ -24,7 +24,7 @@ void succs_to_fr(frontier* fr, fr_pair* start_node) {
    }   
 }
 
-int par_bfs(map_vec* map, long source) {
+int par_bfs(map_vec* map, long source, int num_threads) {
     global_map = map;
     global_fr = make_frontier();
     global_dists = make_explored();
