@@ -45,15 +45,6 @@ frontier* bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
         
         global_dists->data[cur_pair->node_val] = cur_pair->dist;
 
-        /*
-        node* cur_node = map_get_node(global_map, cur_pair->node_val);
-        for (int n = 0; n < cur_node->size; n++) {
-            long succ = cur_node->data[n];
-            if (global_dists->data[succ] == -1) {
-                fr_pair* succ_pair = new_pair(succ, cur_pair->dist + 1);
-                push_frontier(out_fr, (long)succ_pair);
-            }
-        }*/
         succs_to_fr(out_fr, cur_pair);
         free(cur_pair);
     }    
