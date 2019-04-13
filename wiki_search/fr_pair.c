@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.c>
+#include <stdlib.h>
 
 #include "fr_pair.h"
 
