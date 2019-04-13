@@ -15,9 +15,9 @@ int main(int argc, char* argv[]) {
         return 0;
     } else if (strcmp(argv[1], "dijkstra") == 0 && argc == 4) {
         printf("Parsing...\n");
-        map_vec* map = parse_map_file(atol(argv[2]));
+        map_vec* map = parse_map_file(argv[2]);
         printf("SEARCHING...\n");
-        dijkstra(map, argv[3]);
+        dijkstra(map, atol(argv[3]));
         return 0;
     }
 
