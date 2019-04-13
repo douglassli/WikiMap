@@ -19,10 +19,6 @@ fr_pair* new_pair(long nv, long d) {
     return frp;
 }
 
-node* get_node(map_vec* map, long node_val) {
-    return &map->nodes[node_val];
-}
-
 int dijkstra(map_vec* map, long source) {
     explored* layers = make_explored();
     for (long i = 0; i < map->size; i++) {
@@ -45,7 +41,7 @@ int dijkstra(map_vec* map, long source) {
 
         layers->data[cur_pair->node_val] = cur_pair->dist;
 
-        node* succ_nodes = get_node(map, cur_pair->node_val);
+        node* succ_nodes = map_get_node(map, cur_pair->node_val);
         for (long i = 0; i < succ_nodes->size; i++) {
             long succ = succ_nodes->data[i];
             if (layers->data[succ] == -1) {
