@@ -32,7 +32,7 @@ void succs_to_fr(frontier* fr, fr_pair* start_node) {
    }   
 }
 
-frontier* bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
+void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
     frontier* out_fr = make_frontier();
 
     for (long i = fr_start; i < fr_end; i++) {
@@ -47,13 +47,21 @@ frontier* bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
 
         succs_to_fr(out_fr, cur_pair);
         free(cur_pair);
-    }    
+    }
+
+    while(1) {
+        if (out_fr-> size <= 0) {
+            break;
+        }
+    }
+
+    return 0;
 }
 
 void* bfs_worker_start(void* arg) {
     job j = *((job*) arg);
     free(arg);
-    
+
 }
 
 
