@@ -50,7 +50,7 @@ int dijkstra(map_vec* map, long source) {
             long succ = succ_nodes->data[i];
             if (layers->data[succ] == -1) {
                 fr_pair* new_frp = new_pair(succ, cur_pair->dist + 1);
-                push_frontier(fr, new_frp);
+                push_frontier(fr, (long)new_frp);
             }
         }
         free(cur_pair);
