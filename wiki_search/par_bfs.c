@@ -7,6 +7,7 @@
 #include "frontier.h"
 #include "explored_vec.h"
 #include "node.h"
+#include "fr_pair.h"
 
 map_vec* global_map;
 frontier* global_fr;
@@ -19,6 +20,10 @@ int par_bfs(map_vec* map, long source) {
     for (long i = 0; i < global_map->size; i++) {
         push_explored(global_dists, -1);
     }
+    fr_pair* init_pair = new_pair(source, 0);
+    push_frontier(global_fr, (long)init_pair);
+
+
 
     return 0;
 }
