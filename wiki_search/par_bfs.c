@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <assert.h>
 
 #include "par_bfs.h"
 #include "map_vec.h"
@@ -78,16 +79,47 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt, int num_t
         succs_to_fr(out_fr, cur_pair);
         free(cur_pair);
     }
-
+    //unreachable
     return 0;
 }
 
 void* bfs_worker_start(void* arg) {
     job j = *((job*) arg);
     free(arg);
-
+    bfs_worker(j->thread_num, j->fr_start, j->fr_end, j->frnt, j->num_threads);
+    return 0;
 }
 
+void run_bfs_workers(int num_threads, frontier* start_frnt) {
+    pthread_t threads[num_threads];
+    long partition_size = start_frnt->size / num_threads;
+
+    for (int i = 0; i < num_threads; i++) {
+        long start = i * partition_size;
+        long end;
+        if (i == num_threads) {
+            end = start_frnt->size;
+        } else {
+            end = (i + 1) * partition_size;
+        }
+        job* temp_job = malloc(sizeof(job));
+        temp_job->thread_num = i;
+        temp_job->frnt = start_frnt;
+        temp_job->fr_start = start;
+        temp_job->fr_end = end;
+        temp_job->num_threads = num_threads;
+
+        pthread_t thread;
+        int rv = pthread_create(&thread, 0, bfs_worker_start, temp_job);
+        assert(rv == 0);
+        threads[i] = thread;
+    }
+
+    for (int i = 0; i < num_threads; i++) {
+        int rv = pthread_join(threads[i], 0);
+        assert(rv == 0);
+    }
+}
 
 int par_bfs(map_vec* map, long source, int num_threads) {
     pthread_barrier_init(&barrier, NULL, num_threads);
@@ -100,7 +132,7 @@ int par_bfs(map_vec* map, long source, int num_threads) {
     fr_pair* init_pair = new_pair(source, 0);
     push_frontier(global_fr, (long)init_pair);
 
-
+    
 
     return 0;
 }
