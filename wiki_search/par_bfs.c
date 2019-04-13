@@ -59,6 +59,7 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt) {
 
         if (cur_pair->dist > cur_layer) {
             pthread_barrier_wait(&barrier);
+            cur_layer++;
         }
 
         if (global_dists->data[cur_pair->node_val] != -1) {
