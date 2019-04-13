@@ -30,11 +30,15 @@ int dijkstra(map_vec* map, long source) {
     push_frontier(fr, (long)init_pair);
     long nodes_expanded = 0;
 
-    while(fr->size > 0) {
+    while(1) {
+        if (fr->size <= 0) {
+            break;
+        }
+
         nodes_expanded++;
         fr_pair* cur_pair = (fr_pair*)pop_first_frontier(fr);
 
-        if (layers->data[cur_pair->node_val] != -1) {
+        if (layers->data[cur_pair->node_val] != -1 && cur_pair->node_val != source) {
             free(cur_pair);
             continue;
         }
