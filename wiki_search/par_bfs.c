@@ -130,9 +130,14 @@ int par_bfs(map_vec* map, long source, int num_threads) {
         push_explored(global_dists, -1);
     }
     fr_pair* init_pair = new_pair(source, 0);
-    push_frontier(global_fr, (long)init_pair);
-
+    //push_frontier(global_fr, (long)init_pair);
+    succs_to_fr(global_fr, init_pair);
     
+    run_bfs_workers(num_threads, global_fr);
+
+    for (long i = 0; i < global_dists->size; i++) {
+        printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists->data[i]);
+    }
 
     return 0;
 }
