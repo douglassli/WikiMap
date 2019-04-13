@@ -8,10 +8,6 @@
 #include "explored_vec.h"
 #include "parse_file.h"
 
-node* get_node(map_vec* map, long node_val) {
-    return &map->nodes[node_val];
-}
-
 
 int bfs(map_vec* map, long start, long goal) {
     long nodes_expanded = 0;
@@ -46,7 +42,7 @@ int bfs(map_vec* map, long start, long goal) {
             break;
         }
 
-        node* succ_nodes = get_node(map, curr_node->node);
+        node* succ_nodes = map_get_node(map, curr_node->node);
 
         for (long ii  = 0; ii < succ_nodes->size; ++ii) {
             long succ = succ_nodes->data[ii];
