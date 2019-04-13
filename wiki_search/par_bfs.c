@@ -58,12 +58,12 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt, int num_t
             while(1) {
                 pthread_barrier_wait(&barrier);
                 if (num_threads_finished == num_threads) {
-                    return 0;
+                    return;
                 }
             }
         }
 
-        fr_pair* cur_pair = (fr_pair*)frontier_pop_first(out_fr);
+        fr_pair* cur_pair = (fr_pair*)pop_first_frontier(out_fr);
 
         if (cur_pair->dist > cur_layer) {
             pthread_barrier_wait(&barrier);
@@ -85,7 +85,7 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt, int num_t
 void* bfs_worker_start(void* arg) {
     job j = *((job*) arg);
     free(arg);
-    bfs_worker(j->thread_num, j->fr_start, j->fr_end, j->frnt, j->num_threads);
+    bfs_worker(j.thread_num, j.fr_start, j.fr_end, j.frnt, j.num_threads);
     return 0;
 }
 
@@ -123,7 +123,7 @@ void run_bfs_workers(int num_threads, frontier* start_frnt) {
 int par_bfs(map_vec* map, long source, int num_threads) {
     pthread_barrier_init(&barrier, NULL, num_threads);
     global_map = map;
-    froniter* init_fr = make_frontier();
+    frontier* init_fr = make_frontier();
     global_dists = make_explored();
     for (long i = 0; i < global_map->size; i++) {
         push_explored(global_dists, -1);
