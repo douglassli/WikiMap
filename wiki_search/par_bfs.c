@@ -12,6 +12,13 @@
 map_vec* global_map;
 frontier* global_fr;
 explored* global_dists;
+pthread_barrier_t barrier;
+
+typedef struct job {
+    int thread_num;
+    long fr_start;
+    long fr_end;
+} job;
 
 void succs_to_fr(frontier* fr, fr_pair* start_node) {
     node* succ_nodes = map_get_node(map, start_node->node_val);
@@ -24,7 +31,11 @@ void succs_to_fr(frontier* fr, fr_pair* start_node) {
    }   
 }
 
+
+
+
 int par_bfs(map_vec* map, long source, int num_threads) {
+    pthread_barrier_init(&barrier, NULL, num_threads);
     global_map = map;
     global_fr = make_frontier();
     global_dists = make_explored();
