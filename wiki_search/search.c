@@ -8,16 +8,26 @@
 
 int main(int argc, char* argv[]) {
     if (strcmp(argv[1], "bfs") == 0 && argc == 5) {
-        printf("PARSING...\n");
+        printf("Running Breadth First Search\n");
+        printf(" - Input File: %s\n", argv[2]);
+        printf(" - Source:     %ld\n", atol(argv[3]));
+        printf(" - Goal:       %ld\n\n", atol(argv[4]));
+        printf("Parsing input file...\n");
         map_vec* map = parse_map_file(argv[2]);
-        printf("SEARCHING...");
+        printf("Starting search...\n");
         bfs(map, atol(argv[3]), atol(argv[4]));
         return 0;
     } else if (strcmp(argv[1], "dijkstra") == 0 && argc == 4) {
-        printf("Parsing...\n");
+        printf("PARSING...\n");
         map_vec* map = parse_map_file(argv[2]);
         printf("SEARCHING...\n");
         dijkstra(map, atol(argv[3]));
+        return 0;
+    } else if (strcmp(argv[1], "pbfs") == 0 && argc == 5) {
+        printf("PARSING...\n");
+        map_vec* map = parse_map_file(argv[2]);
+        printf("SEARCHING...\n");
+        par_bfs(map, atol(argv[3]), atoi(argv[4]));
         return 0;
     }
 
