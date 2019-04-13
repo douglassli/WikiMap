@@ -5,6 +5,7 @@
 #include "bfs.h"
 #include "dijkstra.h"
 #include "parse_file.h"
+#include "par_bfs.h"
 
 int main(int argc, char* argv[]) {
     if (strcmp(argv[1], "bfs") == 0 && argc == 5) {
