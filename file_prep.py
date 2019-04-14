@@ -2,6 +2,7 @@ import store_data
 import ast
 import hashlib
 
+
 def prep_node_dict(file_name):
     num_read = 0
     nodes = {}
@@ -45,11 +46,11 @@ def prep_search_file(file_name):
         num_read += len(tpls)
 
         for tp in tpls:
-            added_nodes.add(node_dict[tp[0]])
-            search_file.write(str(node_dict[tp[0]]) + " ")
+            added_nodes.add(node_dict[hashlib.md5(str(tp[0]).encode()).digest()])
+            search_file.write(str(node_dict[hashlib.md5(str(tp[0]).encode()).digest()]) + " ")
 
             for link_title in ast.literal_eval(tp[1]):
-                search_file.write(str(node_dict[link_title]) + " ")
+                search_file.write(str(node_dict[hashlib.md5(str(link_title).encode()).digest()]) + " ")
 
             search_file.write("\n")
 
