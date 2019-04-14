@@ -109,9 +109,9 @@ void run_bfs_workers(int num_threads, frontier* start_frnt) {
         temp_job->fr_end = end;
         temp_job->num_threads = num_threads;
 
-        printf("\nStarting thread %d\n", i);
-        printf("Frontier start: %ld\n", start);
-        printf("Frontier end:   %ld\n", end);
+        //printf("\nStarting thread %d\n", i);
+        //printf("Frontier start: %ld\n", start);
+        //printf("Frontier end:   %ld\n", end);
 
         pthread_t thread;
         int rv = pthread_create(&thread, 0, bfs_worker_start, temp_job);
