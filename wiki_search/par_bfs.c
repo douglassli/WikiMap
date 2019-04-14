@@ -148,6 +148,7 @@ int par_bfs(map_vec* map, long source, int num_threads, int print_output) {
     }
     free_frontier(init_fr);
     free(init_pair);
+    free_explored(global_dists);
     pthread_barrier_destroy(&barrier);
 
     return 0;
