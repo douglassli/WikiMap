@@ -1,19 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
+#include <sys/time.h>
 
 #include "bfs.h"
 #include "dijkstra.h"
 #include "parse_file.h"
 #include "par_bfs.h"
 
-double get_seconds(struct timespec start, struct timespec stop) {
-    return (stop.tv_sec - start.tv_sec) + (stop.tv_nsec - start.tv_nsec) / 1e9;
+double get_seconds(struct timeval start, struct timeval end) { 
+    return (double)(end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1e6;
 }
 
 int main(int argc, char* argv[]) {
-    struct timespec start, stop;
+    struct timeval start, end;
     int print_output = 1;
     if (strcmp(argv[argc - 1], "-np") == 0) {
         print_output = 0;
@@ -27,18 +27,18 @@ int main(int argc, char* argv[]) {
         printf(" - Goal:       %ld\n\n", atol(argv[4]));
         printf("Parsing input file...\n");
 
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+        gettimeofday(&start, NULL);
         map_vec* map = parse_map_file(argv[2]);
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
-        
+        gettimeofday(&end, NULL);
+
         printf("Finished parsing.\n");
-        printf("Elapsed parse time: %f\n\n", get_seconds(start, stop));
+        printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
         printf("Starting search...\n");
-        
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+ 
+        gettimeofday(&start, NULL);       
         bfs(map, atol(argv[3]), atol(argv[4]));
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
-        printf("\nElapsed search time: %f\n\n", get_seconds(start, stop));
+        gettimeofday(&end, NULL);
+        printf("\nElapsed search time: %f\n\n", get_seconds(start, end));
         
         return 0;
     } else if (strcmp(argv[1], "dijkstra") == 0 && argc == 4) {
@@ -47,18 +47,18 @@ int main(int argc, char* argv[]) {
         printf(" - Source:     %ld\n\n", atol(argv[3]));
         printf("Parsing input file...\n");
         
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+        gettimeofday(&start, NULL);
         map_vec* map = parse_map_file(argv[2]);
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
+        gettimeofday(&end, NULL);
         
         printf("Finished parsing.\n");
-        printf("Elapsed parse time: %f\n\n", get_seconds(start, stop));
+        printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
         printf("Starting search...\n");
         
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+        gettimeofday(&start, NULL);
         dijkstra(map, atol(argv[3]), print_output);
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
-        printf("\nElapsed search time: %f\n\n", get_seconds(start, stop));
+        gettimeofday(&end, NULL);
+        printf("\nElapsed search time: %f\n\n", get_seconds(start, end));
         
         return 0;
     } else if (strcmp(argv[1], "pbfs") == 0 && argc == 5) {
@@ -68,18 +68,18 @@ int main(int argc, char* argv[]) {
         printf(" - Num Threads: %d\n\n", atoi(argv[4]));
         printf("Parsing input file...\n");
         
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+        gettimeofday(&start, NULL);
         map_vec* map = parse_map_file(argv[2]);
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
+        gettimeofday(&end, NULL);
         
         printf("Finished parsing.\n");
-        printf("Elapsed parse time: %f\n\n", get_seconds(start, stop));
+        printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
         printf("Starting search...\n");
         
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+        gettimeofday(&start, NULL);
         par_bfs(map, atol(argv[3]), atoi(argv[4]), print_output);
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
-        printf("\nElapsed search time: %f\n\n", get_seconds(start, stop));
+        gettimeofday(&end, NULL);
+        printf("\nElapsed search time: %f\n\n", get_seconds(start, end));
         
         return 0;
     }
