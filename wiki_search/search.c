@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
         printf("\nElapsed search time: %f\n\n", get_seconds(start, end));
         
         return 0;
-    } else if (strcmp(ergv[1], "benchmark") == 0 && argc == 3) {
+    } else if (strcmp(argv[1], "benchmark") == 0 && argc == 3) {
         printf("Running benchmark on Dijkstra and PBFS\n");
         printf(" - Input File: %s\n\n", argv[2]);
 
@@ -95,12 +95,13 @@ int main(int argc, char* argv[]) {
         printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
         
         printf("Benchmarking Dijkstra...\n");
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             gettimeofday(&start, NULL);
-            par_bfs(map, 0, 4, 0);
+            dijkstra(map, 0, 0);;
             gettimeofday(&end, NULL);
             printf("%f\n", get_seconds(start, end));
         }
+        return 0;
     }
 
     printf("INVALID ARGUMENTS\n");
