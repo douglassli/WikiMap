@@ -27,13 +27,13 @@ int main(int argc, char* argv[]) {
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
         
         printf("Finished parsing.\n");
-        printf("Elapsed parse time: %f\n\n", get_seconds(start, stop);
+        printf("Elapsed parse time: %f\n\n", get_seconds(start, stop));
         printf("Starting search...\n");
         
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
         bfs(map, atol(argv[3]), atol(argv[4]));
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
-        printf("\nElapsed search time: %f\n\n", get_seconds(start, stop);
+        printf("\nElapsed search time: %f\n\n", get_seconds(start, stop));
         
         return 0;
     } else if (strcmp(argv[1], "dijkstra") == 0 && argc == 4) {
@@ -47,13 +47,13 @@ int main(int argc, char* argv[]) {
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
         
         printf("Finished parsing.\n");
-        printf("Elapsed parse time: %f\n\n", get_seconds(start, stop);
+        printf("Elapsed parse time: %f\n\n", get_seconds(start, stop));
         printf("Starting search...\n");
         
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
         dijkstra(map, atol(argv[3]));
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
-        printf("\nElapsed search time: %f\n\n", get_seconds(start, stop);
+        printf("\nElapsed search time: %f\n\n", get_seconds(start, stop));
         
         return 0;
     } else if (strcmp(argv[1], "pbfs") == 0 && argc == 5) {
@@ -68,13 +68,13 @@ int main(int argc, char* argv[]) {
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
         
         printf("Finished parsing.\n");
-        printf("Elapsed parse time: %f\n\n", get_seconds(start, stop);
+        printf("Elapsed parse time: %f\n\n", get_seconds(start, stop));
         printf("Starting search...\n");
         
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
         par_bfs(map, atol(argv[3]), atoi(argv[4]));
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
-        printf("\nElapsed search time: %f\n\n", get_seconds(start, stop);
+        printf("\nElapsed search time: %f\n\n", get_seconds(start, stop));
         
         return 0;
     }
