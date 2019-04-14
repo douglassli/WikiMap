@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <assert.h>
 
+#include "pthread_barrier.h"
 #include "par_bfs.h"
 #include "map_vec.h"
 #include "frontier.h"
@@ -108,6 +109,10 @@ void run_bfs_workers(int num_threads, frontier* start_frnt) {
         temp_job->fr_end = end;
         temp_job->num_threads = num_threads;
 
+        printf("\nStarting thread %d\n", i);
+        printf("Frontier start: %ld\n", start);
+        printf("Frontier end:   %ld\n", end);
+
         pthread_t thread;
         int rv = pthread_create(&thread, 0, bfs_worker_start, temp_job);
         assert(rv == 0);
@@ -129,6 +134,7 @@ int par_bfs(map_vec* map, long source, int num_threads) {
         push_explored(global_dists, -1);
     }
     fr_pair* init_pair = new_pair(source, 0);
+    global_dists->data[source] = 0;
     //push_frontier(init_fr, (long)init_pair);
     succs_to_fr(init_fr, init_pair);
     
