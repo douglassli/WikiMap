@@ -56,6 +56,7 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt, int num_t
     while(1) {
         if (out_fr-> size <= 0) {
             num_threads_finished++;
+            free_frontier(out_fr);
             while(1) {
                 pthread_barrier_wait(&barrier);
                 if (num_threads_finished == num_threads) {
@@ -145,6 +146,9 @@ int par_bfs(map_vec* map, long source, int num_threads, int print_output) {
             printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists->data[i]);
         }
     }
+    free_frontier(init_fr);
+    free(init_pair);
+    pthread_barrier_destroy(&barrier);
 
     return 0;
 }
