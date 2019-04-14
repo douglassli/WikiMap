@@ -18,13 +18,15 @@ def prep_node_dict(file_name):
         num_read += len(tpls)
 
         for tp in tpls:
-            if hashlib.md5(str(tp[0]).encode()).digest() not in nodes:
-                nodes[hashlib.md5(str(tp[0]).encode()).digest()] = index
+            temp_hash = hashlib.md5(str(tp[0]).encode()).digest()
+            if temp_hash not in nodes:
+                nodes[temp_hash] = index
                 index += 1
 
             for link_title in ast.literal_eval(tp[1]):
-                if hashlib.md5(str(link_title).encode()).digest() not in nodes:
-                    nodes[hashlib.md5(str(link_title).encode()).digest()] = index
+                lt_hash = hashlib.md5(str(link_title).encode()).digest()
+                if lt_hash not in nodes:
+                    nodes[lt_hash] = index
                     index += 1
 
     return nodes
@@ -46,8 +48,9 @@ def prep_search_file(file_name):
         num_read += len(tpls)
 
         for tp in tpls:
-            added_nodes.add(node_dict[hashlib.md5(str(tp[0]).encode()).digest()])
-            search_file.write(str(node_dict[hashlib.md5(str(tp[0]).encode()).digest()]) + " ")
+            temp_hash = hashlib.md5(str(tp[0]).encode()).digest()
+            added_nodes.add(node_dict[temp_hash])
+            search_file.write(str(node_dict[temp_hash]) + " ")
 
             for link_title in ast.literal_eval(tp[1]):
                 search_file.write(str(node_dict[hashlib.md5(str(link_title).encode()).digest()]) + " ")
