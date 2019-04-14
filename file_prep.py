@@ -35,8 +35,8 @@ def prep_node_dict(file_name):
 
 
 def prep_search_file(file_name):
-    print("PREPPING FILE")
     node_dict = prep_node_dict(file_name)
+    print("PREPPING FILE")
     num_read = 0
     search_file = open("search_file.txt", "w")
     added_nodes = set()
