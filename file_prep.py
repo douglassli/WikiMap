@@ -4,11 +4,13 @@ import hashlib
 
 
 def prep_node_dict(file_name):
+    print("PREPPING DICT")
     num_read = 0
     nodes = {}
     index = 0
 
     while True:
+        print(num_read)
         df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 10000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
 
@@ -33,12 +35,14 @@ def prep_node_dict(file_name):
 
 
 def prep_search_file(file_name):
+    print("PREPPING FILE")
     node_dict = prep_node_dict(file_name)
     num_read = 0
     search_file = open("search_file.txt", "w")
     added_nodes = set()
 
     while True:
+        print(num_read)
         df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 10000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
 
