@@ -101,6 +101,7 @@ int main(int argc, char* argv[]) {
             gettimeofday(&end, NULL);
             printf("%f\n", get_seconds(start, end));
         }
+        printf("Dijkstra Done.\n");
 
         printf("\nBenchmarking PBFS...\n");
         for (int i = 0; i < 100; i++) {
@@ -109,6 +110,7 @@ int main(int argc, char* argv[]) {
             gettimeofday(&end, NULL);
             printf("%f\n", get_seconds(start, end));
         }
+        printf("PBFS Done.\n");
         return 0;
     }
 
