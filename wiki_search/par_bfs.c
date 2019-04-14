@@ -125,7 +125,7 @@ void run_bfs_workers(int num_threads, frontier* start_frnt) {
     }
 }
 
-int par_bfs(map_vec* map, long source, int num_threads) {
+int par_bfs(map_vec* map, long source, int num_threads, int print_output) {
     pthread_barrier_init(&barrier, NULL, num_threads);
     global_map = map;
     frontier* init_fr = make_frontier();
@@ -139,9 +139,11 @@ int par_bfs(map_vec* map, long source, int num_threads) {
     succs_to_fr(init_fr, init_pair);
     
     run_bfs_workers(num_threads, init_fr);
-
-    for (long i = 0; i < global_dists->size; i++) {
-        printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists->data[i]);
+    
+    if (print_output) {
+        for (long i = 0; i < global_dists->size; i++) {
+            printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists->data[i]);
+        }
     }
 
     return 0;
