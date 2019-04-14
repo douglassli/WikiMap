@@ -1,6 +1,6 @@
 import store_data
 import ast
-
+import hashlib
 
 def prep_node_dict(file_name):
     num_read = 0
@@ -8,7 +8,7 @@ def prep_node_dict(file_name):
     index = 0
 
     while True:
-        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 10000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
 
         if len(tpls) == 0:
@@ -17,13 +17,13 @@ def prep_node_dict(file_name):
         num_read += len(tpls)
 
         for tp in tpls:
-            if tp[0] not in nodes:
-                nodes[tp[0]] = index
+            if hashlib.md5(str(tp[0]).encode()).digest() not in nodes:
+                nodes[hashlib.md5(str(tp[0]).encode()).digest()] = index
                 index += 1
 
             for link_title in ast.literal_eval(tp[1]):
-                if link_title not in nodes:
-                    nodes[link_title] = index
+                if hashlib.md5(str(link_title).encode()).digest() not in nodes:
+                    nodes[hashlib.md5(str(link_title).encode()).digest()] = index
                     index += 1
 
     return nodes
@@ -36,7 +36,7 @@ def prep_search_file(file_name):
     added_nodes = set()
 
     while True:
-        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 1000, num_read)
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 10000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
 
         if len(tpls) == 0:
@@ -62,4 +62,4 @@ def prep_search_file(file_name):
 
 
 if __name__ == '__main__':
-    prep_search_file("Data Sets/medium1_output.csv")
+    prep_search_file("Data Sets/medium2_output.csv")
