@@ -101,6 +101,14 @@ int main(int argc, char* argv[]) {
             gettimeofday(&end, NULL);
             printf("%f\n", get_seconds(start, end));
         }
+
+        printf("\nBenchmarking PBFS...\n");
+        for (int i = 0; i < 10; i++) {
+            gettimeofday(&start, NULL);
+            par_bfs(map, 0, 4, 0);
+            gettimeofday(&end, NULL);
+            printf("%f\n", get_seconds(start, end));
+        }
         return 0;
     }
 
