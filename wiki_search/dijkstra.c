@@ -50,5 +50,7 @@ int dijkstra(map_vec* map, long source, int print_output) {
             printf("DIST FROM %ld TO %ld = %ld\n", source, i, layers->data[i]);
         }
     }
+    free_explored(layers);
+    free_frontier(fr);
     return 0;
 }
