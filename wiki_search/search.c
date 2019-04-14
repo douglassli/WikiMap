@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
         printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
         
         printf("Benchmarking Dijkstra...\n");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             gettimeofday(&start, NULL);
             dijkstra(map, 0, 0);;
             gettimeofday(&end, NULL);
@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
         }
 
         printf("\nBenchmarking PBFS...\n");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             gettimeofday(&start, NULL);
             par_bfs(map, 0, 4, 0);
             gettimeofday(&end, NULL);
