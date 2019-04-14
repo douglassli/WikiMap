@@ -14,6 +14,11 @@ double get_seconds(struct timespec start, struct timespec stop) {
 
 int main(int argc, char* argv[]) {
     struct timespec start, stop;
+    int print_output = 1;
+    if (strcmp(argv[argc - 1], "-np") == 0) {
+        print_output = 0;
+        argc--;
+    }
 
     if (strcmp(argv[1], "bfs") == 0 && argc == 5) {
         printf("Running Breadth First Search\n");
@@ -51,7 +56,7 @@ int main(int argc, char* argv[]) {
         printf("Starting search...\n");
         
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
-        dijkstra(map, atol(argv[3]));
+        dijkstra(map, atol(argv[3]), print_output);
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
         printf("\nElapsed search time: %f\n\n", get_seconds(start, stop));
         
@@ -72,7 +77,7 @@ int main(int argc, char* argv[]) {
         printf("Starting search...\n");
         
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
-        par_bfs(map, atol(argv[3]), atoi(argv[4]));
+        par_bfs(map, atol(argv[3]), atoi(argv[4]), print_output);
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &stop);
         printf("\nElapsed search time: %f\n\n", get_seconds(start, stop));
         
