@@ -8,7 +8,7 @@
 #include "explored_vec.h"
 #include "fr_pair.h"
 
-int dijkstra(map_vec* map, long source) {
+int dijkstra(map_vec* map, long source, int print_output) {
     explored* layers = make_explored();
     for (long i = 0; i < map->size; i++) {
         push_explored(layers, -1);
@@ -44,9 +44,11 @@ int dijkstra(map_vec* map, long source) {
         }
         free(cur_pair);
     }
-
-    for (long i = 0; i < map->size; i++) {
-        printf("DIST FROM %ld TO %ld = %ld\n", source, i, layers->data[i]);
+    
+    if (print_output) {
+        for (long i = 0; i < map->size; i++) {
+            printf("DIST FROM %ld TO %ld = %ld\n", source, i, layers->data[i]);
+        }
     }
     return 0;
 }
