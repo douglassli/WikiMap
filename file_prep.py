@@ -11,7 +11,7 @@ def prep_node_dict(file_name):
 
     while True:
         print(num_read)
-        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 10000, num_read)
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 100000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
 
         if len(tpls) == 0:
@@ -43,7 +43,7 @@ def prep_search_file(file_name):
 
     while True:
         print(num_read)
-        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 10000, num_read)
+        df = store_data.read_partial_section(file_name, ["Page Title", "Out-link Titles"], 100000, num_read)
         tpls = list(df.itertuples(index=False, name=None))
 
         if len(tpls) == 0:
