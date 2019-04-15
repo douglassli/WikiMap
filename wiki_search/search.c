@@ -95,21 +95,29 @@ int main(int argc, char* argv[]) {
         printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
         
         printf("Benchmarking Dijkstra...\n");
+        double total = 0.0;
         for (int i = 0; i < 100; i++) {
             gettimeofday(&start, NULL);
             dijkstra(map, 0, 0);;
             gettimeofday(&end, NULL);
-            printf("%f\n", get_seconds(start, end));
+            double secs = get_seconds(start, end);
+            printf("%f\n", secs);
+            total += secs;
         }
+        printf("Average time: %f secs", total / 100.0);
         printf("Dijkstra Done.\n");
 
         printf("\nBenchmarking PBFS...\n");
+        total = 0.0;
         for (int i = 0; i < 100; i++) {
             gettimeofday(&start, NULL);
             par_bfs(map, 0, 1, 0);
             gettimeofday(&end, NULL);
-            printf("%f\n", get_seconds(start, end));
+            double secs = get_seconds(start, end);
+            printf("%f\n", secs);
+            total += secs;
         }
+        printf("Average time: %f secs", total / 100.0);
         printf("PBFS Done.\n");
         return 0;
     }
