@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
             printf("%f\n", secs);
             total += secs;
         }
-        printf("Average time: %f secs", total / 100.0);
+        printf("Average time: %f secs\n", total / 100.0);
         printf("Dijkstra Done.\n");
 
         printf("\nBenchmarking PBFS...\n");
@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
             printf("%f\n", secs);
             total += secs;
         }
-        printf("Average time: %f secs", total / 100.0);
+        printf("Average time: %f secs\n", total / 100.0);
         printf("PBFS Done.\n");
         return 0;
     }
