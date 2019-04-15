@@ -37,9 +37,10 @@ void succs_to_fr(frontier* fr, fr_pair* start_node) {
 
 void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt, int num_threads) {
     frontier* out_fr = make_frontier();
-
+    long num_expanded = 0;
     for (long i = fr_start; i < fr_end; i++) {
         fr_pair* cur_pair = (fr_pair*)frnt->vals[i];
+        num_expanded++;
 
         if (global_dists->data[cur_pair->node_val] != -1) {
             free(cur_pair);
@@ -60,13 +61,14 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt, int num_t
             while(1) {
                 pthread_barrier_wait(&barrier);
                 if (num_threads_finished == num_threads) {
+                    printf("Thread %d expanded %ld nodes\n", t_num, num_expanded);
                     return;
                 }
             }
         }
 
         fr_pair* cur_pair = (fr_pair*)pop_first_frontier(out_fr);
-
+        num_expanded++;
         if (cur_pair->dist > cur_layer) {
             pthread_barrier_wait(&barrier);
             cur_layer++;
