@@ -99,6 +99,13 @@ void print_frontier(frontier* fr) {
     }
     printf("\n");
 }
+
+frontier* merge_frontiers(frontier* fr1, fronter* fr2) {
+    frontier* new_fr = malloc(sizeof(frontier));
+    new_fr->vals = malloc((fr1->size + fr2->size) * sizeof(long));
+    new_fr->size = fr1->size + fr2->size;
+    new_fr->
+}
 /*
 int main() {
     frontier* frnt = make_frontier();
