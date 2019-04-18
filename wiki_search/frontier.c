@@ -30,12 +30,13 @@ void push_frontier(frontier* fr, long val) {
     if (fr->size >= fr->cap) {
         if (fr->offset > 0) {
             fr->cap = (fr->offset + fr->cap) * 2;
-            void* new_data = malloc(fr->cap * sizeof(long));
-            void* old_data = (void*)fr->vals + (fr->offset * sizeof(long));
-            memcpy(new_data, old_data, fr->size * sizeof(long));
-            free(fr->vals);
-            fr->vals = (long*)new_data;
-            fr->offset = 0;
+            //void* new_data = malloc(fr->cap * sizeof(long));
+            //void* old_data = (void*)fr->vals + (fr->offset * sizeof(long));
+            //memcpy(new_data, old_data, fr->size * sizeof(long));
+            //free(fr->vals);
+            //fr->vals = (long*)new_data;
+            //fr->offset = 0;
+            remove_offset(fr);
         } else {
             fr->cap *= 2;
             fr->vals = realloc(fr->vals, fr->cap * sizeof(long));
