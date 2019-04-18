@@ -11,4 +11,8 @@
 #include "node.h"
 #include "fr_pair.h"
 
-
+int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
+    
+    
+    return 0;
+}
