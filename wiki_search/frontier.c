@@ -111,10 +111,18 @@ void print_frontier(frontier* fr) {
 }
 
 frontier* merge_frontiers(frontier* fr1, fronter* fr2) {
-    fr1->vals = realloc(fr1->vals, fr1->cap + fr2->cap);
+    frontier* new_fr = malloc(sizeof(frontier));
+    new_fr->vals = malloc((fr1->cap + fr2->cap) * sizeof(long));
+    void* fr1_data = (void*)fr1->vals + (fr1->offset * sizeof(long));
+    void* fr2_data = (void*)fr2->vals + (fr2->offset * sizeof(long));
+    memcpy((void*)new_fr->vals, fr1_data, fr1->size * sizeof(long));
+    memcpy((void*)new_fr->vals + (fr1->size * sizeof(long)), fr2_data, fr2->size * sizeof(long));
     new_fr->size = fr1->size + fr2->size;
     new_fr->cap = fr1->cap + fr2->cap;
-    new_fr->offset = 
+    new_fr->offset = 0;
+    free_frontier(fr1);
+    free_frontier(fr2);
+    return 
 }
 /*
 int main() {
