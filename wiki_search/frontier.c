@@ -122,7 +122,7 @@ frontier* merge_frontiers(frontier* fr1, fronter* fr2) {
     new_fr->offset = 0;
     free_frontier(fr1);
     free_frontier(fr2);
-    return 
+    return new_fr; 
 }
 /*
 int main() {
