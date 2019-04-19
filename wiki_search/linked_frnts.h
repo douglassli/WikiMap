@@ -4,7 +4,7 @@
 #define LINKED_FRONTIERS_H
 
 typedef struct flink {
-    frontier* link_fr;
+    frontier* lfr;
     struct alink array* next;
 } flink;
 
