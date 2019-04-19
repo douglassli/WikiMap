@@ -61,6 +61,7 @@ void* bfs_worker_start2(void* arg) {
 }
 
 void run_bfs_workers2(int num_threads, frontier* start_fr) {
+    printf("RUN_BFS_WORKERS2 n_threads = %d, frnt = %ld\n", num_threads, (long)start_fr);
     frontier* cur_fr = start_fr;
     while(1) {
         if (cur_fr->size <= 0) {
@@ -97,10 +98,10 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
         
         frontier* new_fr = make_frontier();
         for (int i = 0; i < num_threads; i++) {
-            void** ret_val;
-            int rv = pthread_join(threads[i], ret_val);
+            void* ret_val;
+            int rv = pthread_join(threads[i], &ret_val);
             assert(rv == 0);
-            frontier* thread_frnt = (frontier*)*(ret_val);
+            frontier* thread_frnt = (frontier*)ret_val;
 
             new_fr = merge_frontiers(thread_frnt, new_fr);
         }
