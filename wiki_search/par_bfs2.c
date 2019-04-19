@@ -97,10 +97,11 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
         
         frontier* new_fr = make_frontier();
         for (int i = 0; i < num_threads; i++) {
-            void* ret_val;
+            void** ret_val;
             int rv = pthread_join(threads[i], ret_val);
             assert(rv == 0);
-            frontier* thread_frnt = (frontier*)ret_val;
+            frontier* thread_frnt = (frontier*)*(ret_val);
+
             new_fr = merge_frontiers(thread_frnt, new_fr);
         }
         free_frontier(cur_fr);
