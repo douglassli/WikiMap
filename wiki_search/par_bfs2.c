@@ -95,7 +95,6 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
             threads[i] = thread;
         }
 
-        free_frontier(cur_fr);
         
         //frontier* new_fr = make_frontier();
         frontier* fra[num_threads];
@@ -107,7 +106,7 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
             fra[i] = thread_frnt;
             //new_fr = merge_frontiers(thread_frnt, new_fr);
         }
-        //free_frontier(cur_fr);
+        free_frontier(cur_fr);
         cur_fr = merge_frontier_array(fra, num_threads);//new_fr;
     }    
 }
