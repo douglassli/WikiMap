@@ -143,6 +143,7 @@ frontier* merge_frontier_array(frontier* fra, int num_frs) {
         void* old_data = (void*)fra[i]->vals + (fra[i]->offset * sizeof(long));
         memcpy(cur_ptr, old_data, fra[i]->size * sizeof(long));
         cur_ptr += fra[i]->size * sizeof(long);
+        free_frontier(fra[i]);
     }
     return new_fr;
 }   
