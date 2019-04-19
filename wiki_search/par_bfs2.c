@@ -61,7 +61,6 @@ void* bfs_worker_start2(void* arg) {
 }
 
 void run_bfs_workers2(int num_threads, frontier* start_fr) {
-    printf("RUN_BFS_WORKERS2 n_threads = %d, frnt = %ld\n", num_threads, (long)start_fr);
     frontier* cur_fr = start_fr;
     while(1) {
         if (cur_fr->size <= 0) {
@@ -86,9 +85,9 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
             temp_job->fr_end = end;
             temp_job->num_threads = num_threads;
 
-            printf("\nStarting thread %d\n", i);
-            printf("Frontier start: %ld\n", start);
-            printf("Frontier end:   %ld\n", end);
+            //printf("\nStarting thread %d\n", i);
+            //printf("Frontier start: %ld\n", start);
+            //printf("Frontier end:   %ld\n", end);
 
             pthread_t thread;
             int rv = pthread_create(&thread, 0, bfs_worker_start2, temp_job);
