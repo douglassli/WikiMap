@@ -8,6 +8,10 @@ typedef struct flink {
     struct alink array* next;
 } flink;
 
-typedef struct 
+typedef struct linked_frnts {
+    long tot_size;
+    flink* front;
+    flink* end;
+}
 
 #endif
