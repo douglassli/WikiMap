@@ -111,7 +111,17 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
 }
 
 int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
-    
+    global_map = map;
+    frontier* init_fr = make_frontier();
+    global_dists = make_explored();
+    for (long i = 0; i < global_map->size; i++) {
+        push_explored(global_dists, -1);
+    }
+    fr_pair* init_pair = new_pair(source, 0);
+    global_dists->data[source] = 0;
+    succs_to_fr(init_fr, init_pair);
+
+    run_bfs_workers(num_threads, init_fr);
     
     return 0;
 }
