@@ -69,7 +69,7 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
         }
 
         pthread_t threads[num_threads];
-        long partition_size = start_fr->size / num_threads;
+        long partition_size = cur_fr->size / num_threads;
 
         for (int i = 0; i < num_threads; i++) {
             long start = i * partition_size;
