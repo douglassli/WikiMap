@@ -96,7 +96,7 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
         }
         
         //frontier* new_fr = make_frontier();
-        frontier* fra = (frontier*)malloc(num_threads * sizeof(frontier));;
+        frontier* fra[num_threads];
         for (int i = 0; i < num_threads; i++) {
             void* ret_val;
             int rv = pthread_join(threads[i], &ret_val);
