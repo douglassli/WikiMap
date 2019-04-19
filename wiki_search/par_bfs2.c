@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <assert.h>
 
-#include "par_bfs.h"
+#include "par_bfs2.h"
 #include "map_vec.h"
 #include "frontier.h"
 #include "explored_vec.h"
