@@ -148,7 +148,11 @@ frontier* merge_frontier_array(frontier* fra[], int num_frs) {
         free_frontier(cur_fr);
     }
     return new_fr;
-}   
+}
+
+long get_item_frontier(frontier* fr, long index) {
+    return fr->vals[fr->offset + index];
+}
 /*
 int main() {
     frontier* frnt = make_frontier();
