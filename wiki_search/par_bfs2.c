@@ -64,7 +64,47 @@ void* bfs_worker_start2(void* arg) {
 }
 
 void run_bfs_workers2(int num_threads, frontier* start_fr) {
-    
+    frontier* cur_fr = start_fr;
+    while(1) {
+        if (cur_fr->size <= 0) {
+            return;
+        }
+
+        pthread_t threads[num_threads];
+        long partition_size = start_frnt->size / num_threads;
+
+        for (int i = 0; i < num_threads; i++) {
+            long start = i * partition_size;
+            long end;
+            if (i == num_threads) {
+                end = start_frnt->size;
+            } else {
+                end = (i + 1) * partition_size;
+            }
+            job* temp_job = malloc(sizeof(job));
+            temp_job->thread_num = i;
+            temp_job->frnt = cur_fr;
+            temp_job->fr_start = start;
+            temp_job->fr_end = end;
+            temp_job->num_threads = num_threads;
+
+            //printf("\nStarting thread %d\n", i);
+            //printf("Frontier start: %ld\n", start);
+            //printf("Frontier end:   %ld\n", end);
+
+            pthread_t thread;
+            int rv = pthread_create(&thread, 0, bfs_worker_start2, temp_job);
+            assert(rv == 0);
+            threads[i] = thread;
+        }
+        
+        frontier* new_fr = make_frontier();
+        for (int i = 0; i < num_threads; i++) {
+            void* ret_val;
+            int rv = pthread_join(threads[i], ret_val);
+            assert(rv == 0);
+        }
+    }    
 }
 
 int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
