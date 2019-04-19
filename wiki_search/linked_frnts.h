@@ -10,8 +10,8 @@ typedef struct flink {
 
 typedef struct linked_frnts {
     long tot_size;
-    flink* front;
-    flink* end;
+    flink* head;
+    flink* tail;
 }
 
 #endif
