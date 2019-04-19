@@ -10,9 +10,8 @@
 #include "node.h"
 #include "fr_pair.h"
 
-map_vec* global_map;
-explored* global_dists;
-int num_threads_finished = 0;
+map_vec* global_map2;
+explored* global_dists2;
 
 typedef struct job2 {
     int thread_num;
@@ -23,10 +22,10 @@ typedef struct job2 {
 } job2;
 
 void succs_to_fr2(frontier* fr, fr_pair* start_node) {
-    node* succ_nodes = map_get_node(global_map, start_node->node_val);
+    node* succ_nodes = map_get_node(global_map2, start_node->node_val);
     for (long n = 0; n < succ_nodes->size; n++) {
         long succ = succ_nodes->data[n];
-        if (global_dists->data[succ] == -1) {
+        if (global_dists2->data[succ] == -1) {
             fr_pair* new_frp = new_pair(succ, start_node->dist + 1);
             push_frontier(fr, (long)new_frp);
         }
@@ -40,7 +39,7 @@ frontier* bfs_worker2(int t_num, long fr_start, long fr_end, frontier* frnt, int
         fr_pair* cur_pair = (fr_pair*)frnt->vals[i];
         num_expanded++;
 
-        if (global_dists->data[cur_pair->node_val] != -1) {
+        if (global_dists2->data[cur_pair->node_val] != -1) {
             free(cur_pair);
             continue;
         }
@@ -110,26 +109,25 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
 }
 
 int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
-    global_map = map;
+    global_map2 = map;
     frontier* init_fr = make_frontier();
-    global_dists = make_explored();
-    for (long i = 0; i < global_map->size; i++) {
+    global_dists2 = make_explored();
+    for (long i = 0; i < global_map2->size; i++) {
         push_explored(global_dists, -1);
     }
     fr_pair* init_pair = new_pair(source, 0);
-    global_dists->data[source] = 0;
+    global_dists2->data[source] = 0;
     succs_to_fr2(init_fr, init_pair);
 
     run_bfs_workers2(num_threads, init_fr);
     
     if (print_output) {
-        for (long i = 0; i < global_dists->size; i++) {
-            printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists->data[i]);
+        for (long i = 0; i < global_dists2->size; i++) {
+            printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists2->data[i]);
         }
     }
     free(init_pair);
-    free_explored(global_dists);
-    num_threads_finished = 0;
+    free_explored(global_dists2);
 
     return 0;
 }
