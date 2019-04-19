@@ -3,48 +3,48 @@
 #include <pthread.h>
 #include <assert.h>
 
-#include "par_bfs.h"
+#include "par_bfs3.h"
 #include "map_vec.h"
 #include "frontier.h"
 #include "explored_vec.h"
 #include "node.h"
 #include "fr_pair.h"
 
-map_vec* global_map2;
-explored* global_dists2;
+map_vec* global_map3;
+explored* global_dists3;
 
-typedef struct job2 {
+typedef struct job3 {
     int thread_num;
     frontier* frnt;
     long fr_start;
     long fr_end;
     int num_threads;
-} job2;
+} job3;
 
-void succs_to_fr2(frontier* fr, fr_pair* start_node) {
-    node* succ_nodes = map_get_node(global_map2, start_node->node_val);
+void succs_to_fr3(frontier* fr, fr_pair* start_node) {
+    node* succ_nodes = map_get_node(global_map3, start_node->node_val);
     for (long n = 0; n < succ_nodes->size; n++) {
         long succ = succ_nodes->data[n];
-        if (global_dists2->data[succ] == -1) {
+        if (global_dists3->data[succ] == -1) {
             fr_pair* new_frp = new_pair(succ, start_node->dist + 1);
             push_frontier(fr, (long)new_frp);
         }
    }
 }
 
-frontier* bfs_worker2(int t_num, long fr_start, long fr_end, frontier* frnt, int num_threads) {
+frontier* bfs_worker3(int t_num, long fr_start, long fr_end, frontier* frnt, int num_threads) {
     frontier* out_fr = make_frontier();
     long num_expanded = 0;
     for (long i = fr_start; i < fr_end; i++) {
         fr_pair* cur_pair = (fr_pair*)frnt->vals[i];
         num_expanded++;
 
-        if (global_dists2->data[cur_pair->node_val] != -1) {
+        if (global_dists3->data[cur_pair->node_val] != -1) {
             free(cur_pair);
             continue;
         }
  
-        global_dists2->data[cur_pair->node_val] = cur_pair->dist;
+        global_dists3->data[cur_pair->node_val] = cur_pair->dist;
 
         succs_to_fr2(out_fr, cur_pair);
         free(cur_pair);
@@ -53,14 +53,14 @@ frontier* bfs_worker2(int t_num, long fr_start, long fr_end, frontier* frnt, int
     return out_fr;
 }
 
-void* bfs_worker_start2(void* arg) {
-    job2 j = *((job2*)arg);
+void* bfs_worker_start3(void* arg) {
+    job3 j = *((job3*)arg);
     free(arg);
-    frontier* ret_fr = bfs_worker2(j.thread_num, j.fr_start, j.fr_end, j.frnt, j.num_threads);
+    frontier* ret_fr = bfs_worker3(j.thread_num, j.fr_start, j.fr_end, j.frnt, j.num_threads);
     return (void*)ret_fr;
 }
 
-void run_bfs_workers2(int num_threads, frontier* start_fr) {
+void run_bfs_workers3(int num_threads, frontier* start_fr) {
     frontier* cur_fr = start_fr;
     while(1) {
         if (cur_fr->size <= 0) {
@@ -90,7 +90,7 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
             //printf("Frontier end:   %ld\n", end);
 
             pthread_t thread;
-            int rv = pthread_create(&thread, 0, bfs_worker_start2, temp_job);
+            int rv = pthread_create(&thread, 0, bfs_worker_start3, temp_job);
             assert(rv == 0);
             threads[i] = thread;
         }
@@ -111,26 +111,26 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
     }    
 }
 
-int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
-    global_map2 = map;
+int par_bfs3(map_vec* map, long source, int num_threads, int print_output) {
+    global_map3 = map;
     frontier* init_fr = make_frontier();
-    global_dists2 = make_explored();
-    for (long i = 0; i < global_map2->size; i++) {
-        push_explored(global_dists2, -1);
+    global_dists3 = make_explored();
+    for (long i = 0; i < global_map3->size; i++) {
+        push_explored(global_dists3, -1);
     }
     fr_pair* init_pair = new_pair(source, 0);
-    global_dists2->data[source] = 0;
-    succs_to_fr2(init_fr, init_pair);
+    global_dists3->data[source] = 0;
+    succs_to_fr3(init_fr, init_pair);
 
-    run_bfs_workers2(num_threads, init_fr);
+    run_bfs_workers3(num_threads, init_fr);
     
     if (print_output) {
-        for (long i = 0; i < global_dists2->size; i++) {
-            printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists2->data[i]);
+        for (long i = 0; i < global_dists3->size; i++) {
+            printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists3->data[i]);
         }
     }
     free(init_pair);
-    free_explored(global_dists2);
+    free_explored(global_dists3);
 
     return 0;
 }
