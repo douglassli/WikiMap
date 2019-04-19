@@ -121,7 +121,7 @@ int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
     global_dists->data[source] = 0;
     succs_to_fr2(init_fr, init_pair);
 
-    run_bfs_workers(num_threads, init_fr);
+    run_bfs_workers2(num_threads, init_fr);
     
     if (print_output) {
         for (long i = 0; i < global_dists->size; i++) {
