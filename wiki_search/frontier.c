@@ -21,6 +21,16 @@ frontier* make_frontier() {
     return fr;
 }
 
+void remove_offset(frontier* fr) {
+    void* new_data = malloc(fr->cap * sizeof(long));
+    void* old_data = (void*)fr->vals + (fr->offset * sizeof(long));
+    memcpy(new_data, old_data, fr->size * sizeof(long));
+    free(fr->vals);
+    fr->vals = (long*)new_data;
+    fr->offset = 0;
+}
+
+
 void push_frontier(frontier* fr, long val) {
     //printf("\npush_frontier START\n");
     //printf("size = %ld\n", fr->size);
@@ -48,15 +58,6 @@ void push_frontier(frontier* fr, long val) {
     //printf("size = %ld\n", fr->size);
     //printf("cap = %ld\n", fr->cap);
     //printf("offset = %ld\n", fr->offset);
-}
-
-void remove_offset(frontier* fr) {
-    void* new_data = malloc(fr->cap * sizeof(long));
-    void* old_data = (void*)fr->vals + (fr->offset * sizeof(long));
-    memcpy(new_data, old_data, fr->size * sizeof(long));
-    free(fr->vals);
-    fr->vals = (long*)new_data;
-    fr->offset = 0;
 }
 
 void free_frontier(frontier* fr) {
