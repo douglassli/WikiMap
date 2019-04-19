@@ -94,6 +94,8 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
             assert(rv == 0);
             threads[i] = thread;
         }
+
+        free_frontier(cur_fr);
         
         //frontier* new_fr = make_frontier();
         frontier* fra[num_threads];
