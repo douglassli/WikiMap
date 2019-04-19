@@ -7,7 +7,7 @@ bfs: bfs.c
 	gcc -o bfs bfs.c map_vec.c node.c frontier.c explored_vec.c parse_file.c
 
 search: $(SRCS)
-	gcc -o search $(SRCS)
+	gcc -g -o search $(SRCS)
 
 clean:
 	rm -f *.o parse bfs search
