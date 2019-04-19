@@ -3,7 +3,6 @@
 #include <pthread.h>
 #include <assert.h>
 
-#include "pthread_barrier.h"
 #include "par_bfs.h"
 #include "map_vec.h"
 #include "frontier.h"
