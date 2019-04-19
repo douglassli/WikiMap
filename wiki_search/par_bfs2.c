@@ -35,8 +35,25 @@ void succs_to_fr(frontier* fr, fr_pair* start_node) {
    }
 }
 
-void bfs_worker2(int t_num, long fr_start, long fr_end, frontier* frnt, int num_threads) {
-    
+frontier* bfs_worker2(int t_num, long fr_start, long fr_end, frontier* frnt, int num_threads) {
+    frontier* out_fr = make_frontier();
+    long num_expanded = 0;
+    for (long i = fr_start; i < fr_end; i++) {
+        fr_pair* cur_pair = (fr_pair*)frnt->vals[i];
+        num_expanded++;
+
+        if (global_dists->data[cur_pair->node_val] != -1) {
+            free(cur_pair);
+            continue;
+        }
+ 
+        global_dists->data[cur_pair->node_val] = cur_pair->dist;
+
+        succs_to_fr(out_fr, cur_pair);
+        free(cur_pair);
+    }
+
+    return out_fr;
 }
 
 int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
