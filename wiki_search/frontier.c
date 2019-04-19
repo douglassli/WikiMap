@@ -112,7 +112,6 @@ void print_frontier(frontier* fr) {
 }
 
 frontier* merge_frontiers(frontier* fr1, frontier* fr2) {
-    printf("MERGE fr1->size: %ld, fr2->size: %ld\n", fr1->size, fr2->size);
     frontier* new_fr = malloc(sizeof(frontier));
     new_fr->vals = malloc((fr1->cap + fr2->cap) * sizeof(long));
     void* fr1_data = (void*)fr1->vals + (fr1->offset * sizeof(long));
@@ -124,7 +123,6 @@ frontier* merge_frontiers(frontier* fr1, frontier* fr2) {
     new_fr->offset = 0;
     free_frontier(fr1);
     free_frontier(fr2);
-    printf("new_fr->size: %ld\n", new_fr->size);
     return new_fr; 
 }
 /*
