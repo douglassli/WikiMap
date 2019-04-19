@@ -7,6 +7,7 @@
 #include "dijkstra.h"
 #include "parse_file.h"
 #include "par_bfs.h"
+#include "par_bfs2.h"
 
 double get_seconds(struct timeval start, struct timeval end) { 
     return (double)(end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1e6;
@@ -81,6 +82,27 @@ int main(int argc, char* argv[]) {
         gettimeofday(&end, NULL);
         printf("\nElapsed search time: %f\n\n", get_seconds(start, end));
         
+        return 0;
+    } else if (strcmp(argv[1], "pbfs2") == 0 && argc == 5) {
+        printf("Running Parallel Breadth First Search Version 2\n");
+        printf(" - Input file:  %s\n", argv[2]);
+        printf(" - Source:      %ld\n", atol(argv[3]));
+        printf(" - Num Threads: %d\n\n", atoi(argv[4]));
+        printf("Parsing input file...\n");
+
+        gettimeofday(&start, NULL);
+        map_vec* map = parse_map_file(argv[2]);
+        gettimeofday(&end, NULL);
+
+        printf("Finished parsing.\n");
+        printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
+        printf("Starting search...\n");
+
+        gettimeofday(&start, NULL);
+        par_bfs2(map, atol(argv[3]), atoi(argv[4]), print_output);
+        gettimeofday(&end, NULL);
+        printf("\nElapsed search time: %f\n\n", get_seconds(start, end));
+
         return 0;
     } else if (strcmp(argv[1], "benchmark") == 0 && argc == 3) {
         printf("Running benchmark on Dijkstra and PBFS\n");
