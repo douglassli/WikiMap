@@ -138,7 +138,6 @@ int par_bfs(map_vec* map, long source, int num_threads, int print_output) {
     }
     fr_pair* init_pair = new_pair(source, 0);
     global_dists->data[source] = 0;
-    //push_frontier(init_fr, (long)init_pair);
     succs_to_fr(init_fr, init_pair);
     
     run_bfs_workers(num_threads, init_fr);
