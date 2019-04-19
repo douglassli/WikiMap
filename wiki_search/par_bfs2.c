@@ -13,7 +13,6 @@
 
 map_vec* global_map;
 explored* global_dists;
-pthread_barrier_t barrier;
 int num_threads_finished = 0;
 
 typedef struct job2 {
