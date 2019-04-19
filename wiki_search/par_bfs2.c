@@ -80,7 +80,7 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
             } else {
                 end = (i + 1) * partition_size;
             }
-            job* temp_job = malloc(sizeof(job));
+            job2* temp_job = malloc(sizeof(job2));
             temp_job->thread_num = i;
             temp_job->frnt = cur_fr;
             temp_job->fr_start = start;
