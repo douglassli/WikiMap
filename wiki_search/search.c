@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
         
         printf("Finished parsing.\n");
         printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
-                 
+        /*         
         printf("Benchmarking Dijkstra...\n");
         double total = 0.0;
         for (int i = 0; i < 100; i++) {
@@ -128,7 +128,7 @@ int main(int argc, char* argv[]) {
         }
         printf("Average time: %f secs\n", total / 100.0);
         printf("Dijkstra Done.\n");
-        
+        */
         for (int n = 1; n < 5; n++) {
             printf("\nBenchmarking PBFS %d threads...\n", n);
             double total = 0.0;
