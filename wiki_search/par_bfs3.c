@@ -15,7 +15,7 @@ explored* global_dists3;
 
 typedef struct job3 {
     int thread_num;
-    frontier* frnt;
+    linked_frnts* lfrnt;
     long fr_start;
     long fr_end;
     int num_threads;
@@ -32,11 +32,27 @@ void succs_to_fr3(frontier* fr, fr_pair* start_node) {
    }
 }
 
-frontier* bfs_worker3(int t_num, long fr_start, long fr_end, frontier* frnt, int num_threads) {
+frontier* bfs_worker3(int t_num, long fr_start, long fr_end, linked_frnts* lfrnt, int num_threads) {
     frontier* out_fr = make_frontier();
     long num_expanded = 0;
-    for (long i = fr_start; i < fr_end; i++) {
-        fr_pair* cur_pair = (fr_pair*)frnt->vals[i];
+
+    long index = 0;
+    long fr_index = 0;
+    flink* cur_link = lfrnt->head;
+    while(index + cur_link->lfr->size < fr_start) {
+        index += cur_link->lfr->size;
+        cur_link = cur_link->next;
+    }
+    fr_index = fr_start - index;
+    index += fr_index;
+
+    while(index < fr_end) {
+        if (fr_index >= cur_link->lfr->size) {
+            cur_link = cur_link->next;
+            fr_index = 0;
+        }
+        
+        fr_pair* cur_pair = (fr_pair*)get_item_frontier(cur_link->lfr, fr_index);
         num_expanded++;
 
         if (global_dists3->data[cur_pair->node_val] != -1) {
@@ -48,8 +64,11 @@ frontier* bfs_worker3(int t_num, long fr_start, long fr_end, frontier* frnt, int
 
         succs_to_fr2(out_fr, cur_pair);
         free(cur_pair);
+        
+        fr_index++;
+        index++;
     }
-
+    
     return out_fr;
 }
 
