@@ -131,8 +131,9 @@ frontier* merge_frontier_array(frontier* fra, int num_frs) {
     long new_cap = 0;
     long new_size = 0;
     for (int i = 0; i < num_frs; i++) {
-        new_cap += fra[i]->cap;
-        new_size += fra[i]->size;
+        frontier* cur_fr = &fra[i];
+        new_cap += cur_fr->cap;
+        new_size += cur_fr->size;
     }
     new_fr->vals = malloc(new_cap * sizeof(long));
     new_fr->cap = new_cap;
@@ -140,10 +141,11 @@ frontier* merge_frontier_array(frontier* fra, int num_frs) {
     new_fr->offset = 0;
     void* cur_ptr = new_fr->vals;
     for (int i = 0; i < num_frs; i++) {
-        void* old_data = (void*)fra[i]->vals + (fra[i]->offset * sizeof(long));
-        memcpy(cur_ptr, old_data, fra[i]->size * sizeof(long));
-        cur_ptr += fra[i]->size * sizeof(long);
-        free_frontier(fra[i]);
+        frontier* cur_fr = &fra[i];
+        void* old_data = (void*)cur_fr->vals + (cur_fr->offset * sizeof(long));
+        memcpy(cur_ptr, old_data, cur_fr->size * sizeof(long));
+        cur_ptr += cur_fr->size * sizeof(long);
+        free_frontier(cur_fr);
     }
     return new_fr;
 }   
