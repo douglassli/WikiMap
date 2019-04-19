@@ -4,7 +4,7 @@
 #include "frontier.h"
 #include "linked_frnts.h"
 
-linked_frnts* make_lfrnt() {
+linked_frnts* make_lfrnts() {
     
 }
 
@@ -12,6 +12,6 @@ void add_frnt(linked_frnts* lfrnt, frontier* frnt) {
 
 }
 
-void free_lfrnt(linked_frnts* lfrnt) {
+void free_lfrnts(linked_frnts* lfrnt) {
     
 }
