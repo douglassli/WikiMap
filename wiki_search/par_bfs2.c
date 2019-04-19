@@ -63,6 +63,10 @@ void* bfs_worker_start2(void* arg) {
     return (void*)ret_fr;
 }
 
+void run_bfs_workers2(int num_threads, frontier* start_fr) {
+    
+}
+
 int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
     
     
