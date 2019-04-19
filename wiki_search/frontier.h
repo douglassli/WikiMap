@@ -11,6 +11,7 @@ typedef struct frontier {
 frontier* make_frontier();
 long pop_last_frontier(frontier* fr);
 long pop_first_frontier(frontier* fr);
+long get_item_frontier(frontier* fr, long index);
 void push_frontier(frontier* fr, long val);
 void free_frontier(frontier* fr);
 frontier* merge_frontiers(frontier* fr1, frontier* fr2);
