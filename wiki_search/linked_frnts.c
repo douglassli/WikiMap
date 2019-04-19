@@ -15,6 +15,9 @@ linked_frnts* make_lfrnts() {
 void add_frnt(linked_frnts* lfrnt, frontier* frnt) {
     flink* new_flink = malloc(sizeof(flink));
     new_flink->lfr = frnt;
+    new_flink->next = 0;
+
+
 }
 
 void free_lfrnts(linked_frnts* lfrnt) {
