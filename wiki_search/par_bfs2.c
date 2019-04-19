@@ -48,7 +48,7 @@ frontier* bfs_worker2(int t_num, long fr_start, long fr_end, frontier* frnt, int
  
         global_dists->data[cur_pair->node_val] = cur_pair->dist;
 
-        succs_to_fr(out_fr, cur_pair);
+        succs_to_fr2(out_fr, cur_pair);
         free(cur_pair);
     }
 
@@ -119,9 +119,18 @@ int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
     }
     fr_pair* init_pair = new_pair(source, 0);
     global_dists->data[source] = 0;
-    succs_to_fr(init_fr, init_pair);
+    succs_to_fr2(init_fr, init_pair);
 
     run_bfs_workers(num_threads, init_fr);
     
+    if (print_output) {
+        for (long i = 0; i < global_dists->size; i++) {
+            printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists->data[i]);
+        }
+    }
+    free(init_pair);
+    free_explored(global_dists);
+    num_threads_finished = 0;
+
     return 0;
 }
