@@ -113,7 +113,7 @@ int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
     frontier* init_fr = make_frontier();
     global_dists2 = make_explored();
     for (long i = 0; i < global_map2->size; i++) {
-        push_explored(global_dists222, -1);
+        push_explored(global_dists2, -1);
     }
     fr_pair* init_pair = new_pair(source, 0);
     global_dists2->data[source] = 0;
