@@ -16,15 +16,15 @@ explored* global_dists;
 pthread_barrier_t barrier;
 int num_threads_finished = 0;
 
-typedef struct job {
+typedef struct job2 {
     int thread_num;
     frontier* frnt;
     long fr_start;
     long fr_end;
     int num_threads;
-} job;
+} job2;
 
-void succs_to_fr(frontier* fr, fr_pair* start_node) {
+void succs_to_fr2(frontier* fr, fr_pair* start_node) {
     node* succ_nodes = map_get_node(global_map, start_node->node_val);
     for (long n = 0; n < succ_nodes->size; n++) {
         long succ = succ_nodes->data[n];
@@ -54,6 +54,13 @@ frontier* bfs_worker2(int t_num, long fr_start, long fr_end, frontier* frnt, int
     }
 
     return out_fr;
+}
+
+void* bfs_worker_start2(void* arg) {
+    job2 j = *((job2*)arg);
+    free(arg);
+    frontier* ret_fr = bfs_worker2(j.thread_num, j.fr_start, j.fr_end, j.frnt, j.num_threads);
+    return (void*)ret_fr;
 }
 
 int par_bfs2(map_vec* map, long source, int num_threads, int print_output) {
