@@ -5,7 +5,7 @@
 
 typedef struct flink {
     frontier* lfr;
-    struct alink array* next;
+    struct flink* next;
 } flink;
 
 typedef struct linked_frnts {
