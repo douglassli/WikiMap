@@ -9,6 +9,7 @@
 #include "explored_vec.h"
 #include "node.h"
 #include "fr_pair.h"
+#include "linked_frnts.h"
 
 map_vec* global_map3;
 explored* global_dists3;
@@ -115,7 +116,7 @@ void run_bfs_workers3(int num_threads, linked_frnts* start_lfrnt) {
         }
 
         
-        linked_frnts* new_lfrnt = make_lfrnt();
+        linked_frnts* new_lfrnt = make_lfrnts();
         for (int i = 0; i < num_threads; i++) {
             void* ret_val;
             int rv = pthread_join(threads[i], &ret_val);
@@ -123,13 +124,14 @@ void run_bfs_workers3(int num_threads, linked_frnts* start_lfrnt) {
             frontier* thread_frnt = (frontier*)ret_val;
             add_frnt(new_lfrnt, thread_frnt);
         }
-        free_lfrnt(cur_lfrnt);
+        free_lfrnts(cur_lfrnt);
         cur_fr = new_lfrnt;
     }    
 }
 
 int par_bfs3(map_vec* map, long source, int num_threads, int print_output) {
     global_map3 = map;
+    linked_frnts* init_lfrnt = make_lfrnts();
     frontier* init_fr = make_frontier();
     global_dists3 = make_explored();
     for (long i = 0; i < global_map3->size; i++) {
@@ -138,8 +140,9 @@ int par_bfs3(map_vec* map, long source, int num_threads, int print_output) {
     fr_pair* init_pair = new_pair(source, 0);
     global_dists3->data[source] = 0;
     succs_to_fr3(init_fr, init_pair);
+    add_frnt(init_lfrnt, init_fr);
 
-    run_bfs_workers3(num_threads, init_fr);
+    run_bfs_workers3(num_threads, init_lfrnt);
     
     if (print_output) {
         for (long i = 0; i < global_dists3->size; i++) {
