@@ -30,7 +30,7 @@ void add_frnt(linked_frnts* lfrnt, frontier* frnt) {
 void free_lfrnts(linked_frnts* lfrnt) {
     flink* cur_link = lfrnt->head;
     while(1) {
-        if ((long)cur_link->next == 0) {
+        if ((long)cur_link == 0) {
             break;
         }
         flink* nlink = cur_link->next;
