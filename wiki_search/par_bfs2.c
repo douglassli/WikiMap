@@ -74,7 +74,7 @@ void run_bfs_workers2(int num_threads, frontier* start_fr) {
             long start = i * partition_size;
             long end;
             if (i == num_threads) {
-                end = start_fr->size;
+                end = cur_fr->size;
             } else {
                 end = (i + 1) * partition_size;
             }
