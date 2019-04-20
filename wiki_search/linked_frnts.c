@@ -19,7 +19,7 @@ void add_frnt(linked_frnts* lfrnt, frontier* frnt) {
 
     lfrnt->tail->next = new_flink;
     lfrnt->tail = new_flink;
-    lfrnt->size += frnt->size;
+    lfrnt->tot_size += frnt->size;
 }
 
 void free_lfrnts(linked_frnts* lfrnt) {
