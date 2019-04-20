@@ -83,18 +83,18 @@ void* bfs_worker_start3(void* arg) {
 void run_bfs_workers3(int num_threads, linked_frnts* start_lfrnt) {
     linked_frnts* cur_lfrnt = start_lfrnt;
     while(1) {
-        if (cur_lfrnt->size <= 0) {
+        if (cur_lfrnt->tot_size <= 0) {
             return;
         }
 
         pthread_t threads[num_threads];
-        long partition_size = cur_fr->size / num_threads;
+        long partition_size = cur_lfrnt->tot_size / num_threads;
 
         for (int i = 0; i < num_threads; i++) {
             long start = i * partition_size;
             long end;
             if (i == num_threads) {
-                end = start_fr->size;
+                end = cur_lfrnt->tot_size;
             } else {
                 end = (i + 1) * partition_size;
             }
