@@ -98,7 +98,7 @@ void run_bfs_workers3(int num_threads, linked_frnts* start_lfrnt) {
             } else {
                 end = (i + 1) * partition_size;
             }
-            job2* temp_job = malloc(sizeof(job2));
+            job3* temp_job = malloc(sizeof(job3));
             temp_job->thread_num = i;
             temp_job->lfrnt = cur_lfrnt;
             temp_job->fr_start = start;
@@ -125,7 +125,7 @@ void run_bfs_workers3(int num_threads, linked_frnts* start_lfrnt) {
             add_frnt(new_lfrnt, thread_frnt);
         }
         free_lfrnts(cur_lfrnt);
-        cur_fr = new_lfrnt;
+        cur_lfrnt = new_lfrnt;
     }    
 }
 
