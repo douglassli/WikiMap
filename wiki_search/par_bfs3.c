@@ -58,6 +58,8 @@ frontier* bfs_worker3(int t_num, long fr_start, long fr_end, linked_frnts* lfrnt
 
         if (global_dists3->data[cur_pair->node_val] != -1) {
             free(cur_pair);
+            fr_index++;
+            index++;
             continue;
         }
  
