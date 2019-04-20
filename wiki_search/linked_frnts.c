@@ -16,9 +16,14 @@ void add_frnt(linked_frnts* lfrnt, frontier* frnt) {
     flink* new_flink = malloc(sizeof(flink));
     new_flink->lfr = frnt;
     new_flink->next = 0;
-
-    lfrnt->tail->next = new_flink;
-    lfrnt->tail = new_flink;
+    
+    if ((long)lfrnt->tail == 0) {
+        lfrnt->head = new_flink;
+        lfrnt->tail = new_flink;
+    } else {
+        lfrnt->tail->next = new_flink;
+        lfrnt->tail = new_flink;
+    }
     lfrnt->tot_size += frnt->size;
 }
 
