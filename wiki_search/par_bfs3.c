@@ -86,6 +86,7 @@ void run_bfs_workers3(int num_threads, linked_frnts* start_lfrnt) {
     linked_frnts* cur_lfrnt = start_lfrnt;
     while(1) {
         if (cur_lfrnt->tot_size <= 0) {
+            free_lfrnts(cur_lfrnt);
             return;
         }
 
