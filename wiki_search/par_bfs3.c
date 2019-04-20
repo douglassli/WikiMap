@@ -63,7 +63,7 @@ frontier* bfs_worker3(int t_num, long fr_start, long fr_end, linked_frnts* lfrnt
  
         global_dists3->data[cur_pair->node_val] = cur_pair->dist;
 
-        succs_to_fr2(out_fr, cur_pair);
+        succs_to_fr3(out_fr, cur_pair);
         free(cur_pair);
         
         fr_index++;
