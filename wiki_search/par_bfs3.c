@@ -75,14 +75,14 @@ frontier* bfs_worker3(int t_num, long fr_start, long fr_end, linked_frnts* lfrnt
 void* bfs_worker_start3(void* arg) {
     job3 j = *((job3*)arg);
     free(arg);
-    frontier* ret_fr = bfs_worker3(j.thread_num, j.fr_start, j.fr_end, j.frnt, j.num_threads);
+    frontier* ret_fr = bfs_worker3(j.thread_num, j.fr_start, j.fr_end, j.lfrnt, j.num_threads);
     return (void*)ret_fr;
 }
 
-void run_bfs_workers3(int num_threads, frontier* start_fr) {
-    frontier* cur_fr = start_fr;
+void run_bfs_workers3(int num_threads, linked_frnts* start_lfrnt) {
+    linked_frnts* cur_lfrnt = start_lfrnt;
     while(1) {
-        if (cur_fr->size <= 0) {
+        if (cur_lfrnt->size <= 0) {
             return;
         }
 
@@ -99,7 +99,7 @@ void run_bfs_workers3(int num_threads, frontier* start_fr) {
             }
             job2* temp_job = malloc(sizeof(job2));
             temp_job->thread_num = i;
-            temp_job->frnt = cur_fr;
+            temp_job->lfrnt = cur_lfrnt;
             temp_job->fr_start = start;
             temp_job->fr_end = end;
             temp_job->num_threads = num_threads;
@@ -115,18 +115,16 @@ void run_bfs_workers3(int num_threads, frontier* start_fr) {
         }
 
         
-        //frontier* new_fr = make_frontier();
-        frontier* fra[num_threads];
+        linked_frnts* new_lfrnt = make_lfrnt();
         for (int i = 0; i < num_threads; i++) {
             void* ret_val;
             int rv = pthread_join(threads[i], &ret_val);
             assert(rv == 0);
             frontier* thread_frnt = (frontier*)ret_val;
-            fra[i] = thread_frnt;
-            //new_fr = merge_frontiers(thread_frnt, new_fr);
+            add_frnt(new_lfrnt, thread_frnt);
         }
-        free_frontier(cur_fr);
-        cur_fr = merge_frontier_array(fra, num_threads);//new_fr;
+        free_lfrnt(cur_lfrnt);
+        cur_fr = new_lfrnt;
     }    
 }
 
