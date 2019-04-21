@@ -56,11 +56,11 @@ void bfs_worker4(int t_num, int num_threads) {
         long index = 0;
         long fr_index = 0;
         flink* cur_link = cur_lfrnt->head;
-        while(index + cur_link->lfr->size < fr_start) {
+        while(index + cur_link->lfr->size < start) {
             index += cur_link->lfr->size;
             cur_link = cur_link->next;
         }
-        fr_index = fr_start - index;
+        fr_index = start - index;
         index += fr_index;
 
         while(index < fr_end) {
