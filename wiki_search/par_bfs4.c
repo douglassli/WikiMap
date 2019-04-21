@@ -45,10 +45,10 @@ void bfs_worker4(int t_num, int num_threads) {
         long partition_size = cur_lfrnt->tot_size / num_threads;
         long start = t_num * partition_size;
         long end;
-        if (i == num_threads - 1) {
+        if (t_num == num_threads - 1) {
             end = cur_lfrnt->tot_size;
         } else {
-            end = (i + 1) * partition_size;
+            end = (t_num + 1) * partition_size;
         }
 
         frontier* out_fr = make_frontier();
