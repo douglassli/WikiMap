@@ -14,6 +14,8 @@
 
 map_vec* global_map4;
 explored* global_dists4;
+pthread_barrier_t barrier4;
+pthread_mutex_t mutex4;
 
 typedef struct job4 {
     int thread_num;
