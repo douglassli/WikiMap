@@ -96,7 +96,7 @@ void run_bfs_workers3(int num_threads, linked_frnts* start_lfrnt) {
         for (int i = 0; i < num_threads; i++) {
             long start = i * partition_size;
             long end;
-            if (i == num_threads) {
+            if (i == num_threads - 1) {
                 end = cur_lfrnt->tot_size;
             } else {
                 end = (i + 1) * partition_size;
