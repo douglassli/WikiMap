@@ -16,6 +16,7 @@ map_vec* global_map4;
 explored* global_dists4;
 linked_frnts* cur_lfrnt;
 linked_frnts* next_lfrnt;
+int num_waiting = 0;
 pthread_barrier_t barrier4;
 pthread_mutex_t mutex4;
 
@@ -35,46 +36,72 @@ void succs_to_fr4(frontier* fr, fr_pair* start_node) {
    }
 }
 
-frontier* bfs_worker4(int t_num, int num_threads) {
-    frontier* out_fr = make_frontier();
-    long num_expanded = 0;
-
-    long index = 0;
-    long fr_index = 0;
-    flink* cur_link = lfrnt->head;
-    while(index + cur_link->lfr->size < fr_start) {
-        index += cur_link->lfr->size;
-        cur_link = cur_link->next;
-    }
-    fr_index = fr_start - index;
-    index += fr_index;
-
-    while(index < fr_end) {
-        if (fr_index >= cur_link->lfr->size) {
-            cur_link = cur_link->next;
-            fr_index = 0;
+void bfs_worker4(int t_num, int num_threads) {
+    while(1) {
+        if (cur_lfrnt->tot_size <= 0) {
+            return;
         }
-        
-        fr_pair* cur_pair = (fr_pair*)get_item_frontier(cur_link->lfr, fr_index);
-        num_expanded++;
 
-        if (global_dists4->data[cur_pair->node_val] != -1) {
+        long partition_size = cur_lfrnt->tot_size / num_threads;
+        long start = t_num * partition_size;
+        long end;
+        if (i == num_threads - 1) {
+            end = cur_lfrnt->tot_size;
+        } else {
+            end = (i + 1) * partition_size;
+        }
+
+        frontier* out_fr = make_frontier();
+
+        long index = 0;
+        long fr_index = 0;
+        flink* cur_link = cur_lfrnt->head;
+        while(index + cur_link->lfr->size < fr_start) {
+            index += cur_link->lfr->size;
+            cur_link = cur_link->next;
+        }
+        fr_index = fr_start - index;
+        index += fr_index;
+
+        while(index < fr_end) {
+            if (fr_index >= cur_link->lfr->size) {
+                cur_link = cur_link->next;
+                fr_index = 0;
+            }
+        
+            fr_pair* cur_pair = (fr_pair*)get_item_frontier(cur_link->lfr, fr_index);
+
+            if (global_dists4->data[cur_pair->node_val] != -1) {
+                free(cur_pair);
+                fr_index++;
+                index++;
+                continue;
+            }
+ 
+            global_dists4->data[cur_pair->node_val] = cur_pair->dist;
+
+            succs_to_fr4(out_fr, cur_pair);
             free(cur_pair);
+        
             fr_index++;
             index++;
-            continue;
         }
- 
-        global_dists4->data[cur_pair->node_val] = cur_pair->dist;
 
-        succs_to_fr4(out_fr, cur_pair);
-        free(cur_pair);
-        
-        fr_index++;
-        index++;
+        pthread_mutex_lock(&mutex);
+        add_frnt(next_lfrnt, out_fr);
+        pthread_mutex_unlock(&mutex);
+
+        num_waiting++;
+        if (num_waiting == num_threads) {
+            free_lfrnts(cur_lfrnt);
+            cur_lfrnt = next_lfrnt;
+            next_lfrnt = make_lfrnts();
+            num_waiting == 0;
+        }
+        pthread_barrier_wait(&barrier);
     }
-    
-    return out_fr;
+    //Unreachable
+    return;
 }
 
 void* bfs_worker_start4(void* arg) {
@@ -93,21 +120,10 @@ void run_bfs_workers4(int num_threads, linked_frnts* start_lfrnt) {
         }
 
         pthread_t threads[num_threads];
-        long partition_size = cur_lfrnt->tot_size / num_threads;
 
         for (int i = 0; i < num_threads; i++) {
-            long start = i * partition_size;
-            long end;
-            if (i == num_threads) {
-                end = cur_lfrnt->tot_size;
-            } else {
-                end = (i + 1) * partition_size;
-            }
             job4* temp_job = malloc(sizeof(job4));
             temp_job->thread_num = i;
-            temp_job->lfrnt = cur_lfrnt;
-            temp_job->fr_start = start;
-            temp_job->fr_end = end;
             temp_job->num_threads = num_threads;
 
             //printf("\nStarting thread %d\n", i);
