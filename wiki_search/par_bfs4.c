@@ -138,7 +138,7 @@ void run_bfs_workers4(int num_threads) {
 
 int par_bfs4(map_vec* map, long source, int num_threads, int print_output) {
     pthread_mutex_init(&mutex4, 0);
-    pthread_barrier_init(&barrier4, 0);
+    pthread_barrier_init(&barrier4, NULL, num_threads);
     global_map4 = map;
     cur_lfrnt = make_lfrnts();
     next_lfrnt = make_lfrnts();
