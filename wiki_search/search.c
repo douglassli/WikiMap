@@ -126,6 +126,27 @@ int main(int argc, char* argv[]) {
         printf("\nElapsed search time: %f\n\n", get_seconds(start, end));
 
         return 0;
+    } else if (strcmp(argv[1], "pbfs4") == 0 && argc == 5) {
+        printf("Running Parallel Breadth First Search Version 4\n");
+        printf(" - Input file:  %s\n", argv[2]);
+        printf(" - Source:      %ld\n", atol(argv[3]));
+        printf(" - Num Threads: %d\n\n", atoi(argv[4]));
+        printf("Parsing input file...\n");
+
+        gettimeofday(&start, NULL);
+        map_vec* map = parse_map_file(argv[2]);
+        gettimeofday(&end, NULL);
+
+        printf("Finished parsing.\n");
+        printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
+        printf("Starting search...\n");
+
+        gettimeofday(&start, NULL);
+        par_bfs4(map, atol(argv[3]), atoi(argv[4]), print_output);
+        gettimeofday(&end, NULL);
+        printf("\nElapsed search time: %f\n\n", get_seconds(start, end));
+
+        return 0;
     } else if (strcmp(argv[1], "benchmark") == 0 && argc == 3) {
         printf("Running benchmark on Dijkstra and PBFS\n");
         printf(" - Input File: %s\n\n", argv[2]);
