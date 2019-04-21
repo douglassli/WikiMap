@@ -14,14 +14,13 @@
 
 map_vec* global_map4;
 explored* global_dists4;
+linked_frnts* cur_lfrnt;
+linked_frnts* next_lfrnt;
 pthread_barrier_t barrier4;
 pthread_mutex_t mutex4;
 
 typedef struct job4 {
     int thread_num;
-    linked_frnts* lfrnt;
-    long fr_start;
-    long fr_end;
     int num_threads;
 } job4;
 
@@ -36,7 +35,7 @@ void succs_to_fr4(frontier* fr, fr_pair* start_node) {
    }
 }
 
-frontier* bfs_worker4(int t_num, long fr_start, long fr_end, linked_frnts* lfrnt, int num_threads) {
+frontier* bfs_worker4(int t_num, int num_threads) {
     frontier* out_fr = make_frontier();
     long num_expanded = 0;
 
@@ -81,7 +80,7 @@ frontier* bfs_worker4(int t_num, long fr_start, long fr_end, linked_frnts* lfrnt
 void* bfs_worker_start4(void* arg) {
     job4 j = *((job4*)arg);
     free(arg);
-    frontier* ret_fr = bfs_worker4(j.thread_num, j.fr_start, j.fr_end, j.lfrnt, j.num_threads);
+    frontier* ret_fr = bfs_worker4(j.thread_num, j.num_threads);
     return (void*)ret_fr;
 }
 
