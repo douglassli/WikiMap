@@ -87,9 +87,9 @@ void bfs_worker4(int t_num, int num_threads) {
             index++;
         }
 
-        pthread_mutex_lock(&mutex);
+        pthread_mutex_lock(&mutex4);
         add_frnt(next_lfrnt, out_fr);
-        pthread_mutex_unlock(&mutex);
+        pthread_mutex_unlock(&mutex4);
 
         num_waiting++;
         if (num_waiting == num_threads) {
@@ -98,7 +98,7 @@ void bfs_worker4(int t_num, int num_threads) {
             next_lfrnt = make_lfrnts();
             num_waiting == 0;
         }
-        pthread_barrier_wait(&barrier);
+        pthread_barrier_wait(&barrier4);
     }
     //Unreachable
     return;
@@ -137,17 +137,21 @@ void run_bfs_workers4(int num_threads) {
 }
 
 int par_bfs4(map_vec* map, long source, int num_threads, int print_output) {
+    pthread_mutex_init(&mutex4);
+    pthread_barrier_init(&barrier4);
     global_map4 = map;
-    linked_frnts* init_lfrnt = make_lfrnts();
+    cur_lfrnt = make_lfrnts();
+    next_lfrnt = make_lfrnts();
     frontier* init_fr = make_frontier();
     global_dists4 = make_explored();
     for (long i = 0; i < global_map4->size; i++) {
         push_explored(global_dists4, -1);
     }
+    
     fr_pair* init_pair = new_pair(source, 0);
     global_dists4->data[source] = 0;
     succs_to_fr4(init_fr, init_pair);
-    add_frnt(init_lfrnt, init_fr);
+    add_frnt(cur_lfrnt, init_fr);
 
     run_bfs_workers4(num_threads);
     
@@ -156,8 +160,14 @@ int par_bfs4(map_vec* map, long source, int num_threads, int print_output) {
             printf("DIST FROM %ld TO %ld = %ld\n", source, i, global_dists4->data[i]);
         }
     }
+
     free(init_pair);
     free_explored(global_dists4);
+    num_waiting = 0;
+    pthread_barrier_destroy(&barrier4);
+    pthread_mutex_destroy(&mutex4);
+    free_lfrnts(cur_lfrnt);
+    free_lfrnts(next_lfrnt);
 
     return 0;
 }
