@@ -107,8 +107,8 @@ void bfs_worker4(int t_num, int num_threads) {
 void* bfs_worker_start4(void* arg) {
     job4 j = *((job4*)arg);
     free(arg);
-    frontier* ret_fr = bfs_worker4(j.thread_num, j.num_threads);
-    return (void*)ret_fr;
+    bfs_worker4(j.thread_num, j.num_threads);
+    return 0;
 }
 
 void run_bfs_workers4(int num_threads, linked_frnts* start_lfrnt) {
