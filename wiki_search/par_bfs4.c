@@ -63,7 +63,7 @@ void bfs_worker4(int t_num, int num_threads) {
         fr_index = start - index;
         index += fr_index;
 
-        while(index < fr_end) {
+        while(index < end) {
             if (fr_index >= cur_link->lfr->size) {
                 cur_link = cur_link->next;
                 fr_index = 0;
@@ -96,7 +96,7 @@ void bfs_worker4(int t_num, int num_threads) {
             free_lfrnts(cur_lfrnt);
             cur_lfrnt = next_lfrnt;
             next_lfrnt = make_lfrnts();
-            num_waiting == 0;
+            num_waiting = 0;
         }
         pthread_barrier_wait(&barrier4);
     }
