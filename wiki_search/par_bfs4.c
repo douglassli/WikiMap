@@ -111,43 +111,29 @@ void* bfs_worker_start4(void* arg) {
     return 0;
 }
 
-void run_bfs_workers4(int num_threads, linked_frnts* start_lfrnt) {
-    linked_frnts* cur_lfrnt = start_lfrnt;
-    while(1) {
-        if (cur_lfrnt->tot_size <= 0) {
-            free_lfrnts(cur_lfrnt);
-            return;
-        }
+void run_bfs_workers4(int num_threads) {
+    pthread_t threads[num_threads];
+    for (int i = 0; i < num_threads; i++) {
+        job4* temp_job = malloc(sizeof(job4));
+        temp_job->thread_num = i;
+        temp_job->num_threads = num_threads;
 
-        pthread_t threads[num_threads];
+        //printf("\nStarting thread %d\n", i);
+        //printf("Frontier start: %ld\n", start);
+        //printf("Frontier end:   %ld\n", end);
 
-        for (int i = 0; i < num_threads; i++) {
-            job4* temp_job = malloc(sizeof(job4));
-            temp_job->thread_num = i;
-            temp_job->num_threads = num_threads;
-
-            //printf("\nStarting thread %d\n", i);
-            //printf("Frontier start: %ld\n", start);
-            //printf("Frontier end:   %ld\n", end);
-
-            pthread_t thread;
-            int rv = pthread_create(&thread, 0, bfs_worker_start4, temp_job);
-            assert(rv == 0);
-            threads[i] = thread;
-        }
+        pthread_t thread;
+        int rv = pthread_create(&thread, 0, bfs_worker_start4, temp_job);
+        assert(rv == 0);
+        threads[i] = thread;
+    }
 
         
-        linked_frnts* new_lfrnt = make_lfrnts();
-        for (int i = 0; i < num_threads; i++) {
-            void* ret_val;
-            int rv = pthread_join(threads[i], &ret_val);
-            assert(rv == 0);
-            frontier* thread_frnt = (frontier*)ret_val;
-            add_frnt(new_lfrnt, thread_frnt);
-        }
-        free_lfrnts(cur_lfrnt);
-        cur_lfrnt = new_lfrnt;
-    }    
+    for (int i = 0; i < num_threads; i++) {
+        void* ret_val;
+        int rv = pthread_join(threads[i], 0);
+        assert(rv == 0);
+    }
 }
 
 int par_bfs4(map_vec* map, long source, int num_threads, int print_output) {
@@ -163,7 +149,7 @@ int par_bfs4(map_vec* map, long source, int num_threads, int print_output) {
     succs_to_fr4(init_fr, init_pair);
     add_frnt(init_lfrnt, init_fr);
 
-    run_bfs_workers4(num_threads, init_lfrnt);
+    run_bfs_workers4(num_threads);
     
     if (print_output) {
         for (long i = 0; i < global_dists4->size; i++) {
