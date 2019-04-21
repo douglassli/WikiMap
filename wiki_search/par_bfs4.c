@@ -10,6 +10,7 @@
 #include "node.h"
 #include "fr_pair.h"
 #include "linked_frnts.h"
+#include "pthread_barrier.h"
 
 map_vec* global_map4;
 explored* global_dists4;
