@@ -3,7 +3,7 @@ import random
 
 def gen_graph(num_nodes, branch_low, branch_high):
     num_edges = 0
-    search_file = open("search_file.txt", "w")
+    search_file = open("rand_graph.txt", "w")
 
     for node_num in range(num_nodes):
         search_file.write(str(node_num) + " ")
@@ -17,8 +17,10 @@ def gen_graph(num_nodes, branch_low, branch_high):
 
         search_file.write("\n")
 
+    search_file.write("*END")
+
     print("Made graph with {} nodes and {} edges".format(num_nodes, num_edges))
 
 
 if __name__ == '__main__':
-    gen_graph(2000000, 5, 20)
+    gen_graph(100, 1, 5)
