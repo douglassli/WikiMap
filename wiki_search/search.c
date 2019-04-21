@@ -9,6 +9,7 @@
 #include "par_bfs.h"
 #include "par_bfs2.h"
 #include "par_bfs3.h"
+#include "par_bfs4.h"
 
 double get_seconds(struct timeval start, struct timeval end) { 
     return (double)(end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1e6;
