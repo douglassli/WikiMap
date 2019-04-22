@@ -179,7 +179,7 @@ int main(int argc, char* argv[]) {
             double total = 0.0;
             for (int i = 0; i < 100; i++) {
                 gettimeofday(&start, NULL);
-                par_bfs1(map, 0, n, 0);
+                par_bfs(map, 0, n, 0);
                 gettimeofday(&end, NULL);
                 double secs = get_seconds(start, end);
                 printf("%f\n", secs);
