@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
         
         printf("Finished parsing.\n");
         printf("Elapsed parse time: %f\n\n", get_seconds(start, end));
-                 
+        /*       
         printf("Benchmarking Dijkstra...\n");
         double total = 0.0;
         for (int i = 0; i < 100; i++) {
@@ -172,14 +172,14 @@ int main(int argc, char* argv[]) {
         }
         printf("Average time: %f secs\n", total / 100.0);
         printf("Dijkstra Done.\n");
-
-        printf("------------------Version 1--------------------");
-        for (int n = 2; n < 4; n++) {
+        */
+        printf("------------------Version 2--------------------");
+        for (int n = 1; n < 5; n++) {
             printf("\nBenchmarking PBFS %d threads...\n", n);
             double total = 0.0;
             for (int i = 0; i < 100; i++) {
                 gettimeofday(&start, NULL);
-                par_bfs(map, 0, n, 0);
+                par_bfs2(map, 0, n, 0);
                 gettimeofday(&end, NULL);
                 double secs = get_seconds(start, end);
                 printf("%f\n", secs);
@@ -189,13 +189,13 @@ int main(int argc, char* argv[]) {
             printf("PBFS Done.\n");
         }
         
-        printf("------------------Version 4--------------------");
-        for (int n = 1; n < 4; n++) {
+        printf("------------------Version 3--------------------");
+        for (int n = 1; n < 5; n++) {
             printf("\nBenchmarking PBFS %d threads...\n", n);
             double total = 0.0;
             for (int i = 0; i < 100; i++) {
                 gettimeofday(&start, NULL);
-                par_bfs4(map, 0, n, 0);
+                par_bfs3(map, 0, n, 0);
                 gettimeofday(&end, NULL);
                 double secs = get_seconds(start, end);
                 printf("%f\n", secs);
