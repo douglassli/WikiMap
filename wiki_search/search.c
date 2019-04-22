@@ -172,7 +172,24 @@ int main(int argc, char* argv[]) {
         }
         printf("Average time: %f secs\n", total / 100.0);
         printf("Dijkstra Done.\n");
+
+        printf("------------------Version 1--------------------");
+        for (int n = 2; n < 4; n++) {
+            printf("\nBenchmarking PBFS %d threads...\n", n);
+            double total = 0.0;
+            for (int i = 0; i < 100; i++) {
+                gettimeofday(&start, NULL);
+                par_bfs1(map, 0, n, 0);
+                gettimeofday(&end, NULL);
+                double secs = get_seconds(start, end);
+                printf("%f\n", secs);
+                total += secs;
+            }
+            printf("Average time: %f secs\n", total / 100.0);
+            printf("PBFS Done.\n");
+        }
         
+        printf("------------------Version 4--------------------");
         for (int n = 1; n < 4; n++) {
             printf("\nBenchmarking PBFS %d threads...\n", n);
             double total = 0.0;
