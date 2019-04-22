@@ -23,4 +23,4 @@ def gen_graph(num_nodes, branch_low, branch_high):
 
 
 if __name__ == '__main__':
-    gen_graph(100, 1, 5)
+    gen_graph(10000000, 20, 50)
