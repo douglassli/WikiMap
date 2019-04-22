@@ -56,7 +56,7 @@ void bfs_worker(int t_num, long fr_start, long fr_end, frontier* frnt, int num_t
     int cur_layer = 1;
     while(1) {
         if (out_fr-> size <= 0) {
-            printf("Thread %d expanded %ld nodes\n", t_num, num_expanded);
+            //printf("Thread %d expanded %ld nodes\n", t_num, num_expanded);
             num_threads_finished++;
             free_frontier(out_fr);
             while(1) {
